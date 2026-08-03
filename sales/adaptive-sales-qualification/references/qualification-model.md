@@ -20,6 +20,8 @@ Each dimension is scored from 0 to 5:
 
 A score without evidence is incomplete. Every score must include an evidence label.
 
+Sales activity should be evaluated as evidence quality, not as raw volume. High activity with weak discovery outcomes should not be rewarded as progress.
+
 ## Evidence Labels
 
 | Label | Meaning |
@@ -41,6 +43,7 @@ Assess the individual contact, not the entire company.
 | Role | What buying-center role could this person hold? |
 | Access | Can the seller communicate and progress through this person? |
 | Engagement quality | Is engagement specific, reciprocal, and meaningful? |
+| Communication recency | Has there been recent, meaningful two-way communication? |
 | Credibility | Is contact and role information reliable? |
 | Timing signal | Is there a credible reason for current engagement? |
 
@@ -73,8 +76,29 @@ A friendly or senior contact is not automatically a qualified lead.
 | Competition | Is the competitive position understood when relevant? |
 | Delivery fit | Can the seller credibly deliver? |
 | Mutual commitment | Is the buyer investing time, access, data, or action? |
+| Discovery progression | Is seller activity producing new verified evidence and buying-path clarity? |
 | Next-step quality | Is there a concrete, reciprocal next step? |
 | Risk and contradiction | Are blockers and conflicting signals understood? |
+
+## Sales Activity and Discovery Quality View
+
+Assess this view separately, then use it as a modifier for confidence, probability range, and pursuit priority.
+
+| Dimension | Core question |
+|---|---|
+| Discovery effort quality | Did discovery produce specific, decision-relevant learning? |
+| Last meaningful communication | How recent is the last substantive buyer interaction? |
+| Cadence health | Is communication cadence active and context-appropriate? |
+| Lead or opportunity source context | What is the source and what evidence threshold should it imply? |
+| Motion fit | Is consultative vs feature-oriented motion appropriate for product complexity and buyer need? |
+| Activity-to-outcome ratio | Is activity producing verified evidence, access, and mutual commitment? |
+
+Interpretation guidance:
+
+- Activity is not progress unless it improves verified understanding, buying-center access, or reciprocal commitment.
+- Lead source is contextual, not absolute. Inbound can still be unqualified; outbound can still become strategic.
+- Recency should be interpreted with expected buying cycle and procurement rhythm.
+- Feature-oriented motion may fit simple transactional sales but is a risk signal in complex consultative sales.
 
 ## Combined Assessment
 
@@ -155,3 +179,5 @@ Priority considers more than qualification:
 - opportunity cost.
 
 A qualified opportunity may still be low priority.
+
+Low sales-activity quality can justify lower priority even when base qualification appears acceptable.

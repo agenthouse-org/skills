@@ -29,6 +29,20 @@
 - Sources reviewed:
 - Material context not available:
 
+## Sales Activity Footprint
+
+- First known contact date:
+- Last meaningful communication date:
+- Communication cadence summary:
+- Discovery interactions in period:
+- Lead or opportunity source (for example inbound, outbound cold-call, referral, partner, existing customer):
+- Sales motion observed (consultative / feature-oriented / hybrid):
+- Discovery quality score (0-5):
+- Discovery quality evidence label:
+- Activity effectiveness conclusion:
+- Impact on confidence, probability, and investment recommendation:
+- Type of communication (email, call, meeting, demo, workshop, RFP response, etc.) and purpose:
+
 ## Hard Rules
 
 - Hard disqualifier triggered: Yes / No
@@ -130,6 +144,7 @@
 - Negative drivers:
 - Estimated range:
 - Confidence:
+- Sales-activity impact on probability:
 - What would materially increase probability:
 - What would materially reduce probability:
 
@@ -143,6 +158,7 @@
 - Opportunity cost:
 - Net pursuit view:
 - Recommended sales investment:
+- Sales-activity impact on investment level:
 
 ## Tender Assessment
 

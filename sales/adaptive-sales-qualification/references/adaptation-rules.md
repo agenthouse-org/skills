@@ -24,6 +24,7 @@ Expected behavior:
 - ask very few questions;
 - tolerate moderate uncertainty;
 - focus on fit, intent, affordability, and next action;
+- capture only essential activity facts: source, recency, and one indicator of discovery quality;
 - avoid qualification effort that exceeds expected sales value.
 
 ### Standard
@@ -42,6 +43,8 @@ Expected behavior:
 
 - verify problem, value, urgency, process, stakeholders, fit, and economics;
 - identify material unknowns;
+- assess discovery progression and communication cadence quality;
+- classify lead or opportunity source and include its practical implications;
 - require a reciprocal next step;
 - estimate probability using stage and evidence.
 
@@ -65,6 +68,8 @@ Expected behavior:
 - map the buying center;
 - verify the decision and procurement process;
 - require stronger evidence;
+- verify multi-stakeholder discovery quality and evidence progression over time;
+- check whether the sales motion (consultative, feature-oriented, hybrid) matches deal complexity;
 - evaluate competition and implementation risk;
 - assess bid effort and opportunity cost;
 - use explicit exit conditions.

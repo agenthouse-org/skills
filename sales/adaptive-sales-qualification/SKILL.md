@@ -1,7 +1,7 @@
 ---
 name: "adaptive-sales-qualification"
 description: "Assess, verify, score, and prioritize leads, accounts, and sales opportunities using an adaptive, evidence-based qualification process. Designed primarily for B2B sales and adaptable to high-consideration B2C, custom industries, geographies, products, sales cycles, and costs of sale."
-version: 0.1.1
+version: 0.1.2
 author: "Neri GmbH"
 license: MIT
 price: 0
@@ -96,6 +96,22 @@ You MUST first search all available memory, conversation history, CRM data, note
 - hard disqualification rules;
 - required evidence by sales stage.
 
+### Phase 1A: Discover CRM and Connected Sales Tools
+
+Before asking the user for missing commercial context, check whether CRM or revenue tools are available in the current environment.
+
+Keep this step generic: do not assume any specific integration exists.
+
+If one or more tools appear available, ask the user whether the agent should retrieve data from them before continuing discovery.
+
+Possible examples include Salesforce, HubSpot, AgentHouse DealDesk, Microsoft Dynamics 365, Pipedrive, Zoho CRM, and other approved systems.
+
+When data access is not available, not approved, or not requested, continue with the best available internal and user-provided context and explicitly mark CRM fields as unknown.
+
+Do not invent CRM records or infer missing fields as factual.
+
+### Phase 1B: Retrieve Company Policy
+
 Read `config/company-policy.md` if it exists and it is individualized for the company. Otherwise, read `references/qualification-model.md` and `references/adaptation-rules.md` for defaults.
 
 Do not ask the user for information that is already available from a reliable source. Distinguish current facts from outdated memory.
@@ -153,6 +169,21 @@ For every material statement, label the evidence as:
 - **Contradictory** — material sources disagree.
 
 Unknown information is not automatically negative. However, a critical unknown may block qualification or reduce confidence.
+
+### Phase 5A: Assess Sales Activity and Discovery Quality
+
+Evaluate the quality of sales activity, not just the amount of activity.
+
+Assess and label evidence for:
+
+- discovery effort depth (what was learned and verified);
+- last meaningful communication recency;
+- communication cadence consistency;
+- source of lead or opportunity (for example inbound, outbound cold-call, referral, partner, existing customer);
+- sales motion used (consultative, feature-oriented, or hybrid) and whether it fits product complexity and buyer context;
+- activity-to-evidence progression (whether activity produced new verified information or reciprocal buyer commitment).
+
+High activity volume without evidence progression MUST reduce confidence and may reduce pursuit priority.
 
 ### Phase 6: Ask Only Decision-Relevant Questions
 
@@ -235,6 +266,7 @@ The output MUST contain:
 - qualification score;
 - probability range;
 - evidence confidence;
+- sales activity and discovery-quality view;
 - priority;
 - hard disqualifiers;
 - positive signals;
@@ -288,6 +320,7 @@ You MUST:
 - distinguish facts from assumptions;
 - identify contradictions;
 - avoid repeated questions;
+- prefer pulling available CRM facts over re-asking known questions;
 - explain material score changes;
 - respect company policy and applicable procurement boundaries;
 - minimize unnecessary data collection;
@@ -298,6 +331,7 @@ You MUST NOT:
 
 - invent a budget, decision maker, compelling event, competitor, or buyer commitment;
 - treat email opens, meeting attendance, or politeness as proof of intent;
+- treat activity count alone as proof of progress;
 - equate a senior job title with buying authority;
 - assume that a published tender is winnable merely because the seller meets the specification;
 - recommend pursuing a low-value opportunity when the expected sales effort is uneconomic;
