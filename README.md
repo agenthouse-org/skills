@@ -8,29 +8,23 @@ be downloaded and installed independently.
 
 ## Available Skills
 
-| Skill | Purpose |
-|---|---|
-| Adaptive Sales Qualification | Assess leads, accounts, opportunities, tenders, probability to close, and pursuit priority |
+<!-- SKILLS_TABLE_START -->
+| Skill | Purpose | Version | Files | Download |
+|---|---|---:|---|---|
+<!-- SKILLS_TABLE_END -->
 
-## Structure
+## Repository Structure
 
-Each skill is stored under:
+Each skill is stored in its own folder containing a `SKILL.md` file.
+
+The repository supports categories and arbitrary folder depth, for example:
 
 ```text
-skills/<skill-name>/
-```
-
-## Skill strucure
-A skill may contain:
-
-SKILL.md — primary agent instructions
-config/ — company-editable configuration
-references/ — detailed procedures and models
-templates/ — output templates
-examples/ — worked examples
-License
-
-Unless stated otherwise, skills in this repository are released under the MIT License.
-
-## Publisher
-AgentHouse / Neri GmbH
+sales/
+└── adaptive-sales-qualification/
+    ├── SKILL.md
+    ├── README.md
+    ├── config/
+    ├── references/
+    ├── templates/
+    └── examples/
