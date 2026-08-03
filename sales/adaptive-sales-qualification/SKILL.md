@@ -259,8 +259,17 @@ Never recommend improper access, hidden coordination, specification manipulation
 
 Use `templates/assessment-output.md`.
 
+Default response pattern:
+
+1. start with a short **Overview Card** that summarizes all material decision information in compact form;
+2. ask whether the user wants a deeper view;
+3. if requested, expand with full section-by-section detail.
+
+Do not skip critical risk, uncertainty, or hard-rule information in the short format.
+
 The output MUST contain:
 
+- overview card (short format first);
 - decision and rationale;
 - lead, account, opportunity, and combined assessments;
 - qualification score;
@@ -274,6 +283,7 @@ The output MUST contain:
 - missing evidence;
 - buying-center view;
 - commercial and opportunity-cost view;
+- recommendations;
 - next action;
 - verification questions;
 - exit or no-bid conditions.

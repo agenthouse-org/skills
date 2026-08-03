@@ -2,6 +2,26 @@
 
 # Lead, Account, and Opportunity Assessment
 
+## Overview Card (Short Format First)
+
+Use this as the default first output. Keep it compact, decision-ready, and explicit about uncertainty.
+
+- Status:
+- Pursuit priority:
+- Qualification mode:
+- Combined qualification score:
+- Estimated probability to close:
+- Evidence confidence:
+- Lead or opportunity source:
+- Last meaningful communication:
+- Discovery quality summary:
+- Top positive signal:
+- Top risk or contradiction:
+- Commercial viability summary:
+- Recommendation summary:
+- Recommended next action:
+- Offer to expand: Ask whether the user wants the full detailed assessment.
+
 ## Decision
 
 - **Status:** Qualified / Conditionally qualified / Nurture / Disqualified / No-bid / Insufficient evidence
@@ -159,6 +179,15 @@
 - Net pursuit view:
 - Recommended sales investment:
 - Sales-activity impact on investment level:
+
+## Recommendations
+
+- Pursuit recommendation:
+- Discovery recommendation:
+- Stakeholder-engagement recommendation:
+- Commercial recommendation:
+- Risk-mitigation recommendation:
+- Exit, nurture, or no-bid trigger to monitor:
 
 ## Tender Assessment
 
