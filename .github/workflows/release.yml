@@ -1,0 +1,181 @@
+name: Build Skill Releases
+
+on:
+  push:
+    tags:
+      - "release-*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Discover skills
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SKILLS_JSON=$(
+            find skills -type f -name "SKILL.md" -print0 \
+              | while IFS= read -r -d '' skill_file; do
+                  skill_dir="$(dirname "$skill_file")"
+                  printf '%s\n' "$skill_dir"
+                done \
+              | sort \
+              | jq -R . \
+              | jq -s -c .
+          )
+
+          if [ "$SKILLS_JSON" = "[]" ]; then
+            echo "No skills containing SKILL.md were found."
+            exit 1
+          fi
+
+          echo "Discovered skills:"
+          echo "$SKILLS_JSON" | jq .
+
+          echo "matrix={\"skill\":$SKILLS_JSON}" >> "$GITHUB_OUTPUT"
+
+  package:
+    needs: discover
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Read and validate metadata
+        id: metadata
+        shell: bash
+        env:
+          SKILL_DIR: ${{ matrix.skill }}
+        run: |
+          set -euo pipefail
+
+          SKILL_FILE="$SKILL_DIR/SKILL.md"
+
+          if [ ! -f "$SKILL_FILE" ]; then
+            echo "Missing $SKILL_FILE"
+            exit 1
+          fi
+
+          NAME=$(
+            sed -n '/^---$/,/^---$/p' "$SKILL_FILE" \
+              | sed -n 's/^name:[[:space:]]*["'\'']\?\([^"'\'']*\)["'\'']\?$/\1/p' \
+              | head -n 1 \
+              | xargs
+          )
+
+          VERSION=$(
+            sed -n '/^---$/,/^---$/p' "$SKILL_FILE" \
+              | sed -n 's/^version:[[:space:]]*["'\'']\?\([^"'\'']*\)["'\'']\?$/\1/p' \
+              | head -n 1 \
+              | xargs
+          )
+
+          if [ -z "$NAME" ]; then
+            echo "Missing name in $SKILL_FILE"
+            exit 1
+          fi
+
+          if [ -z "$VERSION" ]; then
+            echo "Missing version in $SKILL_FILE"
+            exit 1
+          fi
+
+          if ! [[ "$NAME" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "Invalid skill name: $NAME"
+            echo "Expected kebab-case, for example: adaptive-sales-qualification"
+            exit 1
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][a-zA-Z0-9.-]+)?$ ]]; then
+            echo "Invalid version: $VERSION"
+            echo "Expected semantic versioning, for example: 0.1.1"
+            exit 1
+          fi
+
+          FOLDER_NAME="$(basename "$SKILL_DIR")"
+
+          if [ "$FOLDER_NAME" != "$NAME" ]; then
+            echo "Folder name '$FOLDER_NAME' does not match skill name '$NAME'."
+            exit 1
+          fi
+
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "asset=${NAME}-v${VERSION}.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Create skill ZIP
+        shell: bash
+        env:
+          SKILL_DIR: ${{ matrix.skill }}
+          SKILL_NAME: ${{ steps.metadata.outputs.name }}
+          ASSET_NAME: ${{ steps.metadata.outputs.asset }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p "dist/$SKILL_NAME"
+
+          rsync -a \
+            --exclude=".DS_Store" \
+            --exclude="Thumbs.db" \
+            "$SKILL_DIR/" \
+            "dist/$SKILL_NAME/"
+
+          (
+            cd dist
+            zip -r "$ASSET_NAME" "$SKILL_NAME"
+          )
+
+          sha256sum \
+            "dist/$ASSET_NAME" \
+            > "dist/$ASSET_NAME.sha256"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.metadata.outputs.name }}-v${{ steps.metadata.outputs.version }}
+          path: |
+            dist/${{ steps.metadata.outputs.asset }}
+            dist/${{ steps.metadata.outputs.asset }}.sha256
+          retention-days: 30
+
+  release:
+    needs:
+      - discover
+      - package
+
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all packaged skills
+        uses: actions/download-artifact@v8
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: AgentHouse Skills ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release-assets/*.zip
+            release-assets/*.sha256
