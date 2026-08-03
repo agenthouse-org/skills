@@ -74,6 +74,9 @@ Read these files when available:
 
 ## Agent Operating Procedure
 
+## Prerequisite: Localization and language
+This skill is written in English. Before starting, infer the language needed by the end user, and if not clear, ask the user to confirm the preferred language. If the user prefers a language other than English, translate all questions and output into that language.
+
 ### Phase 1: Retrieve Context Before Asking
 
 You MUST first search all available memory, conversation history, CRM data, notes, emails, documents, and connected company sources for:
@@ -93,7 +96,7 @@ You MUST first search all available memory, conversation history, CRM data, note
 - hard disqualification rules;
 - required evidence by sales stage.
 
-Read `config/company-policy.md` if it exists.
+Read `config/company-policy.md` if it exists and it is individualized for the company. Otherwise, read `references/qualification-model.md` and `references/adaptation-rules.md` for defaults.
 
 Do not ask the user for information that is already available from a reliable source. Distinguish current facts from outdated memory.
 
