@@ -1,0 +1,8 @@
+{
+  "name": "ai-content-disclosure-scripts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "sharp": ">=0.33.0"
+  }
+}

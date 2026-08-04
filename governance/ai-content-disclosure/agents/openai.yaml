@@ -1,0 +1,7 @@
+interface:
+  display_name: "AI Content Disclosure"
+  short_description: "Classify and label AI-generated or AI-modified content using Article 50 guidance and official EU icons."
+  default_prompt: "Assess this content for AI transparency disclosure, select the appropriate official EU label, and apply it deterministically when requested."
+
+policy:
+  allow_implicit_invocation: true

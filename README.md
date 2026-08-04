@@ -35,19 +35,37 @@ The skills are designed for compatible `SKILL.md`-based agents and tools, includ
 
 # 🚀 Quick Start
 
-### Discover available skills
+### Fastest: Load from ZIP URL
+
+If you already have a ZIP link, paste it directly into your AI agent (for example ChatGPT or Claude) and ask it to load/import the skill.
+
+Example:
+
+```text
+Load this skill from ZIP URL:
+https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-03_2/adaptive-sales-qualification-v0.1.2.zip
+```
+
+ZIP links are available in:
+
+- [the skill table below](#skill-table)
+- GitHub Releases: https://github.com/AgentHouse-org/skills/releases
+
+### CLI (NPX)
+
+Discover available skills:
 
 ```bash
 npx skills add AgentHouse-org/skills --list
 ```
 
-### Install a specific skill
+Install a specific skill:
 
 ```bash
 npx skills add AgentHouse-org/skills --skill adaptive-sales-qualification
 ```
 
-### Install interactively
+Install interactively:
 
 ```bash
 npx skills add AgentHouse-org/skills
@@ -62,6 +80,7 @@ The CLI automatically discovers every folder containing a valid `SKILL.md`.
 
 ---
 
+<a id="skill-table"></a>
 ## 📦 Available Skills
 
 <!-- SKILLS_TABLE_START -->
@@ -110,13 +129,9 @@ npx skills add AgentHouse-org/skills --skill adaptive-sales-qualification
 
 ---
 
-# 💾 Manual Installation
+# 💾 Manual Extraction (Fallback)
 
-Download the latest ZIP from GitHub Releases:
-
-https://github.com/AgentHouse-org/skills/releases
-
-Extract the folder into your preferred AI agent.
+If your tool does not support direct URL import, download and extract the ZIP into your preferred AI agent.
 
 Typical locations:
 

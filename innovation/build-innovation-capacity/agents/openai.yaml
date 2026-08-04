@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Innovation Capacity"
+  short_description: "Turn operational capacity into innovation"
+  default_prompt: "Use $build-innovation-capacity to diagnose where our organization spends its attention and create practical capacity for innovation."

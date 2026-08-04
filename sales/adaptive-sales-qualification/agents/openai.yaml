@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adaptive Sales Qualification"
+  short_description: "Qualify and prioritize sales opportunities"
+  default_prompt: "Use $adaptive-sales-qualification to assess this lead, account, and opportunity, including evidence confidence, pursuit priority, probability to close, and the next best action."

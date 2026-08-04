@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Role Profile"
+  short_description: "Define clear roles, authority, and accountability"
+  default_prompt: "Use $create-role-profile to ask me the essential questions and create a clear role profile as a DOCX or Excel workbook."

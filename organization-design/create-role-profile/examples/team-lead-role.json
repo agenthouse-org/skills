@@ -1,0 +1,94 @@
+{
+  "language": "en",
+  "role_name": "Image Editing Team Lead",
+  "purpose": "Lead the image-editing team, ensure delivery and quality within the assigned domains, and deploy team capabilities effectively.",
+  "domains": [
+    "Product images",
+    "Image quality guideline",
+    "Assigned image-editing team"
+  ],
+  "requirements": {
+    "required": [
+      "Team coordination and leadership",
+      "Clear communication",
+      "Professional image-editing knowledge",
+      "Visual judgment and quality awareness"
+    ],
+    "preferred": [
+      "Capacity planning",
+      "Process improvement"
+    ]
+  },
+  "responsibilities": [
+    {
+      "responsibility": "Plan team capacity against productions, campaigns, urgent requests, and re-edits.",
+      "authorities": {
+        "information": true,
+        "decision": true,
+        "functional_direction": true,
+        "policy": false,
+        "control": false,
+        "participation": false
+      },
+      "authority_notes": "May obtain relevant production forecasts from Brand Management.",
+      "obligations": {
+        "quality_control": true,
+        "reporting": false,
+        "approval": true
+      },
+      "obligation_notes": "Escalate material capacity gaps to the Head of Content."
+    },
+    {
+      "responsibility": "Monitor image-editing performance and quality indicators.",
+      "authorities": {
+        "information": true,
+        "decision": false,
+        "functional_direction": false,
+        "policy": false,
+        "control": true,
+        "participation": false
+      },
+      "authority_notes": "",
+      "obligations": {
+        "quality_control": true,
+        "reporting": true,
+        "approval": false
+      },
+      "obligation_notes": "Report recurring deviations to the Head of Content."
+    },
+    {
+      "responsibility": "Maintain and improve the image quality guideline.",
+      "authorities": {
+        "information": true,
+        "decision": false,
+        "functional_direction": false,
+        "policy": true,
+        "control": false,
+        "participation": true
+      },
+      "authority_notes": "Consult Brand Management before material changes.",
+      "obligations": {
+        "quality_control": false,
+        "reporting": true,
+        "approval": true
+      },
+      "obligation_notes": "Material changes require approval by the Head of Content."
+    }
+  ],
+  "interfaces": [
+    "Head of Content",
+    "Brand Management",
+    "Photography"
+  ],
+  "exclusions": [
+    "Ownership of production-process optimization remains with the designated process role.",
+    "Disciplinary personnel decisions are not implied by this role profile."
+  ],
+  "holder": "",
+  "approved_by": "",
+  "approval_date": "",
+  "review_date": "",
+  "assumptions": [
+    "Approval and escalation thresholds must be confirmed by the organization."
+  ]
+}
