@@ -8,7 +8,6 @@
  /_/   \_\__, |\___|_| |_|\__|_| |_|\___/ \__,_|___/\___|
          |___/
 
-                    S K I L L S
 ```
 
 # AgentHouse Skills
@@ -38,13 +37,6 @@ The skills are designed for compatible `SKILL.md`-based agents and tools, includ
 ### Fastest: Load from ZIP URL
 
 If you already have a ZIP link, paste it directly into your AI agent (for example ChatGPT or Claude) and ask it to load/import the skill.
-
-Example:
-
-```text
-Load this skill from ZIP URL:
-https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-03_2/adaptive-sales-qualification-v0.1.2.zip
-```
 
 ZIP links are available in:
 
