@@ -149,25 +149,9 @@ jobs:
           ASSET_NAME: ${{ steps.metadata.outputs.asset }}
         run: |
           set -euo pipefail
-
-          mkdir -p "dist/$SKILL_NAME"
-
-          rsync -a \
-            --exclude=".DS_Store" \
-            --exclude="Thumbs.db" \
-            --exclude=".git/" \
-            --exclude="dist/" \
-            "$SKILL_DIR/" \
-            "dist/$SKILL_NAME/"
-
-          (
-            cd dist
-            zip -r "$ASSET_NAME" "$SKILL_NAME"
-          )
-
-          sha256sum \
-            "dist/$ASSET_NAME" \
-            > "dist/$ASSET_NAME.sha256"
+          python build/release.py package --output dist \
+            --manifest-url "${{ vars.SKILL_MANIFEST_URL || 'https://agenthouse-org.github.io/skills/manifest.json' }}" \
+            --release-date "$(date -u +%F)"
 
           echo "Created:"
           ls -lh "dist/$ASSET_NAME" "dist/$ASSET_NAME.sha256"
@@ -190,6 +174,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
       - name: Download all packaged skills
         uses: actions/download-artifact@v8
         with:
@@ -201,6 +188,18 @@ jobs:
         run: |
           find release-assets -maxdepth 1 -type f -print
 
+      - name: Generate central manifest
+        shell: bash
+        env:
+          REPOSITORY: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          python build/release.py manifest --output release-assets \
+            --repository "$REPOSITORY" \
+            --release-tag "$RELEASE_TAG" \
+            --release-date "$(date -u +%F)"
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v3
         with:
@@ -209,6 +208,7 @@ jobs:
           files: |
             release-assets/*.zip
             release-assets/*.sha256
+            release-assets/manifest.json
   update-readme:
     needs:
       - release
@@ -366,3 +366,45 @@ jobs:
           git commit -m \
             "docs: update skill catalogue for ${{ github.ref_name }}"
           git push origin main
+
+  publish-pages:
+    needs:
+      - release
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Generate Pages manifest
+        shell: bash
+        env:
+          REPOSITORY: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          python build/release.py manifest --output release-assets \
+            --repository "$REPOSITORY" \
+            --release-tag "$RELEASE_TAG" \
+            --release-date "$(date -u +%F)"
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p pages
+          cp release-assets/manifest.json pages/manifest.json
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4

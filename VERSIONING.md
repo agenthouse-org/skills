@@ -1,0 +1,11 @@
+# Skill versioning and update awareness
+
+Each source `SKILL.md` keeps its own semantic version in frontmatter. That version is authoritative for the ZIP filename and the packaged version. Existing date-based `release-*` tags remain the repository-wide release convention.
+
+During GitHub Actions packaging, a temporary copy of each skill receives AgentHouse metadata and the shared update-awareness instructions from `build/update-management.md`. Source skills are not modified.
+
+The generated `manifest.json` contains only supported metadata: `latest`, `released`, and `releaseUrl`. It is published as a GitHub Release asset and to GitHub Pages. Set the repository variable `SKILL_MANIFEST_URL` when the public endpoint changes.
+
+Update awareness only notifies users. It never installs or downloads a replacement, runtime instructions, code, references, prompts, or dependencies. A missing or invalid network response must not prevent the skill from operating.
+
+To release, update the relevant source version, push a date-based `release-YYYY-MM-DD` tag, and let the release workflow validate, package, publish the ZIPs/checksums, generate the manifest, and update the catalogue.
