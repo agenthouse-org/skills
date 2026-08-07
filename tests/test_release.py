@@ -19,6 +19,7 @@ class ReleaseTests(unittest.TestCase):
         item = next(x for x in release.discover() if x["name"] == "ai-content-disclosure")
         enriched = release.enriched_skill(source, item, "2026-08-07", "https://example.test/manifest.json")
         self.assertEqual(source.read_text(encoding="utf-8"), original)
+        self.assertTrue(enriched.startswith("---\nname:"))
         self.assertEqual(enriched.count("## AgentHouse update awareness"), 1)
         self.assertIn('update-manifest: "https://example.test/manifest.json"', enriched)
 

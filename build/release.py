@@ -68,7 +68,7 @@ def enriched_skill(source: Path, item: dict[str, str], release_date: str, manife
         f'  release-date: "{release_date}"',
         f'  update-manifest: "{manifest_url}"',
     ]
-    new_frontmatter = text[4:end] + "\n" + "\n".join(metadata) + text[end:]
+    new_frontmatter = text[:4] + text[4:end] + "\n" + "\n".join(metadata) + text[end:]
     return new_frontmatter + body + TEMPLATE.read_text(encoding="utf-8")
 
 

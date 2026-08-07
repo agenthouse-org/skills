@@ -396,6 +396,11 @@ jobs:
             --release-date "$(date -u +%F)"
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # Enables Pages automatically when the repository token has the
+          # required administration permission. Otherwise enable Pages once
+          # in Settings > Pages and select GitHub Actions as the source.
+          enablement: true
       - name: Prepare Pages artifact
         shell: bash
         run: |
