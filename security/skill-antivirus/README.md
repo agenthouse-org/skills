@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.3.0`
-- **ZIP:** [skill-antivirus-v0.3.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-10/skill-antivirus-v0.3.0.zip)
-- **Release:** [release-2026-08-10](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-10)
+- **ZIP:** [skill-antivirus-v0.3.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-10-2/skill-antivirus-v0.3.0.zip)
+- **Release:** [release-2026-08-10-2](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-10-2)
 - **Install:** `npx skills add AgentHouse-org/skills --skill skill-antivirus`
 <!-- DOWNLOAD_END -->
 
