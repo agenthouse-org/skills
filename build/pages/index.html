@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentHouse Skills Directory</title>
+  <meta name="description" content="Browse and download open-source AgentHouse skills for AI agents, grouped by category.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow"><a href="https://agenthouse.org">AgentHouse</a> · open skills</p>
+    <h1>Skills Directory</h1>
+    <p class="lede">Reusable skills for AI agents that do real business work. Search by name, purpose, or category — then download the ZIP.</p>
+
+    <label class="search" for="search">
+      <span class="sr-only">Search skills</span>
+      <input id="search" type="search" placeholder="Search skills, categories, or keywords…" autocomplete="off" autofocus>
+    </label>
+
+    <div class="meta-row">
+      <p id="stats" class="stats">Loading catalogue…</p>
+      <nav class="hero-links" aria-label="Related links">
+        <a href="https://github.com/AgentHouse-org/skills">GitHub</a>
+        <a href="https://github.com/AgentHouse-org/skills/releases">Releases</a>
+        <a href="manifest.json">manifest.json</a>
+      </nav>
+    </div>
+
+    <div id="category-filters" class="filters" role="group" aria-label="Filter by category"></div>
+  </header>
+
+  <main id="directory" class="directory" aria-live="polite"></main>
+
+  <footer class="footer">
+    <p>Published by <a href="https://agenthouse.org">AgentHouse / Neri GmbH</a>. MIT unless noted on the skill.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
