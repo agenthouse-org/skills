@@ -41,6 +41,7 @@ If you already have a ZIP link, paste it directly into your AI agent (for exampl
 ZIP links are available in:
 
 - [the skill table below](#skill-table)
+- the [Skills Directory](https://agenthouse-org.github.io/skills/) (search by category)
 - GitHub Releases: https://github.com/AgentHouse-org/skills/releases
 
 ### CLI (NPX)
@@ -74,6 +75,8 @@ The CLI automatically discovers every folder containing a valid `SKILL.md`.
 
 <a id="skill-table"></a>
 ## 📦 Available Skills
+
+Browse with search and categories: **[Skills Directory](https://agenthouse-org.github.io/skills/)**
 
 <!-- SKILLS_TABLE_START -->
 | Skill | Purpose | Version | Files | Download |
@@ -163,13 +166,13 @@ The discovery workflow searches the repository for every `SKILL.md`.
 | Path | Purpose |
 |------|---------|
 | `SKILL.md` | Primary agent instructions |
-| `README.md` | Human documentation |
+| `README.md` | Human documentation (ZIP links are auto-updated between `DOWNLOAD` markers) |
 | `config/` | Company-specific configuration |
 | `references/` | Methods and supporting knowledge |
 | `templates/` | Output templates |
 | `examples/` | Worked examples |
 
-Only `SKILL.md` is mandatory.
+Only `SKILL.md` is mandatory. If a skill `README.md` exists, release automation keeps a download section between `<!-- DOWNLOAD_START -->` and `<!-- DOWNLOAD_END -->`.
 
 ---
 
@@ -191,7 +194,8 @@ GitHub Actions automatically:
 - builds one ZIP per skill
 - generates SHA-256 checksums
 - publishes GitHub Releases
-- updates the skill catalogue in this README
+- updates ZIP download sections in the root and skill READMEs
+- deploys the searchable Skills Directory to GitHub Pages
 
 ---
 

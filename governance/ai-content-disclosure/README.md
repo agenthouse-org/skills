@@ -1,5 +1,14 @@
 # AI Content Disclosure
 
+<!-- DOWNLOAD_START -->
+## Download
+
+- **Version:** `0.1.0`
+- **ZIP:** [ai-content-disclosure-v0.1.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-08/ai-content-disclosure-v0.1.0.zip)
+- **Release:** [release-2026-08-08](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-08)
+- **Install:** `npx skills add AgentHouse-org/skills --skill ai-content-disclosure`
+<!-- DOWNLOAD_END -->
+
 An open AgentHouse skill for assessing and applying AI-content disclosures in support of Article 50 of the EU AI Act.
 
 ## Capabilities

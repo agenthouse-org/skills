@@ -1,0 +1,7 @@
+interface:
+  display_name: "Skill Antivirus"
+  short_description: "Statically scan agent skills for injection, secret theft, exfiltration, and packaging hazards."
+  default_prompt: "Use $skill-antivirus to review this skill package. Run the scanner, apply the threat taxonomy and agent checklist, then return CLEAN, REVIEW, or UNSAFE with evidence and remediation."
+
+policy:
+  allow_implicit_invocation: true

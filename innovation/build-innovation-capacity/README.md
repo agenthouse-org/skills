@@ -1,5 +1,14 @@
 # Build Innovation Capacity
 
+<!-- DOWNLOAD_START -->
+## Download
+
+- **Version:** `0.1.0`
+- **ZIP:** [build-innovation-capacity-v0.1.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-08/build-innovation-capacity-v0.1.0.zip)
+- **Release:** [release-2026-08-08](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-08)
+- **Install:** `npx skills add AgentHouse-org/skills --skill build-innovation-capacity`
+<!-- DOWNLOAD_END -->
+
 An executive skill for diagnosing where organizational attention is consumed and creating practical capacity for innovation.
 
 The skill operationalizes the **Alpha Pyramid**, developed by Valerio Neri in the book *Die Alpha Pyramide*. It explains the framework in plain English so users do not need prior knowledge of the book.

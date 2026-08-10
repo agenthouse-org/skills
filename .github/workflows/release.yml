@@ -34,7 +34,10 @@ jobs:
               -not -path "./.github/*" \
               -not -path "./dist/*" \
               -not -path "./release-assets/*" \
+              -not -path "./pages/*" \
               -not -path "./node_modules/*" \
+              -not -path "*/fixtures/*" \
+              -not -path "./tests/*" \
               -print0 \
               | while IFS= read -r -d '' skill_file; do
                   skill_dir="$(dirname "$skill_file")"
@@ -223,137 +226,33 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Generate skill catalogue
+      - name: Update skill catalogue and ZIP links
         shell: bash
         env:
           RELEASE_TAG: ${{ github.ref_name }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-
-          python <<'PY'
-          from pathlib import Path
-          import os
-          import re
-
-          repository = os.environ["REPOSITORY"]
-          release_tag = os.environ["RELEASE_TAG"]
-
-          ignored_parts = {
-              ".git",
-              ".github",
-              "dist",
-              "release-assets",
-              "node_modules",
-          }
-
-          def read_frontmatter(path: Path) -> dict[str, str]:
-              text = path.read_text(encoding="utf-8")
-
-              if not text.startswith("---"):
-                  raise ValueError(f"{path} has no YAML frontmatter")
-
-              parts = text.split("---", 2)
-
-              if len(parts) < 3:
-                  raise ValueError(f"{path} has invalid YAML frontmatter")
-
-              metadata = {}
-
-              for line in parts[1].splitlines():
-                  match = re.match(
-                      r'^([A-Za-z0-9_-]+):\s*["\']?(.*?)["\']?\s*$',
-                      line,
-                  )
-
-                  if match:
-                      metadata[match.group(1)] = match.group(2)
-
-              return metadata
-
-          skills = []
-
-          for skill_file in sorted(Path(".").rglob("SKILL.md")):
-              if any(part in ignored_parts for part in skill_file.parts):
-                  continue
-
-              skill_dir = skill_file.parent
-              metadata = read_frontmatter(skill_file)
-
-              name = metadata.get("name", "").strip()
-              version = metadata.get("version", "").strip()
-              description = metadata.get("description", "").strip()
-
-              if not name or not version:
-                  raise ValueError(
-                      f"{skill_file} requires name and version"
-                  )
-
-              if skill_dir.name != name:
-                  raise ValueError(
-                      f"Folder '{skill_dir.name}' does not match "
-                      f"skill name '{name}'"
-                  )
-
-              title = name.replace("-", " ").title()
-              folder_path = skill_dir.as_posix()
-              asset = f"{name}-v{version}.zip"
-
-              skill_url = (
-                  f"https://github.com/{repository}/tree/main/{folder_path}"
-              )
-
-              download_url = (
-                  f"https://github.com/{repository}/releases/download/"
-                  f"{release_tag}/{asset}"
-              )
-
-              skills.append(
-                  f"| [{title}]({skill_url}) "
-                  f"| {description} "
-                  f"| `{version}` "
-                  f"| [View]({skill_url}) "
-                  f"| [ZIP]({download_url}) |"
-              )
-
-          if not skills:
-              raise RuntimeError("No skills containing SKILL.md found")
-
-          readme_path = Path("README.md")
-          readme = readme_path.read_text(encoding="utf-8")
-
-          start_marker = "<!-- SKILLS_TABLE_START -->"
-          end_marker = "<!-- SKILLS_TABLE_END -->"
-
-          if start_marker not in readme or end_marker not in readme:
-              raise RuntimeError(
-                  "README catalogue markers are missing"
-              )
-
-          table = "\n".join([
-              start_marker,
-              "| Skill | Purpose | Version | Files | Download |",
-              "|---|---|---:|---|---|",
-              *skills,
-              end_marker,
-          ])
-
-          updated = re.sub(
-              rf"{re.escape(start_marker)}.*?{re.escape(end_marker)}",
-              table,
-              readme,
-              flags=re.DOTALL,
-          )
-
-          readme_path.write_text(updated, encoding="utf-8")
-          PY
+          python build/release.py update-docs \
+            --repository "$REPOSITORY" \
+            --release-tag "$RELEASE_TAG"
 
       - name: Commit updated catalogue
         shell: bash
         run: |
           set -euo pipefail
 
-          if git diff --quiet README.md; then
+          mapfile -t readme_files < <(
+            find . -name README.md \
+              -not -path './.git/*' \
+              -not -path './build/*' \
+              -not -path './dist/*' \
+              -not -path './pages/*' \
+              | sed 's|^\./||' \
+              | sort
+          )
+
+          if git diff --quiet -- "${readme_files[@]}"; then
             echo "README catalogue is already current."
             exit 0
           fi
@@ -362,7 +261,7 @@ jobs:
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add README.md
+          git add -- "${readme_files[@]}"
           git commit -m \
             "docs: update skill catalogue for ${{ github.ref_name }}"
           git push origin main
@@ -382,15 +281,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Generate Pages manifest
+      - name: Build Pages directory
         shell: bash
         env:
           REPOSITORY: ${{ github.repository }}
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          mkdir -p release-assets
-          python build/release.py manifest --output release-assets \
+          python build/release.py pages --output pages \
             --repository "$REPOSITORY" \
             --release-tag "$RELEASE_TAG" \
             --release-date "$(date -u +%F)"
@@ -401,12 +299,6 @@ jobs:
           # required administration permission. Otherwise enable Pages once
           # in Settings > Pages and select GitHub Actions as the source.
           enablement: true
-      - name: Prepare Pages artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p pages
-          cp release-assets/manifest.json pages/manifest.json
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

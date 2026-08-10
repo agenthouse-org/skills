@@ -1,5 +1,14 @@
 # Create Role Profile
 
+<!-- DOWNLOAD_START -->
+## Download
+
+- **Version:** `0.1.0`
+- **ZIP:** [create-role-profile-v0.1.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-08/create-role-profile-v0.1.0.zip)
+- **Release:** [release-2026-08-08](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-08)
+- **Install:** `npx skills add AgentHouse-org/skills --skill create-role-profile`
+<!-- DOWNLOAD_END -->
+
 An organization-design skill that interviews users, clarifies accountability and decision rights, and creates a professional role profile as DOCX or Excel.
 
 The model is derived from *Die Alpha Pyramide* by Valerio Neri and the accompanying NERI role-description templates.

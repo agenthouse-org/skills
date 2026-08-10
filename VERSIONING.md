@@ -6,6 +6,12 @@ During GitHub Actions packaging, a temporary copy of each skill receives AgentHo
 
 The generated `manifest.json` contains only supported metadata: `latest`, `released`, and `releaseUrl`. It is published as a GitHub Release asset and to GitHub Pages. Set the repository variable `SKILL_MANIFEST_URL` when the public endpoint changes.
 
+On each `release-*` tag, the workflow also rewrites:
+
+- the root README catalogue between `<!-- SKILLS_TABLE_START -->` / `<!-- SKILLS_TABLE_END -->`
+- each skill `README.md` download block between `<!-- DOWNLOAD_START -->` / `<!-- DOWNLOAD_END -->`
+- the GitHub Pages Skills Directory at `https://agenthouse-org.github.io/skills/` (`index.html` + `skills.json` + `manifest.json`)
+
 Update awareness only notifies users. It never installs or downloads a replacement, runtime instructions, code, references, prompts, or dependencies. A missing or invalid network response must not prevent the skill from operating.
 
-To release, update the relevant source version, push a date-based `release-YYYY-MM-DD` tag, and let the release workflow validate, package, publish the ZIPs/checksums, generate the manifest, and update the catalogue.
+To release, update the relevant source version, push a date-based `release-YYYY-MM-DD` tag, and let the release workflow validate, package, publish the ZIPs/checksums, generate the manifest, update README download links, and deploy the directory.
