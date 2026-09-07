@@ -112,7 +112,16 @@ def enriched_skill(source: Path, item: dict[str, str], release_date: str, manife
 def package(item: dict[str, str], output: Path, release_date: str, manifest_url: str) -> Path:
     source_dir = ROOT / item["path"]
     stage = output / item["name"]
-    shutil.copytree(source_dir, stage)
+    ignore = shutil.ignore_patterns(
+        "node_modules",
+        ".audit-self-test",
+        "*-shots",
+        "audit-report.json",
+        ".gitignore",
+        "__pycache__",
+        "*.pyc",
+    )
+    shutil.copytree(source_dir, stage, ignore=ignore)
     (stage / "SKILL.md").write_text(enriched_skill(source_dir / "SKILL.md", item, release_date, manifest_url), encoding="utf-8")
     asset = output / f'{item["name"]}-v{item["version"]}.zip'
     with zipfile.ZipFile(asset, "w", zipfile.ZIP_DEFLATED) as archive:

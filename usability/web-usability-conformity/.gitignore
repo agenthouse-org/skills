@@ -1,0 +1,5 @@
+node_modules/
+.audit-self-test/
+*-shots/
+audit-report.json
+package-lock.json

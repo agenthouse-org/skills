@@ -1,0 +1,7 @@
+interface:
+  display_name: "Web Usability Conformity"
+  short_description: "Reach and maintain WCAG 2.2 AA / ISO 40500 usability with Playwright and DOM tests."
+  default_prompt: "Use $web-usability-conformity to audit this page or app for WCAG 2.2 AA and ISO/IEC 40500 conformity. Run technical DOM/HTML and Playwright visual tests, review understandability without enforcing gender language, report which norms are met, then fix fails and retest or add maintain-mode regression tests."
+
+policy:
+  allow_implicit_invocation: true

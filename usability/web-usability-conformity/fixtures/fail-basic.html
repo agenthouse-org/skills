@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <style>
+    body { font-family: sans-serif; color: #bbb; background: #eee; }
+    .nav { position: sticky; top: 0; background: #333; color: #fff; padding: 1rem; z-index: 10; }
+    a { color: #1a73e8; }
+    input { margin: 0.25rem 0; }
+    .tiny { width: 16px; height: 16px; padding: 0; font-size: 8px; }
+    .banner { position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 2rem; z-index: 20; }
+  </style>
+</head>
+<body>
+  <div class="nav">Sticky chrome without skip link</div>
+  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="100" height="40" />
+  <h1 style="color:#ccc">Almost invisible heading</h1>
+  <p style="color:#ddd">Low contrast body text on light background.</p>
+  <a href="#">Click here</a>
+  <div>
+    Name <input type="text" name="name" />
+  </div>
+  <div>
+    <input type="email" id="email" />
+  </div>
+  <button class="tiny" type="button">i</button>
+  <div tabindex="5">Positive tabindex trap risk</div>
+  <div class="banner" id="cookie">Cookie overlay covering the bottom of the page. <button type="button">OK</button></div>
+</body>
+</html>
