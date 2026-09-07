@@ -4,9 +4,9 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** [create-role-profile-v0.1.0.zip](https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-10-2/create-role-profile-v0.1.0.zip)
-- **Release:** [release-2026-08-10-2](https://github.com/AgentHouse-org/skills/releases/tag/release-2026-08-10-2)
-- **Install:** `npx skills add AgentHouse-org/skills --skill create-role-profile`
+- **ZIP:** [create-role-profile-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-07/create-role-profile-v0.1.0.zip)
+- **Release:** [release-2026-09-07](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-07)
+- **Install:** `npx skills add agenthouse-org/skills --skill create-role-profile`
 <!-- DOWNLOAD_END -->
 
 An organization-design skill that interviews users, clarifies accountability and decision rights, and creates a professional role profile as DOCX or Excel.

@@ -4,7 +4,8 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** Published automatically with the next agenthouse Skills release.
+- **ZIP:** [frontend-ttd-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-07/frontend-ttd-v0.1.0.zip)
+- **Release:** [release-2026-09-07](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-07)
 - **Install:** `npx skills add agenthouse-org/skills --skill frontend-ttd`
 <!-- DOWNLOAD_END -->
 

@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** _Published on the next `release-*` tag_
-- **Release:** _Pending first release including this skill_
+- **ZIP:** [web-usability-conformity-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-07/web-usability-conformity-v0.1.0.zip)
+- **Release:** [release-2026-09-07](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-07)
 - **Install:** `npx skills add agenthouse-org/skills --skill web-usability-conformity`
 <!-- DOWNLOAD_END -->
 
