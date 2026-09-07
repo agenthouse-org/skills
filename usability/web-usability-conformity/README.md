@@ -9,7 +9,7 @@
 - **Install:** `npx skills add agenthouse-org/skills --skill web-usability-conformity`
 <!-- DOWNLOAD_END -->
 
-An AgentHouse skill to **reach** and **maintain** web usability and accessibility conformity.
+An agenthouse skill to **reach** and **maintain** web usability and accessibility conformity.
 
 ## Default target
 
