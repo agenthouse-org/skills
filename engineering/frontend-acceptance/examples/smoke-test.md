@@ -1,9 +1,9 @@
-# Frontend TTD smoke test
+# Frontend Acceptance smoke test
 
 Give an agent with this skill the following request in a small web application that has a homepage and a narrow viewport mode:
 
 ```text
-Use $frontend-ttd to change the homepage primary action from a text link to a button. Keep the existing product style. It must remain easy to find and use at 375px and desktop width.
+Use $frontend-acceptance to change the homepage primary action from a text link to a button. Keep the existing product style. It must remain easy to find and use at 375px and desktop width.
 ```
 
 The run passes when the agent:

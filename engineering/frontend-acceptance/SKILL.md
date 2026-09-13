@@ -1,7 +1,7 @@
 ---
-name: "frontend-ttd"
+name: "frontend-acceptance"
 description: "Design and verify frontend changes through explicit design principles, browser-driven acceptance tests, and screenshot evidence. Use when building or changing a web UI where visual quality, responsive behavior, accessibility, and proof of the delivered result matter."
-version: 0.1.0
+version: 0.2.0
 author: "Neri GmbH"
 license: MIT
 price: 0
@@ -17,9 +17,9 @@ tags:
 ai_disclosure: "AI MODIFIED"
 ---
 
-# Frontend TTD
+# Frontend Acceptance
 
-Use test-driven design (TTD) to make a frontend change observable before calling it complete. TTD here means: define the design intent and user-visible acceptance criteria, exercise the UI in a real browser, inspect screenshots, and turn discovered regressions into durable automated coverage.
+Make frontend acceptance observable before calling a change complete: define the design intent and user-visible acceptance criteria, exercise the UI in a real browser, inspect screenshots, and turn discovered regressions into durable automated coverage.
 
 Browser automation is evidence, not a substitute for judgment. A passing DOM assertion does not prove that the layout is usable or visually correct; a screenshot does not prove that the interaction works. Use both where applicable.
 
@@ -81,7 +81,7 @@ Call a frontend change complete only when the changed journey works in a real br
 ## Quick start
 
 ```text
-Use $frontend-ttd for this UI change. First identify or establish the design contract. Define functional, visual, responsive, and accessibility acceptance checks before editing. Implement the smallest change, test the real browser journey, inspect screenshots at the relevant viewports, and return an evidence record with assumptions and any gaps.
+Use $frontend-acceptance for this UI change. First identify or establish the design contract. Define functional, visual, responsive, and accessibility acceptance checks before editing. Implement the smallest change, test the real browser journey, inspect screenshots at the relevant viewports, and return an evidence record with assumptions and any gaps.
 ```
 
 ---

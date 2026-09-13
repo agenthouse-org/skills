@@ -3,15 +3,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "engineering" / "frontend-ttd"
+SKILL = ROOT / "engineering" / "frontend-acceptance"
 
 
-class FrontendTtdSkillTests(unittest.TestCase):
+class FrontendAcceptanceSkillTests(unittest.TestCase):
     def test_skill_has_a_portable_package_and_smoke_test(self):
         skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         smoke_test = (SKILL / "examples" / "smoke-test.md").read_text(encoding="utf-8")
 
-        self.assertIn('name: "frontend-ttd"', skill)
+        self.assertIn('name: "frontend-acceptance"', skill)
         self.assertTrue((SKILL / "README.md").is_file())
         self.assertTrue((SKILL / "templates" / "evidence-record.md").is_file())
         self.assertIn("design contract", skill.lower())

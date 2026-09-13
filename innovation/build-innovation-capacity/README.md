@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** [build-innovation-capacity-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-07/build-innovation-capacity-v0.1.0.zip)
-- **Release:** [release-2026-09-07](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-07)
+- **ZIP:** [build-innovation-capacity-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-13/build-innovation-capacity-v0.1.0.zip)
+- **Release:** [release-2026-09-13](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-13)
 - **Install:** `npx skills add agenthouse-org/skills --skill build-innovation-capacity`
 <!-- DOWNLOAD_END -->
 
