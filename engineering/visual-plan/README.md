@@ -3,10 +3,10 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-This skill is in source until the next agenthouse-skills release. Copy `engineering/visual-plan` into your agent's skill directory, or use it from a checkout.
-
 - **Version:** `0.1.0`
-- **Install (after release):** `npx skills add agenthouse-org/skills --skill visual-plan`
+- **ZIP:** [visual-plan-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-26/visual-plan-v0.1.0.zip)
+- **Release:** [release-2026-09-26](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-26)
+- **Install:** `npx skills add agenthouse-org/skills --skill visual-plan`
 <!-- DOWNLOAD_END -->
 
 Draft local wireframes and mermaid ERD/UML before implementation. Keep the conversation to a short Decide list. No hosted renderer or account is required.

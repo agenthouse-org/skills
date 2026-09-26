@@ -3,10 +3,10 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-This skill is in source until the next agenthouse-skills release. Copy `marketing/motion-ad` into your agent's skill directory, or use it from a checkout.
-
 - **Version:** `0.1.0`
-- **Install (after release):** `npx skills add agenthouse-org/skills --skill motion-ad`
+- **ZIP:** [motion-ad-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-26/motion-ad-v0.1.0.zip)
+- **Release:** [release-2026-09-26](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-26)
+- **Install:** `npx skills add agenthouse-org/skills --skill motion-ad`
 <!-- DOWNLOAD_END -->
 
 Build a short HTML motion graphic for a product, idea, or message. It plays in the browser, one page per language. A WebM export is available when you need a file for a platform that does not play HTML.

@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.2`
-- **ZIP:** [adaptive-sales-qualification-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-13/adaptive-sales-qualification-v0.1.2.zip)
-- **Release:** [release-2026-09-13](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-13)
+- **ZIP:** [adaptive-sales-qualification-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-26/adaptive-sales-qualification-v0.1.2.zip)
+- **Release:** [release-2026-09-26](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-26)
 - **Install:** `npx skills add agenthouse-org/skills --skill adaptive-sales-qualification`
 <!-- DOWNLOAD_END -->
 
