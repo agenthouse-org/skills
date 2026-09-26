@@ -116,6 +116,8 @@ def package(item: dict[str, str], output: Path, release_date: str, manifest_url:
         "node_modules",
         ".audit-self-test",
         "*-shots",
+        "renders",
+        "package-lock.json",
         "audit-report.json",
         ".gitignore",
         "__pycache__",

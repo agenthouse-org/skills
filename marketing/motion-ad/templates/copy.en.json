@@ -1,0 +1,17 @@
+{
+  "title": "Motion ad",
+  "hook.l1": "Say the shift.",
+  "hook.l2": "In one sentence.",
+  "friction.l1": "Name the friction.",
+  "chip.1": "One",
+  "chip.2": "Two",
+  "chip.3": "Three",
+  "chip.4": "Four",
+  "change.l1": "Show the change.",
+  "step.1": "Before",
+  "step.2": "Turn",
+  "step.3": "After",
+  "end.l1": "Land the ask.",
+  "end.l2": "Replace this end card.",
+  "sr": "Scaffold motion ad. Replace the copy before delivery."
+}

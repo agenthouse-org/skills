@@ -11,8 +11,8 @@ from build import release
 class ReleaseTests(unittest.TestCase):
     def test_discovers_current_skills(self):
         items = release.discover()
-        self.assertEqual({x["name"] for x in items}, {"ai-content-disclosure", "adaptive-sales-qualification", "build-innovation-capacity", "create-role-profile", "frontend-acceptance", "skill-antivirus", "web-usability-conformity"})
-        self.assertEqual({x["category"] for x in items}, {"engineering", "governance", "innovation", "organization-design", "sales", "security", "usability"})
+        self.assertEqual({x["name"] for x in items}, {"ai-content-disclosure", "adaptive-sales-qualification", "build-innovation-capacity", "create-role-profile", "frontend-acceptance", "motion-ad", "skill-antivirus", "visual-plan", "web-usability-conformity"})
+        self.assertEqual({x["category"] for x in items}, {"engineering", "governance", "innovation", "marketing", "organization-design", "sales", "security", "usability"})
 
     def test_fixture_skills_are_not_published(self):
         names = {x["name"] for x in release.discover()}

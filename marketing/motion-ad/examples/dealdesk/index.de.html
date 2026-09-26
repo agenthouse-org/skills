@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DealDesk – Von der Anfrage zum Auftrag</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--letterbox, #111111);
+  color: var(--ink, #111111);
+  font-family: Inter, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+#viewport {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+}
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+  color: var(--ink, #111111);
+  user-select: none;
+}
+.beat {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.beat.on { visibility: visible; }
+.beat .sheet {
+  position: absolute;
+  inset: 0;
+  opacity: calc(1 - var(--x, 0));
+  transform: translateY(calc(var(--x, 0) * -24px));
+}
+.stagger > * {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--w, 0.5), 1);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--m, 0)) * var(--rise, 28px)));
+}
+.ln {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--win, 0.5), 1);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.ln > * {
+  display: inline-block;
+  transform: translateY(calc((1 - var(--c)) * 115%));
+}
+.draw {
+  fill: none;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: calc(1 - var(--k, 0));
+}
+#stage a { user-select: text; }
+#bar {
+  width: min(920px, 100%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 14px;
+  color: #ffffff;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+#bar[hidden] { display: none !important; }
+#bar button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+#bar button:focus-visible,
+#stage a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+#scrub { flex: 1; min-width: 120px; }
+#readout { min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+body { --letterbox: #0b2846; background: #0b2846; }
+#stage {
+  --ink: #0b2846;
+  --blue: #1e65d6;
+  --gold: #f09e00;
+  --paper: #ffffff;
+  --soft: #f1f5f9;
+  --line: #dfe5ec;
+  --muted: #6b7280;
+  background: var(--ink);
+  color: #ffffff;
+  font-weight: 700;
+}
+.beat .sheet { opacity: 1; transform: none; overflow: hidden; }
+.hook { z-index: 1; }
+.gaps { z-index: 2; }
+.flow { z-index: 3; }
+.product { z-index: 4; }
+.end { z-index: 5; }
+.kicker, h1, h2, p, ol { margin: 0; }
+ol { padding: 0; list-style: none; }
+.mark {
+  position: absolute;
+  top: 52px;
+  right: 64px;
+  z-index: 3;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+.title {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+.gold { color: var(--gold); }
+.blue { color: var(--blue); }
+.soft { color: rgba(255, 255, 255, 0.62); }
+.wire {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.wire path { fill: none; }
+
+/* 01 — hook */
+.hook .sheet {
+  --s: clamp(0, (var(--p) - 0.38) / 0.5, 1);
+  background: var(--ink);
+}
+.hook .mark { color: rgba(255, 255, 255, 0.5); }
+.hook .outline {
+  position: absolute;
+  left: 0;
+  top: 680px;
+  font-size: 300px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.09);
+  opacity: var(--e);
+  transform: translateX(calc(80px - var(--p) * 1100px));
+}
+.hook .kicker {
+  position: absolute;
+  left: 88px;
+  top: 110px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.hook .title { top: 190px; font-size: 184px; }
+.hook .rule {
+  position: absolute;
+  left: 88px;
+  top: 590px;
+  width: 260px;
+  height: 12px;
+  background: var(--gold);
+  transform: scaleX(clamp(0, (var(--e) - 0.4) / 0.35, 1));
+  transform-origin: left center;
+}
+.hook .chips {
+  position: absolute;
+  left: 88px;
+  top: 800px;
+  display: flex;
+  gap: 22px;
+}
+.chip {
+  --c: clamp(0, (var(--e) - var(--d)) / 0.25, 1);
+  padding: 16px 30px;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  opacity: var(--c);
+  transform: translate(calc(var(--dx) * var(--s)), calc(var(--dy) * var(--s) + (1 - var(--c)) * 70px))
+    rotate(calc(var(--rot) * var(--s)));
+}
+.chip.hot { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* 02 — the gaps */
+.gaps .sheet {
+  --wp: clamp(0, var(--e) * 1.6, 1);
+  --u: clamp(0, (var(--p) - 0.3) / 0.55, 1);
+  background: var(--paper);
+  color: var(--ink);
+  clip-path: inset(calc((1 - var(--wp)) * 100%) 0 0 0);
+}
+.gaps .mark { color: var(--blue); }
+.gaps .title { top: 100px; font-size: 132px; }
+.gaps .sub {
+  position: absolute;
+  left: 84px;
+  top: 378px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.gaps .base {
+  stroke: #c9d3df;
+  stroke-width: 4;
+  stroke-dasharray: 0.005 0.006;
+  opacity: clamp(0, (var(--p) - 0.2) / 0.1, 1);
+}
+.gaps .done { --k: var(--u); stroke: var(--blue); stroke-width: 6; }
+.gaps .packet {
+  stroke: var(--gold);
+  stroke-width: 18;
+  stroke-linecap: round;
+  stroke-dasharray: 0.03 2;
+  stroke-dashoffset: calc(var(--u) * -0.97);
+  opacity: calc(clamp(0, var(--u) * 20, 1) * (1 - clamp(0, (var(--u) - 0.98) * 50, 1)));
+}
+.card {
+  --c: clamp(0, (var(--p) - 0.1 - var(--i) * 0.03) / 0.1, 1);
+  --lit: clamp(0, (var(--u) - var(--f) + 0.01) * 30, 1);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 400px;
+  height: 200px;
+  padding: 26px 28px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px -24px rgba(11, 40, 70, 0.35);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--c)) * 90px - var(--lit) * 10px)) rotate(calc((1 - var(--c)) * var(--r)));
+}
+.card::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: -2px;
+  height: 10px;
+  border-radius: 18px 18px 0 0;
+  background: var(--gold);
+  transform: scaleX(var(--lit));
+  transform-origin: left center;
+}
+.card b { display: block; font-size: 18px; letter-spacing: 0.12em; color: var(--blue); }
+.card strong {
+  display: block;
+  overflow: hidden;
+  margin-top: 8px;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.card span {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--muted);
+}
+.card.hot { background: var(--gold); border-color: var(--gold); }
+.card.hot b, .card.hot span { color: var(--ink); }
+.card.hot::before { background: var(--ink); }
+
+/* 03 — one process */
+.flow .sheet {
+  --wp: clamp(0, var(--e) * 1.6, 1);
+  --f: clamp(0, (var(--p) - 0.15) / 0.45, 1);
+  --a: clamp(0, (var(--p) - 0.58) / 0.15, 1);
+  background: var(--blue);
+  clip-path: inset(0 calc((1 - var(--wp)) * 100%) 0 0);
+}
+.flow .mark { color: rgba(255, 255, 255, 0.7); }
+.flow .title { top: 100px; font-size: 150px; }
+.flow .base { stroke: rgba(255, 255, 255, 0.28); stroke-width: 6; }
+.flow .fill { --k: var(--f); stroke: var(--gold); stroke-width: 10; stroke-linecap: round; }
+.flow .arc { --k: var(--a); stroke: #ffffff; stroke-width: 4; }
+.node, .lab { --lit: clamp(0, (var(--f) - var(--i) * 0.2 + 0.04) * 25, 1); }
+.node {
+  position: absolute;
+  left: var(--x);
+  top: 660px;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 4px solid rgba(255, 255, 255, 0.55);
+  transform: scale(calc(1 + var(--lit) * 0.2));
+}
+.node::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--gold);
+  transform: scale(var(--lit));
+}
+.lab {
+  position: absolute;
+  left: var(--x);
+  top: 540px;
+  text-align: center;
+  white-space: nowrap;
+  opacity: calc(0.3 + var(--lit) * 0.7);
+  transform: translate(-50%, calc((1 - var(--lit)) * 18px));
+}
+.lab b { display: block; font-size: 16px; letter-spacing: 0.14em; color: var(--gold); }
+.lab span { display: block; margin-top: 6px; font-size: 32px; font-weight: 800; letter-spacing: -0.03em; }
+.head {
+  position: absolute;
+  left: 160px;
+  top: 660px;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 0 12px rgba(240, 158, 0, 0.4);
+  opacity: calc(clamp(0, var(--f) * 20, 1) * (1 - clamp(0, (var(--f) - 0.99) * 100, 1)));
+  transform: translateX(calc(var(--f) * 1600px));
+}
+.cap {
+  position: absolute;
+  top: 790px;
+  width: 320px;
+  margin-left: -160px;
+  text-align: center;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.3;
+  opacity: var(--a);
+  transform: translateY(calc((1 - var(--a)) * 16px));
+}
+.cap b { display: block; overflow: hidden; white-space: nowrap; color: var(--gold); font-size: 20px; }
+.flow .note {
+  position: absolute;
+  left: 84px;
+  bottom: 80px;
+  font-size: 30px;
+  font-weight: 700;
+  opacity: clamp(0, (var(--p) - 0.68) / 0.08, 1);
+}
+
+/* 04 — quote, decision, order */
+.product .sheet {
+  --wp: clamp(0, var(--e) * 1.5, 1);
+  --ce: clamp(0, (var(--e) - 0.25) / 0.55, 1);
+  --t1: clamp(0, (var(--p) - 0.16) / 0.05, 1);
+  --t2: clamp(0, (var(--p) - 0.23) / 0.05, 1);
+  --n: calc(clamp(0, (var(--p) - 0.29) / 0.025, 1) + clamp(0, (var(--p) - 0.34) / 0.025, 1));
+  --pr: calc(clamp(0, (var(--p) - 0.385) / 0.02, 1) - clamp(0, (var(--p) - 0.405) / 0.02, 1));
+  --q: clamp(0, (var(--p) - 0.41) / 0.06, 1);
+  --o0: clamp(0, (var(--p) - 0.47) / 0.1, 1);
+  --o: calc(var(--o0) * (2 - var(--o0)));
+  --cap: clamp(0, (var(--p) - 0.66) / 0.06, 1);
+  --s1r: clamp(0, (var(--p) - 0.08) / 0.07, 1);
+  --s2r: clamp(0, (var(--p) - 0.17) / 0.045, 1);
+  --s3r: clamp(0, (var(--p) - 0.24) / 0.04, 1);
+  --s4r: clamp(0, (var(--p) - 0.35) / 0.03, 1);
+  --s1: calc(var(--s1r) * var(--s1r) * (3 - 2 * var(--s1r)));
+  --s2: calc(var(--s2r) * var(--s2r) * (3 - 2 * var(--s2r)));
+  --s3: calc(var(--s3r) * var(--s3r) * (3 - 2 * var(--s3r)));
+  --s4: calc(var(--s4r) * var(--s4r) * (3 - 2 * var(--s4r)));
+  --cx: calc(1900 - 434 * var(--s1) + 108 * var(--s3) - 144 * var(--s4));
+  --cy: calc(1100 - 593 * var(--s1) + 90 * var(--s2) + 90 * var(--s3) + 189 * var(--s4));
+  --tap: calc(
+    clamp(0, (var(--p) - 0.155) / 0.01, 1) - clamp(0, (var(--p) - 0.175) / 0.01, 1)
+    + clamp(0, (var(--p) - 0.225) / 0.01, 1) - clamp(0, (var(--p) - 0.245) / 0.01, 1)
+    + clamp(0, (var(--p) - 0.285) / 0.01, 1) - clamp(0, (var(--p) - 0.305) / 0.01, 1)
+    + clamp(0, (var(--p) - 0.335) / 0.01, 1) - clamp(0, (var(--p) - 0.355) / 0.01, 1)
+    + clamp(0, (var(--p) - 0.385) / 0.01, 1) - clamp(0, (var(--p) - 0.405) / 0.01, 1)
+  );
+  --cur: calc(clamp(0, (var(--p) - 0.08) / 0.03, 1) * (1 - clamp(0, (var(--p) - 0.43) / 0.04, 1)));
+  background: var(--paper);
+  color: var(--ink);
+  clip-path: circle(calc(var(--wp) * 150%) at 80% 50%);
+}
+.product .mark { color: var(--blue); }
+.product .title { top: 300px; right: auto; width: 920px; font-size: 110px; line-height: 0.95; }
+.product .a { --out: clamp(0, (var(--p) - 0.43 - var(--k)) / 0.05, 1); }
+.product .a > span { transform: translateY(calc((1 - var(--c)) * 115% - var(--out) * 115%)); }
+.product .b { --in: clamp(0, (var(--p) - 0.48 - var(--k)) / 0.07, 1); }
+.product .b > span { transform: translateY(calc((1 - var(--in)) * 115%)); }
+
+.quote {
+  position: absolute;
+  left: 1060px;
+  top: 140px;
+  width: 740px;
+  height: 800px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 28px;
+  box-shadow: 0 40px 80px -40px rgba(11, 40, 70, 0.45);
+  opacity: var(--ce);
+  transform: translate(calc(var(--o) * -110px), calc((1 - var(--ce)) * 140px - var(--o) * 50px)) scale(calc(1 - var(--o) * 0.06));
+}
+.quote > * { position: absolute; }
+.bar { display: block; height: 14px; border-radius: 7px; background: #e3e9f0; }
+.q-kicker { left: 48px; top: 46px; font-size: 18px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+.pill {
+  right: 48px;
+  top: 36px;
+  width: 300px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--soft);
+  font-size: 18px;
+  font-weight: 800;
+}
+.pill::before { content: ""; position: absolute; inset: 0; background: var(--gold); opacity: var(--q); }
+.pill span { position: absolute; inset: 0; display: grid; place-items: center; }
+.pill .s1 { opacity: calc(1 - var(--q)); color: var(--muted); }
+.pill .s2 { opacity: var(--q); }
+.q-title { left: 48px; top: 96px; font-size: 54px; font-weight: 800; letter-spacing: -0.04em; }
+.q-sub { left: 48px; top: 172px; width: 300px; }
+.hr { left: 48px; right: 48px; height: 2px; background: var(--line); }
+.row {
+  left: 48px;
+  right: 48px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #eef2f6;
+}
+.rl { width: 320px; flex: none; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+.row .price { margin-left: auto; opacity: calc(0.3 + var(--t, 1) * 0.7); }
+.tag { padding: 8px 16px; border-radius: 999px; background: var(--soft); font-size: 18px; font-weight: 800; color: var(--muted); }
+.tg { position: relative; width: 76px; height: 42px; border-radius: 21px; background: #dfe5ec; }
+.tg::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--blue); opacity: var(--t); }
+.tg i {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transform: translateX(calc(var(--t) * 34px));
+}
+.st { display: flex; align-items: center; gap: 8px; }
+.bt {
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  font-size: 26px;
+  font-weight: 800;
+}
+.slot { width: 64px; height: 44px; overflow: hidden; text-align: center; font-size: 30px; font-weight: 800; line-height: 44px; }
+.slot span { display: block; transform: translateY(calc(var(--n) * -44px)); }
+.total {
+  left: 48px;
+  right: 48px;
+  top: 610px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30px;
+  font-weight: 800;
+}
+.tot {
+  width: 280px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--blue);
+  transform: scaleX(calc(0.35 + var(--t1) * 0.2 + var(--t2) * 0.2 + var(--n) * 0.125));
+  transform-origin: right center;
+}
+.btn {
+  left: 48px;
+  right: 48px;
+  top: 700px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  transform: scale(calc(1 - var(--pr) * 0.05));
+}
+.btn::before { content: ""; position: absolute; inset: 0; background: var(--gold); opacity: var(--q); }
+.btn span { position: absolute; inset: 0; display: grid; place-items: center; }
+.btn .b1 { opacity: calc(1 - var(--q)); }
+.btn .b2 { opacity: var(--q); color: var(--ink); }
+.stamp {
+  left: 300px;
+  max-width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  top: 300px;
+  padding: 10px 26px;
+  border: 6px solid var(--gold);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--gold);
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: var(--q);
+  transform: rotate(-9deg) scale(calc(1.7 - var(--q) * 0.7));
+}
+
+.order {
+  position: absolute;
+  left: 1240px;
+  top: 520px;
+  width: 620px;
+  height: 440px;
+  border-radius: 28px;
+  background: var(--ink);
+  color: #ffffff;
+  box-shadow: 0 40px 80px -30px rgba(11, 40, 70, 0.6);
+  transform: translateY(calc((1 - var(--o)) * 640px)) rotate(calc((1 - var(--o)) * 6deg));
+}
+.order > * { position: absolute; }
+.o-kicker { left: 40px; top: 38px; font-size: 18px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.o-title { left: 40px; right: 40px; overflow: hidden; white-space: nowrap; top: 72px; font-size: 38px; font-weight: 800; letter-spacing: -0.03em; }
+.orow {
+  --r: clamp(0, (var(--p) - 0.56 - var(--j) * 0.035) / 0.05, 1);
+  left: 40px;
+  right: 40px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  opacity: var(--r);
+  transform: translate(calc((1 - var(--r)) * -160px), calc((1 - var(--r)) * -180px));
+}
+.orow .bar { background: rgba(255, 255, 255, 0.85); }
+.orow .bar.dim { margin-left: auto; background: rgba(255, 255, 255, 0.3); }
+.ck { position: relative; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--gold); }
+.ck::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  width: 7px;
+  height: 13px;
+  border: solid var(--ink);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+.o-cap {
+  left: 40px;
+  right: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  top: 356px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+  opacity: var(--cap);
+  transform: translateY(calc((1 - var(--cap)) * 16px));
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 32px;
+  height: 48px;
+  overflow: visible;
+  opacity: var(--cur);
+  transform-origin: 0 0;
+  transform: translate(calc(var(--cx) * 1px), calc(var(--cy) * 1px)) scale(calc(1 - var(--tap) * 0.18));
+}
+.cursor path { fill: var(--ink); stroke: #ffffff; stroke-width: 3; stroke-linejoin: round; }
+.illus {
+  position: absolute;
+  left: 84px;
+  bottom: 56px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* 05 — end card */
+.end .sheet {
+  --w1: clamp(0, var(--e) * 1.5, 1);
+  --w2: clamp(0, (var(--e) - 0.1) * 1.5, 1);
+}
+.end .ring, .end .plate { position: absolute; inset: 0; }
+.end .ring { background: var(--gold); clip-path: circle(calc(var(--w1) * 150%) at 68% 74%); }
+.end .plate {
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  clip-path: circle(calc(var(--w2) * 150%) at 68% 74%);
+}
+.end .lockup { text-align: center; transform: translateY(-30px); }
+.end .logo {
+  --lo: clamp(0, (var(--e) - 0.4) / 0.2, 1);
+  display: block;
+  height: 120px;
+  width: auto;
+  margin: 0 auto 4px;
+  opacity: var(--lo);
+  transform: translateY(calc((1 - var(--lo)) * 30px));
+}
+.end .word { font-size: 240px; font-weight: 800; line-height: 0.9; letter-spacing: -0.06em; }
+.end .ch { --c: clamp(0, (var(--e) - var(--d)) / 0.22, 1); }
+.end .rule {
+  width: 160px;
+  height: 12px;
+  margin: 26px auto 0;
+  background: var(--gold);
+  transform: scaleX(clamp(0, (var(--e) - 0.66) / 0.18, 1));
+}
+.end .claim { margin-top: 28px; font-size: 46px; font-weight: 800; letter-spacing: -0.03em; }
+.end .url { margin-top: 18px; font-size: 26px; font-weight: 700; }
+.end .url a { color: #ffffff; text-underline-offset: 6px; }
+.end .erail {
+  position: absolute;
+  left: 160px;
+  right: 160px;
+  bottom: 110px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: clamp(0, (var(--e) - 0.7) / 0.15, 1);
+}
+.end .erail i {
+  flex: 1;
+  height: 4px;
+  background: var(--gold);
+  transform: scaleX(clamp(0, (var(--e) - 0.72) / 0.22, 1));
+  transform-origin: left center;
+}
+
+</style>
+</head>
+<body>
+<!-- Claims are taken from the DealDesk page in each language (agenthouse.org/en/dealdesk/, agenthouse.org/de/dealdesk/). No customer counts, ratings, or prices. The quote and order cards are an illustration, not a product screenshot. -->
+<div id="viewport">
+  <div id="stage" data-duration="15" data-w="1920" data-h="1080">
+
+    <section class="beat hook" data-in="0" data-out="3.5" data-enter="1.3" data-exit="0.2">
+      <div class="sheet">
+        <div class="outline" data-bleed aria-hidden="true">E-Mail · CRM · Word / Excel · PDF · E-Mail · Erneute Eingabe ·</div>
+        <span class="mark">01 / 05</span>
+        <p class="kicker ln" style="--d: 0"><span>Vom Nebeneinander zum Miteinander</span></p>
+        <h1 class="title" data-fit>
+          <span class="ln" style="--d: 0.1"><span>Eine Anfrage.</span></span>
+          <span class="ln gold" style="--d: 0.24"><span>Viele Übergaben.</span></span>
+        </h1>
+        <div class="rule" aria-hidden="true"></div>
+        <div class="chips" aria-hidden="true">
+          <span class="chip" style="--d: 0.45; --dx: -40px; --dy: -150px; --rot: -12deg">E-Mail</span>
+          <span class="chip" style="--d: 0.5; --dx: 50px; --dy: 90px; --rot: 9deg">CRM</span>
+          <span class="chip" style="--d: 0.55; --dx: 130px; --dy: -110px; --rot: -6deg">Gespräch</span>
+          <span class="chip" style="--d: 0.6; --dx: 200px; --dy: 70px; --rot: 11deg">Word / Excel</span>
+          <span class="chip" style="--d: 0.65; --dx: 280px; --dy: -140px; --rot: -15deg">PDF</span>
+          <span class="chip hot" style="--d: 0.7; --dx: 340px; --dy: 40px; --rot: 8deg">Erneute Eingabe</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat gaps" data-in="2.9" data-out="6.4" data-enter="1.4">
+      <div class="sheet">
+        <span class="mark">02 / 05</span>
+        <h2 class="title" data-fit>
+          <span class="ln" style="--d: 0.3"><span>Es sind die Brüche</span></span>
+          <span class="ln blue" style="--d: 0.4"><span>dazwischen.</span></span>
+        </h2>
+        <p class="sub ln" style="--d: 0.5; --win: 0.45"><span>Die alte Welt: viele Übergaben. Kein gemeinsamer Stand.</span></p>
+        <svg class="wire" viewBox="0 0 1920 1080" aria-hidden="true">
+          <path class="base" pathLength="1" d="M280 570 H1630 V840 H280" />
+          <path class="done draw" pathLength="1" d="M280 570 H1630 V840 H280" />
+          <path class="packet" pathLength="1" d="M280 570 H1630 V840 H280" />
+        </svg>
+        <ol class="cards">
+          <li class="card" style="--i: 0; --f: 0; --x: 80px; --y: 470px; --r: -4deg"><b>01</b><strong data-fit>E-Mail</strong><span>Anfrage bearbeiten</span></li>
+          <li class="card" style="--i: 1; --f: 0.1515; --x: 530px; --y: 470px; --r: 3deg"><b>02</b><strong data-fit>CRM</strong><span>Daten ins CRM eintragen.</span></li>
+          <li class="card" style="--i: 2; --f: 0.303; --x: 980px; --y: 470px; --r: -3deg"><b>03</b><strong data-fit>Gespräch</strong><span>Intern mündlich absprechen</span></li>
+          <li class="card" style="--i: 3; --f: 0.4545; --x: 1430px; --y: 470px; --r: 4deg"><b>04</b><strong data-fit>Word / Excel</strong><span>Angebote in Word oder Excel erstellen.</span></li>
+          <li class="card" style="--i: 4; --f: 0.5455; --x: 1430px; --y: 740px; --r: -3deg"><b>05</b><strong data-fit>Gespräch / Excel</strong><span>Preise und Produktoptionen abstimmen.</span></li>
+          <li class="card" style="--i: 5; --f: 0.697; --x: 980px; --y: 740px; --r: 4deg"><b>06</b><strong data-fit>PDF</strong><span>PDFs versenden.</span></li>
+          <li class="card" style="--i: 6; --f: 0.8485; --x: 530px; --y: 740px; --r: -4deg"><b>07</b><strong data-fit>E-Mail</strong><span>Änderungen per E-Mail koordinieren.</span></li>
+          <li class="card hot" style="--i: 7; --f: 1; --x: 80px; --y: 740px; --r: 3deg"><b>08</b><strong data-fit>Erneute Eingabe</strong><span>Aufträge erneut erfassen.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="beat flow" data-in="5.8" data-out="9.2" data-enter="1">
+      <div class="sheet">
+        <span class="mark">03 / 05</span>
+        <h2 class="title" data-fit>
+          <span class="ln" style="--d: 0.25"><span>Ein Prozess.</span></span>
+          <span class="ln soft" style="--d: 0.35"><span>Ein gemeinsamer Stand.</span></span>
+        </h2>
+        <svg class="wire" viewBox="0 0 1920 1080" aria-hidden="true">
+          <path class="base" d="M160 660 H1760" />
+          <path class="fill draw" pathLength="1" d="M160 660 H1760" />
+          <path class="arc draw" pathLength="1" d="M480 660 C480 800 800 800 800 660" />
+          <path class="arc draw" pathLength="1" d="M1120 660 C1120 800 800 800 800 660" />
+        </svg>
+        <div class="lab" style="--i: 0; --x: 160px"><b>01</b><span>Anfrage</span></div>
+        <div class="lab" style="--i: 1; --x: 480px"><b>02</b><span>Konfiguration</span></div>
+        <div class="lab" style="--i: 2; --x: 800px"><b>03</b><span>Angebot</span></div>
+        <div class="lab" style="--i: 3; --x: 1120px"><b>04</b><span>Kundenentscheidung</span></div>
+        <div class="lab" style="--i: 4; --x: 1440px"><b>05</b><span>Auftrag</span></div>
+        <div class="lab" style="--i: 5; --x: 1760px"><b>06</b><span>Bestätigung</span></div>
+        <span class="node" style="--i: 0; --x: 160px"></span>
+        <span class="node" style="--i: 1; --x: 480px"></span>
+        <span class="node" style="--i: 2; --x: 800px"></span>
+        <span class="node" style="--i: 3; --x: 1120px"></span>
+        <span class="node" style="--i: 4; --x: 1440px"></span>
+        <span class="node" style="--i: 5; --x: 1760px"></span>
+        <span class="head" aria-hidden="true"></span>
+        <p class="cap" style="left: 640px"><b data-fit>Konfiguration ↔ Angebot</b>Leistungen und Preise abstimmen</p>
+        <p class="cap" style="left: 960px"><b data-fit>Kundenentscheidung ↔ Angebot</b>Rückfragen und Auswahl klären</p>
+        <p class="note">Rückfragen und Anpassungen fließen in denselben Vorgang zurück.</p>
+      </div>
+    </section>
+
+    <section class="beat product" data-in="8.6" data-out="12.9" data-enter="0.9">
+      <div class="sheet">
+        <span class="mark">04 / 05</span>
+        <h2 class="title" data-fit>
+          <span class="ln a" style="--d: 0.3; --k: 0"><span>Ihr Angebot</span></span>
+          <span class="ln a" style="--d: 0.36; --k: 0.015"><span>wird zum Ort</span></span>
+          <span class="ln a" style="--d: 0.42; --k: 0.03"><span>der Entscheidung.</span></span>
+        </h2>
+        <h2 class="title" data-fit>
+          <span class="ln b" style="--k: 0"><span>Aus der Zusage</span></span>
+          <span class="ln b blue" style="--k: 0.02"><span>wird der</span></span>
+          <span class="ln b blue" style="--k: 0.04"><span>Auftrag.</span></span>
+        </h2>
+
+        <div class="quote" aria-hidden="true">
+          <span class="q-kicker">Angebot</span>
+          <span class="pill"><span class="s1">Bereit für Ihre Auswahl</span><span class="s2">Angenommen</span></span>
+          <span class="q-title">Ihr Angebot</span>
+          <span class="bar q-sub"></span>
+          <span class="hr" style="top: 214px"></span>
+          <div class="row" style="top: 232px"><span class="rl">Leistung</span><span class="tag">Inklusive</span><span class="bar price" style="width: 130px"></span></div>
+          <div class="row" style="top: 322px; --t: var(--t1)"><span class="rl">Option</span><span class="tg"><i></i></span><span class="bar price" style="width: 110px"></span></div>
+          <div class="row" style="top: 412px; --t: var(--t2)"><span class="rl">Option</span><span class="tg"><i></i></span><span class="bar price" style="width: 96px"></span></div>
+          <div class="row" style="top: 502px"><span class="rl">Menge</span><span class="st"><span class="bt">−</span><span class="slot"><span>1<br>2<br>3</span></span><span class="bt">+</span></span><span class="bar price" style="width: 120px"></span></div>
+          <div class="total"><span>Gesamtpreis</span><span class="tot"></span></div>
+          <span class="btn"><span class="b1">Annehmen</span><span class="b2">Angenommen</span></span>
+          <span class="stamp" data-fit="0.5">Angenommen</span>
+        </div>
+
+        <div class="order" aria-hidden="true">
+          <span class="o-kicker">Auftrag</span>
+          <span class="o-title" data-fit>Aus der Annahme erstellt</span>
+          <div class="orow" style="top: 146px; --j: 0"><span class="ck"></span><span class="bar" style="width: 240px"></span><span class="bar dim" style="width: 90px"></span></div>
+          <div class="orow" style="top: 204px; --j: 1"><span class="ck"></span><span class="bar" style="width: 200px"></span><span class="bar dim" style="width: 90px"></span></div>
+          <div class="orow" style="top: 262px; --j: 2"><span class="ck"></span><span class="bar" style="width: 220px"></span><span class="bar dim" style="width: 90px"></span></div>
+          <span class="o-cap" data-fit>Ohne erneute Erfassung der Positionen.</span>
+        </div>
+
+        <svg class="cursor" viewBox="0 0 32 48" aria-hidden="true"><path d="M0 0 L0 38 L10 29 L17 45 L24 42 L17 27 L30 27 Z" /></svg>
+        <span class="illus">Illustration</span>
+      </div>
+    </section>
+
+    <section class="beat end" data-in="12.3" data-out="15" data-enter="1.3" data-hold="1">
+      <div class="sheet">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="plate">
+          <div class="lockup">
+            <img class="logo" src="https://agenthouse.org/assets/images/agenthouse-logo-sleek.svg" alt="agenthouse">
+            <h2 class="word ln" aria-label="DealDesk">
+              <span class="ch" style="--d: 0.42">D</span><span class="ch" style="--d: 0.45">e</span><span class="ch" style="--d: 0.48">a</span><span class="ch" style="--d: 0.51">l</span><span class="ch" style="--d: 0.54">D</span><span class="ch" style="--d: 0.57">e</span><span class="ch" style="--d: 0.6">s</span><span class="ch" style="--d: 0.63">k</span>
+            </h2>
+            <div class="rule"></div>
+            <p class="claim ln" style="--d: 0.68; --win: 0.25"><span>Von der Anfrage zum Auftrag.</span></p>
+            <p class="url ln" style="--d: 0.74; --win: 0.22"><a href="https://agenthouse.org/de/dealdesk/">agenthouse.org/de/dealdesk</a></p>
+          </div>
+          <div class="erail" aria-hidden="true"><span>Anfrage</span><i></i><span>Auftrag</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<p class="sr-only">DealDesk von agenthouse. Vom Nebeneinander zum Miteinander. Eine Anfrage, viele Übergaben: E-Mail, CRM, Gespräch, Word oder Excel, PDF, erneute Eingabe. Es sind die Brüche dazwischen. Ein Prozess, ein gemeinsamer Stand: Anfrage, Konfiguration, Angebot, Kundenentscheidung, Auftrag, Bestätigung. Rückfragen und Anpassungen fließen in denselben Vorgang zurück. Ihr Angebot wird zum Ort der Entscheidung. Aus der Zusage wird der Auftrag, ohne erneute Erfassung der Positionen. Von der Anfrage zum Auftrag. agenthouse.org/de/dealdesk</p>
+<div id="bar">
+  <button type="button" id="toggle">Play</button>
+  <button type="button" id="replay">Replay</button>
+  <input id="scrub" type="range" min="0" max="15" value="0" aria-label="Time">
+  <span id="readout">0.0s</span>
+</div>
+<script>
+/* Seekable stage clock. Story motion reads --e, --m, --x, --p, and --t. */
+(function () {
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function easeOutBack(t) {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  function mount() {
+    const stage = document.querySelector("#stage");
+    if (!stage) throw new Error("motion-ad: #stage missing");
+
+    const duration = Number(stage.dataset.duration);
+    const width = Number(stage.dataset.w || 1920);
+    const height = Number(stage.dataset.h || 1080);
+    const beats = [...stage.querySelectorAll(".beat")].map((el) => ({
+      el,
+      start: Number(el.dataset.in),
+      end: Number(el.dataset.out),
+      enter: Number(el.dataset.enter || 0.7),
+      exit: Number(el.dataset.exit || 0.35),
+      hold: el.dataset.hold === "1",
+    }));
+
+    stage.querySelectorAll(".stagger").forEach((group) => {
+      const step = Number(group.dataset.step || 0.12);
+      [...group.children].forEach((child, index) => {
+        if (!child.style.getPropertyValue("--d")) {
+          child.style.setProperty("--d", String(index * step));
+        }
+      });
+    });
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const viewport = document.getElementById("viewport");
+    const bar = document.getElementById("bar");
+    const scrub = document.getElementById("scrub");
+    const readout = document.getElementById("readout");
+    const toggle = document.getElementById("toggle");
+    const present = new URLSearchParams(location.search).has("present");
+    if (present && bar) bar.hidden = true;
+
+    let time = 0;
+    let playing = false;
+    let last = 0;
+
+    function fit() {
+      const chrome = bar && !bar.hidden ? bar.offsetHeight : 0;
+      const scale = Math.min(window.innerWidth / width, Math.max(1, window.innerHeight - chrome) / height);
+      if (viewport) {
+        viewport.style.width = width * scale + "px";
+        viewport.style.height = height * scale + "px";
+      }
+      stage.style.width = width + "px";
+      stage.style.height = height + "px";
+      stage.style.transform = "scale(" + scale + ")";
+    }
+
+    function overflows(el) {
+      if (el.scrollWidth > el.clientWidth + 1) return true;
+      return [...el.querySelectorAll(".ln")].some((line) => line.scrollWidth > line.clientWidth + 1);
+    }
+
+    function fitText() {
+      stage.querySelectorAll("[data-fit]").forEach((el) => {
+        el.style.fontSize = "";
+        const base = parseFloat(getComputedStyle(el).fontSize);
+        const min = base * (Number(el.dataset.fit) || 0.6);
+        let size = base;
+        while (size > min && overflows(el)) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+        }
+        el.toggleAttribute("data-fit-overflow", overflows(el));
+      });
+    }
+
+    function setToggle() {
+      if (!toggle) return;
+      toggle.textContent = playing ? "Pause" : "Play";
+    }
+
+    function apply(next) {
+      time = clamp(next, 0, duration);
+      stage.style.setProperty("--t", (duration ? time / duration : 0).toFixed(4));
+      for (const beat of beats) {
+        const holds = beat.hold || beat.end >= duration - 0.001;
+        const visible = holds
+          ? time >= beat.start && time <= duration
+          : time >= beat.start && time < beat.end;
+        const enterRaw = clamp((time - beat.start) / beat.enter, 0, 1);
+        const exitRaw = holds ? 0 : clamp((time - (beat.end - beat.exit)) / beat.exit, 0, 1);
+        const span = Math.max(0.001, beat.end - beat.start);
+        beat.el.classList.toggle("on", visible);
+        beat.el.style.setProperty("--e", easeOutCubic(enterRaw).toFixed(4));
+        beat.el.style.setProperty("--m", easeOutBack(enterRaw).toFixed(4));
+        beat.el.style.setProperty("--x", easeOutCubic(exitRaw).toFixed(4));
+        beat.el.style.setProperty("--p", clamp((time - beat.start) / span, 0, 1).toFixed(4));
+      }
+      if (scrub && document.activeElement !== scrub) scrub.value = String(time);
+      if (readout) readout.textContent = time.toFixed(1) + "s";
+    }
+
+    function frame(now) {
+      if (!playing) return;
+      if (!last) last = now;
+      const delta = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (time + delta >= duration) {
+        apply(duration);
+        playing = false;
+        setToggle();
+        return;
+      }
+      apply(time + delta);
+      requestAnimationFrame(frame);
+    }
+
+    function play() {
+      if (time >= duration - 0.001) time = 0;
+      playing = true;
+      last = 0;
+      setToggle();
+      requestAnimationFrame(frame);
+    }
+
+    function pause() {
+      playing = false;
+      setToggle();
+    }
+
+    function seek(value) {
+      pause();
+      apply(Number(value) || 0);
+    }
+
+    window.addEventListener("resize", fit);
+    if (scrub) {
+      scrub.max = String(duration);
+      scrub.step = "0.01";
+      scrub.addEventListener("input", () => seek(scrub.value));
+    }
+    document.getElementById("replay")?.addEventListener("click", () => {
+      seek(0);
+      play();
+    });
+    toggle?.addEventListener("click", () => {
+      if (playing) pause();
+      else play();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.target && event.target.matches("input, textarea")) return;
+      if (event.code === "Space") {
+        event.preventDefault();
+        if (playing) pause();
+        else play();
+      } else if (event.key === "r" || event.key === "R") {
+        seek(0);
+        play();
+      }
+    });
+
+    fit();
+    fitText();
+    const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    const fitted = fonts.then(() => {
+      fit();
+      fitText();
+      apply(time);
+    });
+    if (reduce) {
+      document.documentElement.classList.add("reduce-motion");
+      apply(Math.max(0, duration - 0.05));
+      pause();
+    } else {
+      apply(0);
+      play();
+    }
+
+    window.ad = {
+      duration,
+      seek,
+      play,
+      pause,
+      getTime: () => time,
+      fitted,
+      ready: true,
+    };
+    return window.ad;
+  }
+
+  window.MotionAd = { mount };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mount);
+  } else {
+    mount();
+  }
+})();
+
+</script>
+</body>
+</html>

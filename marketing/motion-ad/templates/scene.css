@@ -1,0 +1,119 @@
+body { --letterbox: #1a1a1a; }
+#stage {
+  --paper: #f4f0e8;
+  --ink: #1a1a1a;
+  --muted: #5e5a55;
+  --accent: #c2410c;
+  --line: rgba(26, 26, 26, 0.14);
+  background: var(--paper);
+  color: var(--ink);
+}
+.frame {
+  position: absolute;
+  z-index: 4;
+  inset: 22px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+.field {
+  position: absolute;
+  z-index: 0;
+  width: 640px;
+  height: 640px;
+  border-radius: 50%;
+  right: -80px;
+  top: -120px;
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.16), rgba(194, 65, 12, 0) 68%);
+  transform: translate(calc(var(--t, 0) * -70px), calc(var(--t, 0) * 36px));
+}
+.beat { z-index: 1; }
+.end { z-index: 6; }
+.mark {
+  position: absolute;
+  top: 52px;
+  right: 64px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+.kicker, h1, h2, p { margin: 0; }
+.hook h1, .friction h2, .change h2 {
+  position: absolute;
+  left: 96px;
+  top: 280px;
+  font-size: 92px;
+  line-height: 0.96;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+.muted { color: var(--muted); font-weight: 500; }
+.stack.stagger > * { display: block; }
+.chips {
+  position: absolute;
+  left: 96px;
+  right: 96px;
+  bottom: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+.chip {
+  padding: 12px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 22px;
+  font-weight: 600;
+  opacity: clamp(0, (var(--e, 0) - 0.28) / 0.4, 1);
+  transform: translateY(calc(var(--dy, 0px) * clamp(0, (var(--p, 0) - 0.2) / 0.8, 1)))
+    rotate(calc(var(--rot, 0deg) * var(--p, 0)));
+}
+.change .rail {
+  position: absolute;
+  left: 96px;
+  right: 96px;
+  bottom: 250px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(var(--e, 0));
+  transform-origin: left center;
+}
+.change .steps {
+  position: absolute;
+  left: 96px;
+  right: 96px;
+  bottom: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+.change .step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.change .step b {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.end .plate {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  clip-path: circle(calc(var(--e, 0) * 140%) at 50% 50%);
+}
+.end .lockup { text-align: center; }
+.end h2 {
+  font-size: 104px;
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+.end p { margin-top: 18px; font-size: 28px; font-weight: 500; }
+.end .mark { display: none; }

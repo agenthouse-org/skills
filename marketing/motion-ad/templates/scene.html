@@ -1,0 +1,58 @@
+<div id="viewport">
+  <div id="stage" data-scaffold="1" data-duration="15" data-w="1920" data-h="1080">
+    <div class="field" aria-hidden="true"></div>
+    <div class="frame" aria-hidden="true"></div>
+
+    <section class="beat hook" data-in="0" data-out="3.2" data-enter="0.9" data-exit="0.32">
+      <div class="sheet">
+        <span class="mark">01</span>
+        <h1 class="stagger stack" data-step="0.16" data-fit>
+          <span>{{hook.l1}}</span>
+          <span class="muted">{{hook.l2}}</span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="beat friction" data-in="3" data-out="7.2" data-enter="0.8" data-exit="0.32">
+      <div class="sheet">
+        <span class="mark">02</span>
+        <h2 class="stagger stack" data-fit>
+          <span>{{friction.l1}}</span>
+        </h2>
+        <div class="chips" aria-hidden="true">
+          <span class="chip" style="--dy: -36px; --rot: -7deg">{{chip.1}}</span>
+          <span class="chip" style="--dy: 28px; --rot: 5deg">{{chip.2}}</span>
+          <span class="chip" style="--dy: -18px; --rot: -3deg">{{chip.3}}</span>
+          <span class="chip" style="--dy: 22px; --rot: 6deg">{{chip.4}}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat change" data-in="7" data-out="11.2" data-enter="0.85" data-exit="0.32">
+      <div class="sheet">
+        <span class="mark">03</span>
+        <h2 class="stagger stack" data-fit>
+          <span>{{change.l1}}</span>
+        </h2>
+        <div class="rail" aria-hidden="true"></div>
+        <div class="steps stagger" data-step="0.1">
+          <div class="step"><b>01</b><span>{{step.1}}</span></div>
+          <div class="step"><b>02</b><span>{{step.2}}</span></div>
+          <div class="step"><b>03</b><span>{{step.3}}</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat end" data-in="10.95" data-out="15" data-enter="0.8" data-hold="1">
+      <div class="sheet">
+        <div class="plate">
+          <div class="lockup stagger stack" data-step="0.14">
+            <h2>{{end.l1}}</h2>
+            <p>{{end.l2}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<p class="sr-only">{{sr}}</p>

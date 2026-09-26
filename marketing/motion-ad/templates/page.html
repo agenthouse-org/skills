@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="__LANG__">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+__SHELL__
+__SCENE_CSS__
+</style>
+</head>
+<body>
+__SCENE__
+<div id="bar">
+  <button type="button" id="toggle">Play</button>
+  <button type="button" id="replay">Replay</button>
+  <input id="scrub" type="range" min="0" max="15" value="0" aria-label="Time">
+  <span id="readout">0.0s</span>
+</div>
+<script>
+__RUNTIME__
+</script>
+</body>
+</html>

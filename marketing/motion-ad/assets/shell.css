@@ -1,0 +1,100 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--letterbox, #111111);
+  color: var(--ink, #111111);
+  font-family: Inter, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+#viewport {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+}
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+  color: var(--ink, #111111);
+  user-select: none;
+}
+.beat {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.beat.on { visibility: visible; }
+.beat .sheet {
+  position: absolute;
+  inset: 0;
+  opacity: calc(1 - var(--x, 0));
+  transform: translateY(calc(var(--x, 0) * -24px));
+}
+.stagger > * {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--w, 0.5), 1);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--m, 0)) * var(--rise, 28px)));
+}
+.ln {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--win, 0.5), 1);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.ln > * {
+  display: inline-block;
+  transform: translateY(calc((1 - var(--c)) * 115%));
+}
+.draw {
+  fill: none;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: calc(1 - var(--k, 0));
+}
+#stage a { user-select: text; }
+#bar {
+  width: min(920px, 100%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 14px;
+  color: #ffffff;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+#bar[hidden] { display: none !important; }
+#bar button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+#bar button:focus-visible,
+#stage a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+#scrub { flex: 1; min-width: 120px; }
+#readout { min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

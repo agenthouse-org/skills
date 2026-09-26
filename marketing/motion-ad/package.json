@@ -1,0 +1,13 @@
+{
+  "name": "motion-ad",
+  "private": true,
+  "type": "module",
+  "description": "Scripts for the motion-ad skill. Only render.mjs needs the dependency.",
+  "scripts": {
+    "check": "node scripts/check-ad.mjs",
+    "render": "node scripts/render.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}
