@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** [create-role-profile-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-26/create-role-profile-v0.1.0.zip)
-- **Release:** [release-2026-09-26](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-26)
+- **ZIP:** [create-role-profile-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-27/create-role-profile-v0.1.0.zip)
+- **Release:** [release-2026-09-27](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-27)
 - **Install:** `npx skills add agenthouse-org/skills --skill create-role-profile`
 <!-- DOWNLOAD_END -->
 

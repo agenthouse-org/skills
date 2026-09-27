@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.2.0`
-- **ZIP:** [frontend-acceptance-v0.2.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-26/frontend-acceptance-v0.2.0.zip)
-- **Release:** [release-2026-09-26](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-26)
+- **ZIP:** [frontend-acceptance-v0.2.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-27/frontend-acceptance-v0.2.0.zip)
+- **Release:** [release-2026-09-27](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-27)
 - **Install:** `npx skills add agenthouse-org/skills --skill frontend-acceptance`
 <!-- DOWNLOAD_END -->
 
