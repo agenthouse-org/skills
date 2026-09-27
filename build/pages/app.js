@@ -92,6 +92,7 @@ function renderDirectory() {
             <span class="version">v${escapeHtml(skill.version)}</span>
           </div>
           <p>${escapeHtml(skill.description)}</p>
+          ${renderDemos(skill)}
           <div class="actions">
             <a class="button primary" href="${escapeAttr(skill.downloadUrl)}">Download ZIP</a>
             <a class="button secondary" href="${escapeAttr(skill.skillUrl)}">View files</a>
@@ -111,6 +112,20 @@ function renderDirectory() {
         </section>`;
     })
     .join("");
+}
+
+function renderDemos(skill) {
+  const demos = skill.demos || [];
+  if (!demos.length) {
+    return "";
+  }
+  const links = demos
+    .map((demo) => {
+      const label = demo.lang ? demo.lang.toUpperCase() : "Open";
+      return `<a class="demo-link" href="${escapeAttr(demo.url)}" title="${escapeAttr(demo.title)}" hreflang="${escapeAttr(demo.lang)}">${escapeHtml(label)}</a>`;
+    })
+    .join("");
+  return `<div class="demos"><span class="demos-label">Live demo</span>${links}</div>`;
 }
 
 function escapeHtml(value) {

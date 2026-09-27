@@ -23,7 +23,9 @@ Use $motion-ad. Add a German version from the German product page, check that it
 
 ## Worked example
 
-[examples/dealdesk](examples/dealdesk) is a 15-second DealDesk ad in English and German: [index.en.html](examples/dealdesk/index.en.html) and [index.de.html](examples/dealdesk/index.de.html). Open either in a browser. Space pauses, R replays, `?present=1` hides the controls.
+[examples/dealdesk](examples/dealdesk) is a 15-second DealDesk ad in English and German. Watch it live: **[English](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk/index.en.html)** · **[Deutsch](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk/index.de.html)**. Space pauses, R replays, `?present=1` hides the controls.
+
+The skills directory publishes every packed example page (`examples/<name>/index.html` or `index.<lang>.html`) as a live demo on each release.
 
 ## Scripts
 

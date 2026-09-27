@@ -88,6 +88,22 @@ class ReleaseTests(unittest.TestCase):
             self.assertTrue((output / "app.js").is_file())
             self.assertTrue((output / "manifest.json").is_file())
 
+    def test_build_pages_publishes_packed_examples_as_demos(self):
+        items = release.discover()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "pages"
+            release.build_pages(items, "AgentHouse-org/skills", "release-2026-08-08", "2026-08-08", output)
+            catalogue = json.loads((output / "skills.json").read_text(encoding="utf-8"))
+            motion = next(x for x in catalogue["skills"] if x["name"] == "motion-ad")
+            self.assertEqual([d["lang"] for d in motion["demos"]], ["en", "de"])
+            self.assertEqual(motion["demos"][0]["url"], "demos/motion-ad/dealdesk/index.en.html")
+            self.assertIn("DealDesk", motion["demos"][0]["title"])
+            for demo in motion["demos"]:
+                self.assertTrue((output / demo["url"]).is_file(), demo["url"])
+            self.assertFalse((output / "demos/motion-ad/dealdesk/scene.html").exists())
+            sales = next(x for x in catalogue["skills"] if x["name"] == "adaptive-sales-qualification")
+            self.assertEqual(sales["demos"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

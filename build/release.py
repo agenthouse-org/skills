@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import re
 import shutil
@@ -230,9 +231,36 @@ def update_docs(items: list[dict[str, str]], repository: str, release_tag: str, 
     return changed
 
 
-def catalogue_payload(items: list[dict[str, str]], repository: str, release_tag: str, release_date: str) -> dict:
+DEMO_PAGE = re.compile(r"^index(?:\.([a-z]{2,3}(?:-[A-Za-z0-9]+)?))?\.html$")
+
+
+def demo_pages(item: dict[str, str], root: Path = ROOT) -> list[dict[str, str]]:
+    examples = root / item["path"] / "examples"
+    if not examples.is_dir():
+        return []
+    demos = []
+    for example in sorted(p for p in examples.iterdir() if p.is_dir()):
+        for page in sorted(example.iterdir(), key=lambda p: (p.name not in ("index.html", "index.en.html"), p.name)):
+            match = DEMO_PAGE.match(page.name)
+            if not match or not page.is_file():
+                continue
+            title = re.search(r"<title>(.*?)</title>", page.read_text(encoding="utf-8"), flags=re.S)
+            demos.append(
+                {
+                    "example": example.name,
+                    "lang": match.group(1) or "",
+                    "title": html.unescape(title.group(1).strip()) if title else example.name,
+                    "source": page,
+                    "url": f"demos/{item['name']}/{example.name}/{page.name}",
+                }
+            )
+    return demos
+
+
+def catalogue_payload(items: list[dict[str, str]], repository: str, release_tag: str, release_date: str, root: Path = ROOT) -> dict:
     skills = []
     for item in items:
+        demos = [{k: v for k, v in demo.items() if k != "source"} for demo in demo_pages(item, root)]
         skills.append(
             {
                 "name": item["name"],
@@ -247,6 +275,7 @@ def catalogue_payload(items: list[dict[str, str]], repository: str, release_tag:
                 "downloadUrl": download_url(repository, release_tag, item["name"], item["version"]),
                 "releaseUrl": f"https://github.com/{repository}/releases/tag/{release_tag}",
                 "install": f"npx skills add {repository} --skill {item['name']}",
+                "demos": demos,
             }
         )
     categories = sorted({skill["category"] for skill in skills})
@@ -265,11 +294,17 @@ def build_pages(
     release_tag: str,
     release_date: str,
     output: Path,
+    root: Path = ROOT,
 ) -> Path:
     output.mkdir(parents=True, exist_ok=True)
     for name in ("index.html", "styles.css", "app.js"):
         shutil.copyfile(PAGES_SRC / name, output / name)
-    catalogue = catalogue_payload(items, repository, release_tag, release_date)
+    for item in items:
+        for demo in demo_pages(item, root):
+            target = output / demo["url"]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(demo["source"], target)
+    catalogue = catalogue_payload(items, repository, release_tag, release_date, root)
     (output / "skills.json").write_text(json.dumps(catalogue, indent=2) + "\n", encoding="utf-8")
     manifest(items, release_date, repository, release_tag, output)
     return output
