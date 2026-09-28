@@ -1,0 +1,4 @@
+interface:
+  display_name: "Positioning Brief"
+  short_description: "Clarify audience, value, proof, and story in one brief"
+  default_prompt: "Use $positioning-brief to read my sources, ask me only what is missing, and write a one-page positioning and messaging brief with a narrative arc."
