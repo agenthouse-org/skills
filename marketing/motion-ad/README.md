@@ -22,12 +22,18 @@ Use $positioning-brief, then $motion-ad. Build the brief from our website first,
 ```
 
 ```text
+Use $motion-ad. Make a loud version of this ad: same claims, hard cuts, big type.
+```
+
+```text
 Use $motion-ad. Add a German version from the German product page, check that it fits, and export both as WebM.
 ```
 
-## Worked example
+## Worked examples
 
 [examples/dealdesk](examples/dealdesk) is a 15-second DealDesk ad in English and German. Watch it live: **[English](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk/index.en.html)** · **[Deutsch](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk/index.de.html)**. Space pauses, R replays, `?present=1` hides the controls.
+
+[examples/dealdesk-loud](examples/dealdesk-loud) is the same ad from the same claims in the loud register: slams, hard cuts, a color flip at every beat. Watch it live: **[English](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk-loud/index.en.html)** · **[Deutsch](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk-loud/index.de.html)**.
 
 The skills directory publishes every packed example page (`examples/<name>/index.html` or `index.<lang>.html`) as a live demo on each release.
 

@@ -66,6 +66,39 @@ A sub-window of the clock: `--k: clamp(0, (var(--p) - 0.3) / 0.1, 1)` runs from 
 
 **Hand-off.** End on the element that just acted. The last circle wipe can grow out of the button that was clicked.
 
+## Loud register
+
+Loud is a delivery, not a different message. The words, the claims, and the arc stay; tempo, scale, and color go up. [examples/dealdesk-loud](../examples/dealdesk-loud) is the DealDesk piece from the same copy.
+
+What changes:
+
+- **Tempo.** Entrances land in 0.15–0.3s. Beats cut hard: the next beat enters on top with an opaque background, overlapping the last by about 0.05s, with no fade.
+- **Scale.** Display type at 200–300px, one line or one word filling the frame. Several short words can pile up across the frame on purpose.
+- **Color.** A full-bleed flip at every beat, from the brand palette only. Four or five flips in 15 seconds, never a strobe.
+- **Angle.** Small tilts (±3–8°) on stickers and bands. Headlines people must read stay level or close to it.
+
+What does not change:
+
+- Each line still gets its reading time after it lands: about a second for a short headline. Loud is fast in, then still.
+- One accent, one call to action, the end card holds calm enough to read the URL.
+- No bounce. The punch comes from scale, cuts, and color, not from overshoot eases.
+- No more than three full-frame flashes in any one second. Large, bright color flips count as flashes.
+- The reduced-motion path still holds the end card.
+
+Techniques:
+
+**Slam.** The element starts oversized and lands in a few frames: `--s: clamp(0, (var(--p) - var(--d)) / 0.05, 1)`, eased with `--se: calc(1 - (1 - var(--s)) * (1 - var(--s)) * (1 - var(--s)))`, then `transform: scale(calc(1 + (1 - var(--se)) * 1.6)); opacity: clamp(0, var(--s) * 4, 1)`. Put `data-fit` on the slamming element itself.
+
+**Pile.** Short words on solid stickers slam in one after another, each at its own spot and tilt, until the frame is full. Then one band slams across them with the actual line. Each sticker has its own background, so the fit check treats the pile as separate boxes.
+
+**Impact.** When the key line lands, knock the whole sheet for a few frames: a small translate, a fraction of a degree, and a 5% scale so no edge shows. It decays within about 0.2s.
+
+**Split headline.** Render the headline twice, in a top half and a bottom half that each clip it, so together they read as one line. Then drive the halves apart and let the next line appear in the gap. Mark the second copy `aria-hidden`.
+
+**Snap sequence.** Instead of showing a row of steps, show one step word at a time in the same spot, each pushing the last one out sideways in a few frames, while a rail below fills node by node. Hold the last step.
+
+**Pressed button.** A big button, a cursor that arrives, a press of a few pixels, the label turning, and a stamp slamming across it. Then the end card opens out of the button.
+
 ## What to cut
 
 - A full-bleed gradient with a centered sentence and a fade

@@ -20,6 +20,8 @@ Make a short motion graphic as one HTML file that plays in the browser. The piec
 
 Default: 15 seconds, 1920×1080, silent, 4 or 5 beats, one idea each. The words have to carry the message with the sound off.
 
+Two registers. **Calm** is the default: settled entrances, overlapping beats, room around the type. **Loud** is for when the user asks for something bold, crazy, high-energy, or made for a fast feed: slams, hard cuts, a color flip at every beat, type that fills the frame. Both keep the same claims, the same arc, and the same checks. Only the delivery changes. If the user wants both, build two scenes from one copy set.
+
 ## Rules
 
 - Consult, do not interrogate. Ask only what the sources and the brief leave open, one question at a time, with your reading for the user to confirm. If they say go, state your assumptions and continue.
@@ -47,7 +49,7 @@ Default: 15 seconds, 1920×1080, silent, 4 or 5 beats, one idea each. The words 
     - Who is it for?
     - What changes for them? This is the one message.
     - What should they do at the end?
-    - Which tone, and where will it run?
+    - Which tone, calm or loud, and where will it run?
 
     Note only the facts you can point at. Pull colors and the logo from the live site or the design system. When the positioning itself is unclear, suggest running the positioning-brief skill first.
 
@@ -61,7 +63,7 @@ node scripts/new-ad.mjs --dir ad --lang en
 
 This writes `ad/scene.html` (markup with `{{key}}` slots), `ad/scene.css`, `ad/copy.en.json` (the words), and a packed `ad/index.en.html`. Optional: `--duration`, `--width`, `--height`. The scaffold beats are timed for 15s at 1920×1080. If you change the stage size, re-place the layout. 1080×1350 is a 4:5 feed. 1080×1920 is a 9:16 story. Do not just squash a 16:9 layout into another frame. For a one-off single-language page, `--out ad/index.html --title "Name"` packs the scaffold straight to one file.
 
-4. Edit the scene folder, not the packed page. Replace every scaffold line. Put every visible word in the copy file. Set the brand on `#stage` (`--paper`, `--ink`, `--muted`, `--accent`). Study [examples/dealdesk](examples/dealdesk) for the level of finish, not for its colors or claims. Pack after each change:
+4. Edit the scene folder, not the packed page. Replace every scaffold line. Put every visible word in the copy file. Set the brand on `#stage` (`--paper`, `--ink`, `--muted`, `--accent`). Study [examples/dealdesk](examples/dealdesk) (calm) or [examples/dealdesk-loud](examples/dealdesk-loud) (loud) for the level of finish, not for their colors or claims. The loud register's techniques are in [references/craft.md](references/craft.md#loud-register). Pack after each change:
 
 ```bash
 node scripts/pack.mjs --scene ad --all
@@ -77,10 +79,11 @@ Besides the clock and beats, it flags the look of a default ad: radial glows, vi
 
 6. Open the file in a browser. It autoplays. Space pauses. `R` replays. The range scrubs. `?present=1` hides the bar. Seek to each beat just after it has arrived, and once in the hold. Fix overlap, clipping, crowded type, leftovers from the scaffold, and labels that the picture does not support. With reduced motion, the piece holds the end card and does not autoplay.
 
-To rebuild the worked example after editing its scene files:
+To rebuild the worked examples after editing their scene files:
 
 ```bash
 node scripts/pack.mjs --scene examples/dealdesk --all
+node scripts/pack.mjs --scene examples/dealdesk-loud --all
 ```
 
 ## Languages
@@ -91,6 +94,7 @@ One scene, one `copy.<lang>.json` per language, one packed `index.<lang>.html` p
 - Keep the beat structure and timing. Rewrite a headline if the literal translation breaks the rhythm; keep line breaks at sense breaks.
 - German, French, and Finnish run 20–35% longer than English. Put `data-fit` on every text box that has a fixed width (titles, card labels, captions, buttons). The runtime shrinks its font-size until it and its `.ln` lines fit, down to 60% (`data-fit="0.5"` for 50%). Give those boxes a real width (`left` and `right`, or `width`) and `overflow: hidden` so there is something to fit into.
 - Mark decoration that is meant to run off the frame, such as outline marquees, with `data-bleed`.
+- `data-fit` measures once, at the start, when entrances have not landed. Put it on the element that scales or slams, not on its parent, or the parent measures its child at full oversize and shrinks for nothing.
 
 Then check each language in a real browser:
 
@@ -132,6 +136,8 @@ Each `.beat` has `data-in` and `data-out` in seconds, plus optional `data-enter`
 | `--x` | Exit, 0–1. Stays 0 on a held beat |
 | `--p` | Progress across the whole beat, 0–1 |
 | `--t` | Progress across the whole piece, on `#stage` |
+
+These names are taken, and custom properties inherit. Do not use `--x` or `--e` for your own positions: a child reading `left: var(--x)` gets the exit value. Use names like `--lx` and `--ly`.
 
 `.stagger` sets `--d` on each child. Children fade and rise from `--e` and `--m`. Put a second motion on an inner element so it does not fight that `transform`.
 

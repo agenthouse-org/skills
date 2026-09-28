@@ -42,3 +42,21 @@ The run passes when the agent:
 6. does not overwrite an earlier WebM without being asked.
 
 The worked example in [dealdesk](dealdesk) is one passing result: `index.en.html` and `index.de.html`, packed from `scene.html`, `scene.css`, and the two copy files.
+
+## Loud version
+
+Follow up with:
+
+```text
+Now make a loud version: same claims, much more energy.
+```
+
+The run passes when the agent:
+
+1. builds a new scene folder and leaves the calm one untouched;
+2. keeps the claims, the arc, and the call to action, and changes only tempo, scale, color, and cuts;
+3. gives each line about a second of stillness after it lands;
+4. flips color at most once per beat and never strobes; and
+5. passes `check-ad.mjs --strict` and `render.mjs --fit` in every language.
+
+[dealdesk-loud](dealdesk-loud) is one passing result.

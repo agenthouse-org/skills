@@ -1,0 +1,84 @@
+<!-- Loud register. Same claims as examples/dealdesk, taken from agenthouse.org/en/dealdesk/ and agenthouse.org/de/dealdesk/. No customer counts, ratings, or prices. The button is an illustration, not a product screenshot. -->
+<div id="viewport">
+  <div id="stage" data-duration="15" data-w="1920" data-h="1080">
+
+    <section class="beat hook" data-in="0" data-out="3.3" data-enter="0.3" data-exit="0.05">
+      <div class="sheet">
+        <span class="w slam" style="--d: 0.03; --lx: 90px; --ly: 80px; --r: -7deg">{{hook.w1}}</span>
+        <span class="w slam" style="--d: 0.09; --lx: 1380px; --ly: 60px; --r: 6deg">{{hook.w2}}</span>
+        <span class="w slam" style="--d: 0.15; --lx: 600px; --ly: 250px; --r: 3deg">{{hook.w3}}</span>
+        <span class="w slam" style="--d: 0.21; --lx: 120px; --ly: 580px; --r: 8deg">{{hook.w4}}</span>
+        <span class="w slam" style="--d: 0.27; --lx: 1240px; --ly: 540px; --r: -5deg">{{hook.w5}}</span>
+        <span class="w hot slam" style="--d: 0.33; --ly: 820px; --r: -3deg">{{hook.w6}}</span>
+        <div class="band">
+          <h1>
+            <span class="slam" style="--d: 0.46; --z: 0.5" data-fit>{{hook.l1}}</span>
+            <span class="slam gold" style="--d: 0.54; --z: 0.9" data-fit>{{hook.l2}}</span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat gaps" data-in="3.25" data-out="6.5" data-enter="0.2" data-exit="0.05">
+      <div class="sheet">
+        <p class="gapword" data-fit>{{gaps.l2}}</p>
+        <div class="half top">
+          <div class="cut"><h2 class="slam" data-fit>{{gaps.l1}}</h2></div>
+        </div>
+        <div class="half bot" aria-hidden="true">
+          <div class="cut"><h2 class="slam" data-fit>{{gaps.l1}}</h2></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat flow" data-in="6.45" data-out="9.9" data-enter="0.25" data-exit="0.05">
+      <div class="sheet">
+        <div class="big"><h2 class="slam" data-fit>{{flow.l1}}</h2></div>
+        <p class="stp" style="--a: 0.24; --b: 0.34" data-fit>{{step.1}}</p>
+        <p class="stp" style="--a: 0.34; --b: 0.44" data-fit>{{step.2}}</p>
+        <p class="stp" style="--a: 0.44; --b: 0.54" data-fit>{{step.3}}</p>
+        <p class="stp" style="--a: 0.54; --b: 0.64" data-fit>{{step.4}}</p>
+        <p class="stp" style="--a: 0.64; --b: 0.74" data-fit>{{step.5}}</p>
+        <p class="stp gold" style="--a: 0.74; --b: 2" data-fit>{{step.6}}</p>
+        <div class="rail" aria-hidden="true">
+          <i class="fill"></i>
+          <b style="--f: 0"></b><b style="--f: 0.2"></b><b style="--f: 0.4"></b><b style="--f: 0.6"></b><b style="--f: 0.8"></b><b style="--f: 1"></b>
+        </div>
+        <p class="status slam gold" style="--d: 0.8; --z: 0.8" data-fit>{{flow.l2}}</p>
+      </div>
+    </section>
+
+    <section class="beat accept" data-in="9.85" data-out="12.8" data-enter="0.25" data-exit="0.05">
+      <div class="sheet">
+        <h2 class="say">
+          <span class="slam" style="--d: 0" data-fit>{{accept.l1}}</span>
+          <span class="slam" style="--d: 0.05" data-fit>{{accept.l2}}</span>
+          <span class="slam blue" style="--d: 0.1" data-fit>{{accept.l3}}</span>
+        </h2>
+        <div class="btn" aria-hidden="true">
+          <span class="b1">{{btn.accept}}</span>
+          <span class="b2">{{btn.accepted}}</span>
+        </div>
+        <span class="stamp slam" style="--d: 0.48; --z: 2.2; --r: -8deg" data-fit="0.5">{{stamp}}</span>
+        <p class="cap" data-fit>{{accept.cap}}</p>
+        <svg class="cursor" viewBox="0 0 32 48" aria-hidden="true"><path d="M0 0 L0 38 L10 29 L17 45 L24 42 L17 27 L30 27 Z" /></svg>
+        <span class="illus">{{illustration}}</span>
+      </div>
+    </section>
+
+    <section class="beat end" data-in="12.75" data-out="15" data-enter="1" data-hold="1">
+      <div class="sheet">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="plate">
+          <img class="logo" src="https://agenthouse.org/assets/images/agenthouse-logo-sleek.svg" alt="agenthouse">
+          <h2 class="word" aria-label="DealDesk">
+            <span class="ch slam" style="--d: 0.12">D</span><span class="ch slam" style="--d: 0.145">e</span><span class="ch slam" style="--d: 0.17">a</span><span class="ch slam" style="--d: 0.195">l</span><span class="ch slam" style="--d: 0.22">D</span><span class="ch slam" style="--d: 0.245">e</span><span class="ch slam" style="--d: 0.27">s</span><span class="ch slam" style="--d: 0.295">k</span>
+          </h2>
+          <p class="claim slam gold" style="--d: 0.4; --z: 0.6">{{end.claim}}</p>
+          <p class="url slam" style="--d: 0.46; --z: 0.3"><a href="{{end.href}}">{{end.url}}</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<p class="sr-only">{{sr}}</p>

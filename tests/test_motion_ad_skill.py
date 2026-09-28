@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "marketing" / "motion-ad"
 DEALDESK = SKILL / "examples" / "dealdesk"
+LOUD = SKILL / "examples" / "dealdesk-loud"
 
 
 def node(*args: str) -> subprocess.CompletedProcess[str]:
@@ -93,16 +94,38 @@ class MotionAdSkillTests(unittest.TestCase):
             self.assertIn(f'<html lang="{lang}"', html)
             self.assertIn(phrase, html)
 
+    def test_dealdesk_loud_keeps_the_claims_in_both_languages(self):
+        calm = {lang: json.loads((DEALDESK / f"copy.{lang}.json").read_text(encoding="utf-8")) for lang in ("en", "de")}
+        loud = {lang: json.loads((LOUD / f"copy.{lang}.json").read_text(encoding="utf-8")) for lang in ("en", "de")}
+        self.assertEqual(sorted(loud["en"]), sorted(loud["de"]))
+        for lang in ("en", "de"):
+            for key in ("end.claim", "end.href", "end.url", "gaps.l1", "gaps.l2", "flow.l1", "flow.l2", "step.1", "step.6"):
+                self.assertEqual(loud[lang][key], calm[lang][key], f"{lang} {key}")
+
+        packed = node("scripts/pack.mjs", "--scene", "examples/dealdesk-loud", "--all")
+        self.assertEqual(packed.returncode, 0, packed.stderr)
+        self.assertNotIn("warning", packed.stderr)
+        for lang in ("en", "de"):
+            checked = node("scripts/check-ad.mjs", str(LOUD / f"index.{lang}.html"), "--strict")
+            self.assertEqual(checked.returncode, 0, checked.stderr + checked.stdout)
+            self.assertNotIn("warning", checked.stdout)
+
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        craft = (SKILL / "references" / "craft.md").read_text(encoding="utf-8")
+        self.assertIn("examples/dealdesk-loud", skill)
+        self.assertIn("## Loud register", craft)
+
     @unittest.skipUnless((SKILL / "node_modules" / "playwright-core").exists(), "run npm install in the skill for browser checks")
     def test_dealdesk_fits_in_every_language(self):
-        node("scripts/pack.mjs", "--scene", "examples/dealdesk", "--all")
-        result = node(
-            "scripts/render.mjs",
-            str(DEALDESK / "index.en.html"),
-            str(DEALDESK / "index.de.html"),
-            "--fit",
-        )
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for example in (DEALDESK, LOUD):
+            node("scripts/pack.mjs", "--scene", str(example.relative_to(SKILL)), "--all")
+            result = node(
+                "scripts/render.mjs",
+                str(example / "index.en.html"),
+                str(example / "index.de.html"),
+                "--fit",
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_skill_starts_from_a_brief_and_a_story_arc(self):
         skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
