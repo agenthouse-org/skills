@@ -144,7 +144,7 @@ h1, h2, p { margin: 0; }
 .big h2 { display: block; overflow: hidden; text-align: center; white-space: nowrap; }
 .stp {
   --i: clamp(0, (var(--p) - var(--a)) / 0.03, 1);
-  --o: clamp(0, (var(--p) - var(--b)) / 0.025, 1);
+  --o: clamp(0, (var(--p) - var(--b) + 0.02) / 0.02, 1);
   position: absolute;
   left: 80px;
   right: 80px;
@@ -156,10 +156,10 @@ h1, h2, p { margin: 0; }
   letter-spacing: -0.055em;
   white-space: nowrap;
   opacity: calc(clamp(0, var(--i) * 3, 1) * (1 - var(--o)));
-  transform: translateX(calc((1 - var(--i)) * 320px - var(--o) * 320px)) scale(calc(1 + (1 - var(--i)) * 0.35));
+  transform: translateX(calc((1 - var(--i)) * 120px - var(--o) * 160px)) scale(calc(0.88 + var(--i) * 0.12));
 }
 .rail {
-  --rk: clamp(0, (var(--p) - 0.24) / 0.5, 1);
+  --rk: clamp(0, (var(--p) - 0.22) / 0.45, 1);
   position: absolute;
   left: 360px;
   right: 360px;

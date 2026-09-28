@@ -95,7 +95,7 @@ Techniques:
 
 **Split headline.** Render the headline twice, in a top half and a bottom half that each clip it, so together they read as one line. Then drive the halves apart and let the next line appear in the gap. Mark the second copy `aria-hidden`.
 
-**Snap sequence.** Instead of showing a row of steps, show one step word at a time in the same spot, each pushing the last one out sideways in a few frames, while a rail below fills node by node. Hold the last step.
+**Snap sequence.** Instead of showing a row of steps, show one step word at a time in the same spot, each pushing the last one out sideways in a few frames, while a rail below fills node by node. The outgoing word is gone before the next arrives; two words in one spot read as a smear. Enter from slightly smaller, not larger, so a long word never crosses the frame edge. Hold the last step for at least a second.
 
 **Pressed button.** A big button, a cursor that arrives, a press of a few pixels, the label turning, and a stamp slamming across it. Then the end card opens out of the button.
 
