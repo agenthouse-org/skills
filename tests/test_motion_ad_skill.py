@@ -104,6 +104,50 @@ class MotionAdSkillTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_skill_starts_from_a_brief_and_a_story_arc(self):
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        story = (SKILL / "references" / "story.md").read_text(encoding="utf-8")
+        self.assertIn("positioning-brief", skill)
+        self.assertIn("references/story.md", skill)
+        self.assertIn("one question at a time", skill)
+        for framework in ("Strategic narrative", "PAS", "BAB", "ABT", "AIDA"):
+            self.assertIn(framework, story)
+
+    def test_checker_flags_default_looks_and_accepts_reasoned_exceptions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            created = node("scripts/new-ad.mjs", "--dir", str(Path(directory) / "ad"))
+            self.assertEqual(created.returncode, 0, created.stderr)
+            scene = Path(directory) / "ad"
+            html = (scene / "scene.html").read_text(encoding="utf-8").replace(' data-scaffold="1"', "")
+            (scene / "scene.html").write_text(html, encoding="utf-8")
+            css = scene / "scene.css"
+            base = css.read_text(encoding="utf-8")
+            page = scene / "index.en.html"
+            cases = {
+                ".x { background: radial-gradient(circle, red, transparent); }": "radial-gradient",
+                ".x { filter: sepia(1); }": "color grade",
+                ".x { --n: 1; }\n</style><script>Math.random()</script><style>": "randomness",
+            }
+            for rule, message in cases.items():
+                css.write_text(base + "\n" + rule + "\n", encoding="utf-8")
+                node("scripts/pack.mjs", "--scene", str(scene), "--all")
+                loose = node("scripts/check-ad.mjs", str(page))
+                self.assertEqual(loose.returncode, 0, loose.stderr)
+                self.assertIn(message, loose.stdout)
+                strict = node("scripts/check-ad.mjs", str(page), "--strict")
+                self.assertNotEqual(strict.returncode, 0)
+                self.assertIn(message, strict.stderr)
+
+            css.write_text(base + "\n/* ad-ok: the brand's own halo mark */\n.x { background: radial-gradient(circle, red, transparent); }\n", encoding="utf-8")
+            node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            kept = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertEqual(kept.returncode, 0, kept.stderr)
+
+            css.write_text(base + "\n/* ad-ok */\n.x { background: radial-gradient(circle, red, transparent); }\n", encoding="utf-8")
+            node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            bare = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertNotEqual(bare.returncode, 0)
+
     def test_checker_rejects_video(self):
         with tempfile.TemporaryDirectory() as directory:
             page = Path(directory) / "bad.html"

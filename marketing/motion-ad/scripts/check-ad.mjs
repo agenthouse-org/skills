@@ -32,6 +32,25 @@ if (/clamp\([^;{}]*?,\s*0\s*,\s*1\s*\)/.test(css)) {
   errors.push("clamp(value, 0, 1) does not cap at 1; CSS order is clamp(0, value, 1)");
 }
 
+const lines = html.split("\n");
+const code = html
+  .replace(/\/\*[\s\S]*?\*\//g, (comment) => comment.replace(/[^\n]/g, " "))
+  .replace(/<!--[\s\S]*?-->/g, (comment) => comment.replace(/[^\n]/g, " "))
+  .split("\n");
+const kept = (index) => [lines[index], lines[index - 1] || ""].some((line) => /ad-ok:\s*[\p{L}\p{N}]/u.test(line));
+function look(pattern, message) {
+  const found = [];
+  code.forEach((line, index) => {
+    if (pattern.test(line) && !kept(index)) found.push(index + 1);
+  });
+  if (found.length) fail(`${message} (line ${found.slice(0, 5).join(", ")}${found.length > 5 ? ", …" : ""})`);
+}
+look(/\b(repeating-)?radial-gradient\s*\(/i, "radial-gradient: glows and spotlight orbs read as a default backdrop; light the frame with shape, color, and layout");
+look(/vignette/i, "vignette: darkened edges are a filter look; frame the subject instead");
+look(/\b(grayscale|greyscale|sepia|saturate|hue-rotate)\s*\(/i, "CSS filter used as a color grade; author the colors directly");
+look(/\p{Emoji_Presentation}/u, "emoji in the piece; use them only when the brand does");
+look(/\bMath\.random\s*\(|\bDate\.now\s*\(|\bnew Date\s*\(|\bperformance\.now\s*\(/, "randomness or wall-clock time; every frame must follow from the stage clock so scrubbing matches playback");
+
 const durationMatch = html.match(/data-duration="([\d.]+)"/);
 const duration = durationMatch ? Number(durationMatch[1]) : NaN;
 if (!durationMatch || !Number.isFinite(duration) || duration <= 0) {

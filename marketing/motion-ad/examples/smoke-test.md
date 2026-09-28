@@ -13,12 +13,14 @@ Destination: https://agenthouse.org/en/dealdesk/
 The run passes when the agent:
 
 1. reads the destination before writing claims;
-2. produces one HTML file that plays in the browser, with no video inside it;
-3. uses about 15 seconds, four or five beats, and a held end card;
-4. runs `node scripts/check-ad.mjs <file> --strict` and fixes failures;
-5. opens the file and looks at the beats, not only the script output;
-6. does not invent customers, ratings, prices, or results; and
-7. does not export a video nobody asked for.
+2. asks only what the page leaves open, one question at a time, or states its assumptions;
+3. names the story arc it chose and gives each beat one job;
+4. produces one HTML file that plays in the browser, with no video inside it;
+5. uses about 15 seconds, four or five beats, and a held end card;
+6. runs `node scripts/check-ad.mjs <file> --strict` and fixes failures;
+7. opens the file and looks at the beats, not only the script output;
+8. does not invent customers, ratings, prices, or results; and
+9. does not export a video nobody asked for.
 
 The run fails if it leaves the scaffold lines in or states a claim the DealDesk page does not support.
 

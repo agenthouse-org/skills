@@ -1,7 +1,7 @@
 ---
 name: "motion-ad"
 description: "Build a browser-played HTML motion graphic for a product, idea, or message. One self-contained page per language with a timed stage, no video file inside, and an optional WebM export. Use when the user asks for a motion ad, motion design, kinetic typography, a launch graphic, a short animated ad for the web or social, or a translated or exported version of one."
-version: 0.1.0
+version: 0.2.0
 author: "agenthouse"
 license: MIT
 price: 0
@@ -22,6 +22,7 @@ Default: 15 seconds, 1920×1080, silent, 4 or 5 beats, one idea each. The words 
 
 ## Rules
 
+- Consult, do not interrogate. Ask only what the sources and the brief leave open, one question at a time, with your reading for the user to confirm. If they say go, state your assumptions and continue.
 - Read the destination page, brief, or repo before writing copy. Prices, counts, speeds, guarantees, and "free" must appear there. Compress a sentence that is actually on the page; do not add a claim. If the user wants copy the page does not support, write it and say so once.
 - Do not invent customers, reviews, ratings, logos, or results. No proof row when there is no real number. No picture of a person you do not have.
 - Match the brand: colors, type, logo, tone. No hype, no exclamation marks, no emoji unless the brand uses them.
@@ -32,8 +33,8 @@ Default: 15 seconds, 1920×1080, silent, 4 or 5 beats, one idea each. The words 
 ## Workflow
 
 ```
-- [ ] Research the subject and the page the ad points at
-- [ ] Storyboard 4–5 beats
+- [ ] Brief: use the one given, or read the sources and ask what is missing
+- [ ] Storyboard 4–5 beats from one story arc
 - [ ] Scaffold, then rewrite copy, color, and layout
 - [ ] check-ad.mjs --strict
 - [ ] Play it in a browser and fix what you can see
@@ -41,9 +42,16 @@ Default: 15 seconds, 1920×1080, silent, 4 or 5 beats, one idea each. The words 
 - [ ] WebM, if asked: render.mjs --webm
 ```
 
-1. Research. Note the promise, the audience, the format, and only the facts you can point at. Pull colors and the logo from the live site or the design system. Ask only if the subject or the destination is missing.
+1. Brief. If a positioning brief exists, from the positioning-brief skill or from the user, take its audience, promise, proof, do-not-claim list, tone, call to action, and arc. Otherwise read the sources, then ask only what they leave open:
 
-2. Storyboard. One short headline per beat. Overlap beats by about 0.2–0.4s. The last beat holds. Read [references/craft.md](references/craft.md) before you invent a transition.
+    - Who is it for?
+    - What changes for them? This is the one message.
+    - What should they do at the end?
+    - Which tone, and where will it run?
+
+    Note only the facts you can point at. Pull colors and the logo from the live site or the design system. When the positioning itself is unclear, suggest running the positioning-brief skill first.
+
+2. Storyboard. Choose one arc from [references/story.md](references/story.md) (strategic narrative, PAS, BAB, ABT, or AIDA) and give each beat one job. One short headline per beat. Overlap beats by about 0.2–0.4s. The last beat holds. Read [references/craft.md](references/craft.md) before you invent a transition.
 
 3. Scaffold a scene folder from this skill's directory:
 
@@ -64,6 +72,8 @@ node scripts/pack.mjs --scene ad --all
 ```bash
 node scripts/check-ad.mjs ad/index.en.html --strict
 ```
+
+Besides the clock and beats, it flags the look of a default ad: radial glows, vignettes, CSS filters standing in for a color grade, emoji, and randomness or wall-clock time that breaks scrubbing. To keep one on purpose, put a comment with a reason on the same line or the line above: `/* ad-ok: the brand's own halo mark */`. A bare `ad-ok` without a reason does not count.
 
 6. Open the file in a browser. It autoplays. Space pauses. `R` replays. The range scrubs. `?present=1` hides the bar. Seek to each beat just after it has arrived, and once in the hold. Fix overlap, clipping, crowded type, leftovers from the scaffold, and labels that the picture does not support. With reduced motion, the piece holds the end card and does not autoplay.
 
@@ -118,7 +128,7 @@ Each `.beat` has `data-in` and `data-out` in seconds, plus optional `data-enter`
 | Property | Meaning |
 |---|---|
 | `--e` | Entrance, eased, 0–1 |
-| `--m` | Entrance with a slight overshoot, for transforms |
+| `--m` | Entrance with a light settle (about 4% overshoot), for transforms |
 | `--x` | Exit, 0–1. Stays 0 on a held beat |
 | `--p` | Progress across the whole beat, 0–1 |
 | `--t` | Progress across the whole piece, on `#stage` |
@@ -131,4 +141,4 @@ Wrap beat content in `.sheet` so the exit fade has something to fade.
 
 ## Delivery
 
-Report the file path for each language, the beat times and lines, and any claim you compressed or could not ground. If you exported, give the WebM path and size. Do not describe a video you did not make.
+Report the file path for each language, the arc you used, the beat times and lines, the assumptions you made, and any claim you compressed or could not ground. If you exported, give the WebM path and size. Do not describe a video you did not make.

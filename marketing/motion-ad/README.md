@@ -18,6 +18,10 @@ Use $motion-ad. Make a 15-second HTML motion ad for this product. Read the page 
 ```
 
 ```text
+Use $positioning-brief, then $motion-ad. Build the brief from our website first, then a 15-second ad from its story arc.
+```
+
+```text
 Use $motion-ad. Add a German version from the German product page, check that it fits, and export both as WebM.
 ```
 
@@ -35,7 +39,7 @@ Run from the skill directory with Node 18 or newer.
 |---|---|
 | `scripts/new-ad.mjs` | Scaffolds a scene folder (markup, styles, English copy) |
 | `scripts/pack.mjs` | Packs a scene and a copy file into one self-contained page, or `--all` languages |
-| `scripts/check-ad.mjs` | Static checks: clock, beats, reduced motion, no video, no leftovers |
+| `scripts/check-ad.mjs` | Static checks: clock, beats, reduced motion, no video, no leftovers, no default looks (glows, filter grades, emoji, randomness) |
 | `scripts/render.mjs` | Browser checks and export: `--fit`, `--stills`, `--webm` |
 
 `render.mjs` needs `npm install` (for `playwright-core`), Chrome or Edge, and `ffmpeg` for WebM.
