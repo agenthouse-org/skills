@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "marketing" / "motion-ad"
 DEALDESK = SKILL / "examples" / "dealdesk"
+LOUD = SKILL / "examples" / "dealdesk-loud"
 
 
 def node(*args: str) -> subprocess.CompletedProcess[str]:
@@ -93,16 +94,82 @@ class MotionAdSkillTests(unittest.TestCase):
             self.assertIn(f'<html lang="{lang}"', html)
             self.assertIn(phrase, html)
 
+    def test_dealdesk_loud_keeps_the_claims_in_both_languages(self):
+        calm = {lang: json.loads((DEALDESK / f"copy.{lang}.json").read_text(encoding="utf-8")) for lang in ("en", "de")}
+        loud = {lang: json.loads((LOUD / f"copy.{lang}.json").read_text(encoding="utf-8")) for lang in ("en", "de")}
+        self.assertEqual(sorted(loud["en"]), sorted(loud["de"]))
+        for lang in ("en", "de"):
+            for key in ("end.claim", "end.href", "end.url", "gaps.l1", "gaps.l2", "flow.l1", "flow.l2", "step.1", "step.6"):
+                self.assertEqual(loud[lang][key], calm[lang][key], f"{lang} {key}")
+
+        packed = node("scripts/pack.mjs", "--scene", "examples/dealdesk-loud", "--all")
+        self.assertEqual(packed.returncode, 0, packed.stderr)
+        self.assertNotIn("warning", packed.stderr)
+        for lang in ("en", "de"):
+            checked = node("scripts/check-ad.mjs", str(LOUD / f"index.{lang}.html"), "--strict")
+            self.assertEqual(checked.returncode, 0, checked.stderr + checked.stdout)
+            self.assertNotIn("warning", checked.stdout)
+
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        craft = (SKILL / "references" / "craft.md").read_text(encoding="utf-8")
+        self.assertIn("examples/dealdesk-loud", skill)
+        self.assertIn("## Loud register", craft)
+
     @unittest.skipUnless((SKILL / "node_modules" / "playwright-core").exists(), "run npm install in the skill for browser checks")
     def test_dealdesk_fits_in_every_language(self):
-        node("scripts/pack.mjs", "--scene", "examples/dealdesk", "--all")
-        result = node(
-            "scripts/render.mjs",
-            str(DEALDESK / "index.en.html"),
-            str(DEALDESK / "index.de.html"),
-            "--fit",
-        )
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for example in (DEALDESK, LOUD):
+            node("scripts/pack.mjs", "--scene", str(example.relative_to(SKILL)), "--all")
+            result = node(
+                "scripts/render.mjs",
+                str(example / "index.en.html"),
+                str(example / "index.de.html"),
+                "--fit",
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_skill_starts_from_a_brief_and_a_story_arc(self):
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        story = (SKILL / "references" / "story.md").read_text(encoding="utf-8")
+        self.assertIn("positioning-brief", skill)
+        self.assertIn("references/story.md", skill)
+        self.assertIn("one question at a time", skill)
+        for framework in ("Strategic narrative", "PAS", "BAB", "ABT", "AIDA"):
+            self.assertIn(framework, story)
+
+    def test_checker_flags_default_looks_and_accepts_reasoned_exceptions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            created = node("scripts/new-ad.mjs", "--dir", str(Path(directory) / "ad"))
+            self.assertEqual(created.returncode, 0, created.stderr)
+            scene = Path(directory) / "ad"
+            html = (scene / "scene.html").read_text(encoding="utf-8").replace(' data-scaffold="1"', "")
+            (scene / "scene.html").write_text(html, encoding="utf-8")
+            css = scene / "scene.css"
+            base = css.read_text(encoding="utf-8")
+            page = scene / "index.en.html"
+            cases = {
+                ".x { background: radial-gradient(circle, red, transparent); }": "radial-gradient",
+                ".x { filter: sepia(1); }": "color grade",
+                ".x { --n: 1; }\n</style><script>Math.random()</script><style>": "randomness",
+            }
+            for rule, message in cases.items():
+                css.write_text(base + "\n" + rule + "\n", encoding="utf-8")
+                node("scripts/pack.mjs", "--scene", str(scene), "--all")
+                loose = node("scripts/check-ad.mjs", str(page))
+                self.assertEqual(loose.returncode, 0, loose.stderr)
+                self.assertIn(message, loose.stdout)
+                strict = node("scripts/check-ad.mjs", str(page), "--strict")
+                self.assertNotEqual(strict.returncode, 0)
+                self.assertIn(message, strict.stderr)
+
+            css.write_text(base + "\n/* ad-ok: the brand's own halo mark */\n.x { background: radial-gradient(circle, red, transparent); }\n", encoding="utf-8")
+            node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            kept = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertEqual(kept.returncode, 0, kept.stderr)
+
+            css.write_text(base + "\n/* ad-ok */\n.x { background: radial-gradient(circle, red, transparent); }\n", encoding="utf-8")
+            node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            bare = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertNotEqual(bare.returncode, 0)
 
     def test_checker_rejects_video(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -1,0 +1,340 @@
+body { --letterbox: #0b2846; background: #0b2846; }
+#stage {
+  --ink: #0b2846;
+  --blue: #1e65d6;
+  --gold: #f09e00;
+  --paper: #ffffff;
+  background: var(--ink);
+  color: var(--ink);
+  font-weight: 800;
+}
+.beat .sheet { opacity: 1; transform: none; overflow: hidden; }
+.hook { z-index: 1; }
+.gaps { z-index: 2; }
+.flow { z-index: 3; }
+.accept { z-index: 4; }
+.end { z-index: 5; }
+h1, h2, p { margin: 0; }
+.gold { color: var(--gold); }
+.blue { color: var(--blue); }
+
+/* A slam: arrives oversized and lands in about 0.15s. --d is when, as a share of the beat; --z is how much bigger it starts. */
+.slam {
+  --s: clamp(0, (var(--p) - var(--d, 0)) / var(--w, 0.05), 1);
+  --se: calc(1 - (1 - var(--s)) * (1 - var(--s)) * (1 - var(--s)));
+  display: inline-block;
+  opacity: clamp(0, var(--s) * 4, 1);
+  transform: rotate(var(--r, 0deg)) scale(calc(1 + (1 - var(--se)) * var(--z, 1.6)));
+}
+
+/* 01 — the pile of handovers */
+.hook .sheet {
+  --kick: calc(clamp(0, (var(--p) - 0.46) / 0.02, 1) * (1 - clamp(0, (var(--p) - 0.48) / 0.07, 1)));
+  background: var(--gold);
+  transform: translate(calc(var(--kick) * -22px), calc(var(--kick) * 14px)) rotate(calc(var(--kick) * -0.8deg)) scale(calc(1 + var(--kick) * 0.05));
+}
+.w {
+  position: absolute;
+  left: var(--lx, auto);
+  top: var(--ly);
+  padding: 14px 44px 26px;
+  border-radius: 28px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 150px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  --z: 1.8;
+}
+.w.hot { right: 90px; background: #ffffff; color: var(--ink); }
+.band {
+  --b: clamp(0, (var(--p) - 0.42) / 0.06, 1);
+  position: absolute;
+  left: -60px;
+  right: -60px;
+  top: 330px;
+  height: 400px;
+  padding-left: 140px;
+  display: flex;
+  align-items: center;
+  background: var(--ink);
+  color: #ffffff;
+  transform: rotate(-3deg) translateX(calc((1 - var(--b) * (2 - var(--b))) * -110%));
+}
+.band h1 {
+  font-size: 150px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+}
+.band h1 .slam {
+  display: block;
+  width: 1680px;
+  overflow: hidden;
+  white-space: nowrap;
+  transform-origin: left center;
+}
+
+/* 02 — the gap opens through the headline */
+.gaps .sheet {
+  --g: clamp(0, (var(--p) - 0.3) / 0.12, 1);
+  --gk: calc(var(--g) * var(--g) * (3 - 2 * var(--g)));
+  background: var(--gold);
+}
+.half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 540px;
+  overflow: hidden;
+  background: var(--paper);
+}
+.half.top { top: 0; transform: translateY(calc(var(--gk) * -250px)); }
+.half.bot { top: 540px; transform: translateY(calc(var(--gk) * 250px)); }
+.cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1080px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.half.top .cut { top: 0; }
+.half.bot .cut { top: -540px; }
+.cut h2 {
+  --z: 0.6;
+  width: 1760px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 260px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+.gapword {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 430px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 190px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  opacity: var(--gk);
+  transform: scale(calc(0.6 + var(--gk) * 0.4));
+}
+
+/* 03 — one step at a time, snapping through */
+.flow .sheet { background: var(--blue); color: #ffffff; }
+.big {
+  --mv: clamp(0, (var(--p) - 0.17) / 0.07, 1);
+  --mk: calc(var(--mv) * (2 - var(--mv)));
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 300px;
+  font-size: 250px;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+  transform: translateY(calc(var(--mk) * -250px)) scale(calc(1 - var(--mk) * 0.55));
+}
+.big h2 { display: block; overflow: hidden; text-align: center; white-space: nowrap; }
+.stp {
+  --i: clamp(0, (var(--p) - var(--a)) / 0.03, 1);
+  --o: clamp(0, (var(--p) - var(--b) + 0.02) / 0.02, 1);
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 380px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 200px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  opacity: calc(clamp(0, var(--i) * 3, 1) * (1 - var(--o)));
+  transform: translateX(calc((1 - var(--i)) * 120px - var(--o) * 160px)) scale(calc(0.88 + var(--i) * 0.12));
+}
+.rail {
+  --rk: clamp(0, (var(--p) - 0.22) / 0.45, 1);
+  position: absolute;
+  left: 360px;
+  right: 360px;
+  top: 760px;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.rail .fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #ffffff;
+  transform-origin: left center;
+  transform: scaleX(var(--rk));
+}
+.rail b {
+  --lit: clamp(0, (var(--rk) - var(--f) + 0.01) * 30, 1);
+  position: absolute;
+  left: calc(var(--f) * 100%);
+  top: 6px;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: calc(0.25 + var(--lit) * 0.75);
+  transform: scale(calc(0.6 + var(--lit) * 0.4));
+}
+.status {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 840px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 110px;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  display: block;
+}
+
+/* 04 — the button gets pressed */
+.accept .sheet {
+  --pr: calc(clamp(0, (var(--p) - 0.36) / 0.03, 1) * (1 - clamp(0, (var(--p) - 0.41) / 0.04, 1)));
+  --ak: clamp(0, (var(--p) - 0.39) / 0.03, 1);
+  --cv: clamp(0, (var(--p) - 0.1) / 0.24, 1);
+  --ck: calc(var(--cv) * var(--cv) * (3 - 2 * var(--cv)));
+  background: var(--paper);
+}
+.say {
+  position: absolute;
+  left: 80px;
+  top: 230px;
+  font-size: 160px;
+  line-height: 1.12;
+  letter-spacing: -0.06em;
+}
+.say .slam {
+  --z: 0.7;
+  display: block;
+  width: 900px;
+  overflow: hidden;
+  white-space: nowrap;
+  transform-origin: left center;
+}
+.btn {
+  position: absolute;
+  left: 1080px;
+  top: 430px;
+  width: 720px;
+  height: 220px;
+  border-radius: 110px;
+  background: var(--gold);
+  box-shadow: 0 10px 0 #b87800;
+  transform: translateY(calc(var(--pr) * 8px)) scale(calc(1 - var(--pr) * 0.05));
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ink);
+  opacity: var(--ak);
+}
+.btn span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  letter-spacing: -0.04em;
+}
+.btn .b1 { color: var(--ink); opacity: calc(1 - var(--ak)); }
+.btn .b2 { color: #ffffff; opacity: var(--ak); }
+.stamp {
+  position: absolute;
+  left: 1180px;
+  top: 250px;
+  width: 520px;
+  overflow: hidden;
+  padding: 10px 30px 18px;
+  border: 10px solid var(--gold);
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--gold);
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cap {
+  --cp: clamp(0, (var(--p) - 0.56) / 0.06, 1);
+  position: absolute;
+  left: 1080px;
+  top: 730px;
+  width: 760px;
+  overflow: hidden;
+  font-size: 54px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  opacity: var(--cp);
+  transform: translateX(calc((1 - var(--cp)) * 80px));
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 96px;
+  fill: var(--ink);
+  stroke: #ffffff;
+  stroke-width: 2;
+  transform: translate(calc(1960px - var(--ck) * 480px), calc(1140px - var(--ck) * 560px + var(--pr) * 8px));
+}
+.illus {
+  position: absolute;
+  left: 80px;
+  top: 1000px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+/* 05 — the pressed button opens into the end card */
+.end .sheet { --wp: clamp(0, var(--e) * 1.8, 1); }
+.end .ring {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: circle(calc(var(--wp) * 150%) at 75% 50%);
+}
+.end .plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-align: center;
+}
+.end .logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 4px;
+  opacity: clamp(0, (var(--p) - 0.08) / 0.1, 1);
+}
+.end .word { font-size: 300px; line-height: 0.9; letter-spacing: -0.06em; white-space: nowrap; }
+.end .ch { --z: 1.2; --w: 0.035; }
+.end .claim { margin-top: 36px; font-size: 72px; letter-spacing: -0.035em; }
+.end .url { margin-top: 22px; font-size: 30px; font-weight: 700; }
+.end .url a { color: #ffffff; text-underline-offset: 6px; }

@@ -11,7 +11,7 @@ from build import release
 class ReleaseTests(unittest.TestCase):
     def test_discovers_current_skills(self):
         items = release.discover()
-        self.assertEqual({x["name"] for x in items}, {"ai-content-disclosure", "adaptive-sales-qualification", "build-innovation-capacity", "create-role-profile", "frontend-acceptance", "motion-ad", "skill-antivirus", "visual-plan", "web-usability-conformity"})
+        self.assertEqual({x["name"] for x in items}, {"ai-content-disclosure", "adaptive-sales-qualification", "build-innovation-capacity", "create-role-profile", "frontend-acceptance", "motion-ad", "positioning-brief", "skill-antivirus", "visual-plan", "web-usability-conformity"})
         self.assertEqual({x["category"] for x in items}, {"engineering", "governance", "innovation", "marketing", "organization-design", "sales", "security", "usability"})
 
     def test_fixture_skills_are_not_published(self):
@@ -95,8 +95,9 @@ class ReleaseTests(unittest.TestCase):
             release.build_pages(items, "AgentHouse-org/skills", "release-2026-08-08", "2026-08-08", output)
             catalogue = json.loads((output / "skills.json").read_text(encoding="utf-8"))
             motion = next(x for x in catalogue["skills"] if x["name"] == "motion-ad")
-            self.assertEqual([d["lang"] for d in motion["demos"]], ["en", "de"])
+            self.assertEqual([d["lang"] for d in motion["demos"]], ["en", "de", "en", "de"])
             self.assertEqual(motion["demos"][0]["url"], "demos/motion-ad/dealdesk/index.en.html")
+            self.assertEqual(motion["demos"][2]["url"], "demos/motion-ad/dealdesk-loud/index.en.html")
             self.assertIn("DealDesk", motion["demos"][0]["title"])
             for demo in motion["demos"]:
                 self.assertTrue((output / demo["url"]).is_file(), demo["url"])

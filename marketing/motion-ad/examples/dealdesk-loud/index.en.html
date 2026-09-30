@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DealDesk — From enquiry to order (loud)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--letterbox, #111111);
+  color: var(--ink, #111111);
+  font-family: Inter, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+#viewport {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+}
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+  background: var(--paper, #ffffff);
+  color: var(--ink, #111111);
+  user-select: none;
+}
+.beat {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.beat.on { visibility: visible; }
+.beat .sheet {
+  position: absolute;
+  inset: 0;
+  opacity: calc(1 - var(--x, 0));
+  transform: translateY(calc(var(--x, 0) * -24px));
+}
+.stagger > * {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--w, 0.5), 1);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--m, 0)) * var(--rise, 28px)));
+}
+.ln {
+  --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--win, 0.5), 1);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.ln > * {
+  display: inline-block;
+  transform: translateY(calc((1 - var(--c)) * 115%));
+}
+.draw {
+  fill: none;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: calc(1 - var(--k, 0));
+}
+#stage a { user-select: text; }
+#bar {
+  width: min(920px, 100%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 14px;
+  color: #ffffff;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+#bar[hidden] { display: none !important; }
+#bar button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+#bar button:focus-visible,
+#stage a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+#scrub { flex: 1; min-width: 120px; }
+#readout { min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+body { --letterbox: #0b2846; background: #0b2846; }
+#stage {
+  --ink: #0b2846;
+  --blue: #1e65d6;
+  --gold: #f09e00;
+  --paper: #ffffff;
+  background: var(--ink);
+  color: var(--ink);
+  font-weight: 800;
+}
+.beat .sheet { opacity: 1; transform: none; overflow: hidden; }
+.hook { z-index: 1; }
+.gaps { z-index: 2; }
+.flow { z-index: 3; }
+.accept { z-index: 4; }
+.end { z-index: 5; }
+h1, h2, p { margin: 0; }
+.gold { color: var(--gold); }
+.blue { color: var(--blue); }
+
+/* A slam: arrives oversized and lands in about 0.15s. --d is when, as a share of the beat; --z is how much bigger it starts. */
+.slam {
+  --s: clamp(0, (var(--p) - var(--d, 0)) / var(--w, 0.05), 1);
+  --se: calc(1 - (1 - var(--s)) * (1 - var(--s)) * (1 - var(--s)));
+  display: inline-block;
+  opacity: clamp(0, var(--s) * 4, 1);
+  transform: rotate(var(--r, 0deg)) scale(calc(1 + (1 - var(--se)) * var(--z, 1.6)));
+}
+
+/* 01 — the pile of handovers */
+.hook .sheet {
+  --kick: calc(clamp(0, (var(--p) - 0.46) / 0.02, 1) * (1 - clamp(0, (var(--p) - 0.48) / 0.07, 1)));
+  background: var(--gold);
+  transform: translate(calc(var(--kick) * -22px), calc(var(--kick) * 14px)) rotate(calc(var(--kick) * -0.8deg)) scale(calc(1 + var(--kick) * 0.05));
+}
+.w {
+  position: absolute;
+  left: var(--lx, auto);
+  top: var(--ly);
+  padding: 14px 44px 26px;
+  border-radius: 28px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 150px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  --z: 1.8;
+}
+.w.hot { right: 90px; background: #ffffff; color: var(--ink); }
+.band {
+  --b: clamp(0, (var(--p) - 0.42) / 0.06, 1);
+  position: absolute;
+  left: -60px;
+  right: -60px;
+  top: 330px;
+  height: 400px;
+  padding-left: 140px;
+  display: flex;
+  align-items: center;
+  background: var(--ink);
+  color: #ffffff;
+  transform: rotate(-3deg) translateX(calc((1 - var(--b) * (2 - var(--b))) * -110%));
+}
+.band h1 {
+  font-size: 150px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+}
+.band h1 .slam {
+  display: block;
+  width: 1680px;
+  overflow: hidden;
+  white-space: nowrap;
+  transform-origin: left center;
+}
+
+/* 02 — the gap opens through the headline */
+.gaps .sheet {
+  --g: clamp(0, (var(--p) - 0.3) / 0.12, 1);
+  --gk: calc(var(--g) * var(--g) * (3 - 2 * var(--g)));
+  background: var(--gold);
+}
+.half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 540px;
+  overflow: hidden;
+  background: var(--paper);
+}
+.half.top { top: 0; transform: translateY(calc(var(--gk) * -250px)); }
+.half.bot { top: 540px; transform: translateY(calc(var(--gk) * 250px)); }
+.cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1080px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.half.top .cut { top: 0; }
+.half.bot .cut { top: -540px; }
+.cut h2 {
+  --z: 0.6;
+  width: 1760px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 260px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+.gapword {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 430px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 190px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  opacity: var(--gk);
+  transform: scale(calc(0.6 + var(--gk) * 0.4));
+}
+
+/* 03 — one step at a time, snapping through */
+.flow .sheet { background: var(--blue); color: #ffffff; }
+.big {
+  --mv: clamp(0, (var(--p) - 0.17) / 0.07, 1);
+  --mk: calc(var(--mv) * (2 - var(--mv)));
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 300px;
+  font-size: 250px;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+  transform: translateY(calc(var(--mk) * -250px)) scale(calc(1 - var(--mk) * 0.55));
+}
+.big h2 { display: block; overflow: hidden; text-align: center; white-space: nowrap; }
+.stp {
+  --i: clamp(0, (var(--p) - var(--a)) / 0.03, 1);
+  --o: clamp(0, (var(--p) - var(--b) + 0.02) / 0.02, 1);
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 380px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 200px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  opacity: calc(clamp(0, var(--i) * 3, 1) * (1 - var(--o)));
+  transform: translateX(calc((1 - var(--i)) * 120px - var(--o) * 160px)) scale(calc(0.88 + var(--i) * 0.12));
+}
+.rail {
+  --rk: clamp(0, (var(--p) - 0.22) / 0.45, 1);
+  position: absolute;
+  left: 360px;
+  right: 360px;
+  top: 760px;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.rail .fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #ffffff;
+  transform-origin: left center;
+  transform: scaleX(var(--rk));
+}
+.rail b {
+  --lit: clamp(0, (var(--rk) - var(--f) + 0.01) * 30, 1);
+  position: absolute;
+  left: calc(var(--f) * 100%);
+  top: 6px;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: calc(0.25 + var(--lit) * 0.75);
+  transform: scale(calc(0.6 + var(--lit) * 0.4));
+}
+.status {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 840px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 110px;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  display: block;
+}
+
+/* 04 — the button gets pressed */
+.accept .sheet {
+  --pr: calc(clamp(0, (var(--p) - 0.36) / 0.03, 1) * (1 - clamp(0, (var(--p) - 0.41) / 0.04, 1)));
+  --ak: clamp(0, (var(--p) - 0.39) / 0.03, 1);
+  --cv: clamp(0, (var(--p) - 0.1) / 0.24, 1);
+  --ck: calc(var(--cv) * var(--cv) * (3 - 2 * var(--cv)));
+  background: var(--paper);
+}
+.say {
+  position: absolute;
+  left: 80px;
+  top: 230px;
+  font-size: 160px;
+  line-height: 1.12;
+  letter-spacing: -0.06em;
+}
+.say .slam {
+  --z: 0.7;
+  display: block;
+  width: 900px;
+  overflow: hidden;
+  white-space: nowrap;
+  transform-origin: left center;
+}
+.btn {
+  position: absolute;
+  left: 1080px;
+  top: 430px;
+  width: 720px;
+  height: 220px;
+  border-radius: 110px;
+  background: var(--gold);
+  box-shadow: 0 10px 0 #b87800;
+  transform: translateY(calc(var(--pr) * 8px)) scale(calc(1 - var(--pr) * 0.05));
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ink);
+  opacity: var(--ak);
+}
+.btn span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  letter-spacing: -0.04em;
+}
+.btn .b1 { color: var(--ink); opacity: calc(1 - var(--ak)); }
+.btn .b2 { color: #ffffff; opacity: var(--ak); }
+.stamp {
+  position: absolute;
+  left: 1180px;
+  top: 250px;
+  width: 520px;
+  overflow: hidden;
+  padding: 10px 30px 18px;
+  border: 10px solid var(--gold);
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--gold);
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cap {
+  --cp: clamp(0, (var(--p) - 0.56) / 0.06, 1);
+  position: absolute;
+  left: 1080px;
+  top: 730px;
+  width: 760px;
+  overflow: hidden;
+  font-size: 54px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  opacity: var(--cp);
+  transform: translateX(calc((1 - var(--cp)) * 80px));
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 96px;
+  fill: var(--ink);
+  stroke: #ffffff;
+  stroke-width: 2;
+  transform: translate(calc(1960px - var(--ck) * 480px), calc(1140px - var(--ck) * 560px + var(--pr) * 8px));
+}
+.illus {
+  position: absolute;
+  left: 80px;
+  top: 1000px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+/* 05 — the pressed button opens into the end card */
+.end .sheet { --wp: clamp(0, var(--e) * 1.8, 1); }
+.end .ring {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: circle(calc(var(--wp) * 150%) at 75% 50%);
+}
+.end .plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-align: center;
+}
+.end .logo {
+  height: 120px;
+  width: auto;
+  margin-bottom: 4px;
+  opacity: clamp(0, (var(--p) - 0.08) / 0.1, 1);
+}
+.end .word { font-size: 300px; line-height: 0.9; letter-spacing: -0.06em; white-space: nowrap; }
+.end .ch { --z: 1.2; --w: 0.035; }
+.end .claim { margin-top: 36px; font-size: 72px; letter-spacing: -0.035em; }
+.end .url { margin-top: 22px; font-size: 30px; font-weight: 700; }
+.end .url a { color: #ffffff; text-underline-offset: 6px; }
+
+</style>
+</head>
+<body>
+<!-- Loud register. Same claims as examples/dealdesk, taken from agenthouse.org/en/dealdesk/ and agenthouse.org/de/dealdesk/. No customer counts, ratings, or prices. The button is an illustration, not a product screenshot. -->
+<div id="viewport">
+  <div id="stage" data-duration="15" data-w="1920" data-h="1080">
+
+    <section class="beat hook" data-in="0" data-out="3.3" data-enter="0.3" data-exit="0.05">
+      <div class="sheet">
+        <span class="w slam" style="--d: 0.03; --lx: 90px; --ly: 80px; --r: -7deg">Email</span>
+        <span class="w slam" style="--d: 0.09; --lx: 1380px; --ly: 60px; --r: 6deg">CRM</span>
+        <span class="w slam" style="--d: 0.15; --lx: 600px; --ly: 250px; --r: 3deg">Word / Excel</span>
+        <span class="w slam" style="--d: 0.21; --lx: 120px; --ly: 580px; --r: 8deg">PDF</span>
+        <span class="w slam" style="--d: 0.27; --lx: 1240px; --ly: 540px; --r: -5deg">Email</span>
+        <span class="w hot slam" style="--d: 0.33; --ly: 820px; --r: -3deg">Re-entry</span>
+        <div class="band">
+          <h1>
+            <span class="slam" style="--d: 0.46; --z: 0.5" data-fit>One enquiry.</span>
+            <span class="slam gold" style="--d: 0.54; --z: 0.9" data-fit>Many handovers.</span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat gaps" data-in="3.25" data-out="6.2" data-enter="0.2" data-exit="0.05">
+      <div class="sheet">
+        <p class="gapword" data-fit>between them.</p>
+        <div class="half top">
+          <div class="cut"><h2 class="slam" data-fit>It is the gaps</h2></div>
+        </div>
+        <div class="half bot" aria-hidden="true">
+          <div class="cut"><h2 class="slam" data-fit>It is the gaps</h2></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat flow" data-in="6.15" data-out="9.9" data-enter="0.25" data-exit="0.05">
+      <div class="sheet">
+        <div class="big"><h2 class="slam" data-fit>One process.</h2></div>
+        <p class="stp" style="--a: 0.22; --b: 0.31" data-fit>Enquiry</p>
+        <p class="stp" style="--a: 0.31; --b: 0.4" data-fit>Configuration</p>
+        <p class="stp" style="--a: 0.4; --b: 0.49" data-fit>Quote</p>
+        <p class="stp" style="--a: 0.49; --b: 0.58" data-fit>Customer decision</p>
+        <p class="stp" style="--a: 0.58; --b: 0.67" data-fit>Order</p>
+        <p class="stp gold" style="--a: 0.67; --b: 2" data-fit>Confirmation</p>
+        <div class="rail" aria-hidden="true">
+          <i class="fill"></i>
+          <b style="--f: 0"></b><b style="--f: 0.2"></b><b style="--f: 0.4"></b><b style="--f: 0.6"></b><b style="--f: 0.8"></b><b style="--f: 1"></b>
+        </div>
+        <p class="status slam gold" style="--d: 0.72; --z: 0.8" data-fit>One shared status.</p>
+      </div>
+    </section>
+
+    <section class="beat accept" data-in="9.85" data-out="12.8" data-enter="0.25" data-exit="0.05">
+      <div class="sheet">
+        <h2 class="say">
+          <span class="slam" style="--d: 0" data-fit>Acceptance</span>
+          <span class="slam" style="--d: 0.05" data-fit>becomes</span>
+          <span class="slam blue" style="--d: 0.1" data-fit>an order.</span>
+        </h2>
+        <div class="btn" aria-hidden="true">
+          <span class="b1">Accept</span>
+          <span class="b2">Accepted</span>
+        </div>
+        <span class="stamp slam" style="--d: 0.48; --z: 2.2; --r: -8deg" data-fit="0.5">Accepted</span>
+        <p class="cap" data-fit>Without re-entering line items.</p>
+        <svg class="cursor" viewBox="0 0 32 48" aria-hidden="true"><path d="M0 0 L0 38 L10 29 L17 45 L24 42 L17 27 L30 27 Z" /></svg>
+        <span class="illus">Illustration</span>
+      </div>
+    </section>
+
+    <section class="beat end" data-in="12.75" data-out="15" data-enter="1" data-hold="1">
+      <div class="sheet">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="plate">
+          <img class="logo" src="https://agenthouse.org/assets/images/agenthouse-logo-sleek.svg" alt="agenthouse">
+          <h2 class="word" aria-label="DealDesk">
+            <span class="ch slam" style="--d: 0.12">D</span><span class="ch slam" style="--d: 0.145">e</span><span class="ch slam" style="--d: 0.17">a</span><span class="ch slam" style="--d: 0.195">l</span><span class="ch slam" style="--d: 0.22">D</span><span class="ch slam" style="--d: 0.245">e</span><span class="ch slam" style="--d: 0.27">s</span><span class="ch slam" style="--d: 0.295">k</span>
+          </h2>
+          <p class="claim slam gold" style="--d: 0.4; --z: 0.6">From enquiry to order.</p>
+          <p class="url slam" style="--d: 0.46; --z: 0.3"><a href="https://agenthouse.org/en/dealdesk/">agenthouse.org/en/dealdesk</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<p class="sr-only">DealDesk by agenthouse. Email, CRM, Word or Excel, PDF, email, re-entry. One enquiry, many handovers. It is the gaps between them. One process: enquiry, configuration, quote, customer decision, order, confirmation. One shared status. Acceptance becomes an order, without re-entering line items. From enquiry to order. agenthouse.org/en/dealdesk</p>
+<div id="bar">
+  <button type="button" id="toggle">Play</button>
+  <button type="button" id="replay">Replay</button>
+  <input id="scrub" type="range" min="0" max="15" value="0" aria-label="Time">
+  <span id="readout">0.0s</span>
+</div>
+<script>
+/* Seekable stage clock. Story motion reads --e, --m, --x, --p, and --t. */
+(function () {
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function easeOutBack(t) {
+    const c1 = 1;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  function mount() {
+    const stage = document.querySelector("#stage");
+    if (!stage) throw new Error("motion-ad: #stage missing");
+
+    const duration = Number(stage.dataset.duration);
+    const width = Number(stage.dataset.w || 1920);
+    const height = Number(stage.dataset.h || 1080);
+    const beats = [...stage.querySelectorAll(".beat")].map((el) => ({
+      el,
+      start: Number(el.dataset.in),
+      end: Number(el.dataset.out),
+      enter: Number(el.dataset.enter || 0.7),
+      exit: Number(el.dataset.exit || 0.35),
+      hold: el.dataset.hold === "1",
+    }));
+
+    stage.querySelectorAll(".stagger").forEach((group) => {
+      const step = Number(group.dataset.step || 0.12);
+      [...group.children].forEach((child, index) => {
+        if (!child.style.getPropertyValue("--d")) {
+          child.style.setProperty("--d", String(index * step));
+        }
+      });
+    });
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const viewport = document.getElementById("viewport");
+    const bar = document.getElementById("bar");
+    const scrub = document.getElementById("scrub");
+    const readout = document.getElementById("readout");
+    const toggle = document.getElementById("toggle");
+    const present = new URLSearchParams(location.search).has("present");
+    if (present && bar) bar.hidden = true;
+
+    let time = 0;
+    let playing = false;
+    let last = 0;
+
+    function fit() {
+      const chrome = bar && !bar.hidden ? bar.offsetHeight : 0;
+      const scale = Math.min(window.innerWidth / width, Math.max(1, window.innerHeight - chrome) / height);
+      if (viewport) {
+        viewport.style.width = width * scale + "px";
+        viewport.style.height = height * scale + "px";
+      }
+      stage.style.width = width + "px";
+      stage.style.height = height + "px";
+      stage.style.transform = "scale(" + scale + ")";
+    }
+
+    function overflows(el) {
+      if (el.scrollWidth > el.clientWidth + 1) return true;
+      return [...el.querySelectorAll(".ln")].some((line) => line.scrollWidth > line.clientWidth + 1);
+    }
+
+    function fitText() {
+      stage.querySelectorAll("[data-fit]").forEach((el) => {
+        el.style.fontSize = "";
+        const base = parseFloat(getComputedStyle(el).fontSize);
+        const min = base * (Number(el.dataset.fit) || 0.6);
+        let size = base;
+        while (size > min && overflows(el)) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+        }
+        el.toggleAttribute("data-fit-overflow", overflows(el));
+      });
+    }
+
+    function setToggle() {
+      if (!toggle) return;
+      toggle.textContent = playing ? "Pause" : "Play";
+    }
+
+    function apply(next) {
+      time = clamp(next, 0, duration);
+      stage.style.setProperty("--t", (duration ? time / duration : 0).toFixed(4));
+      for (const beat of beats) {
+        const holds = beat.hold || beat.end >= duration - 0.001;
+        const visible = holds
+          ? time >= beat.start && time <= duration
+          : time >= beat.start && time < beat.end;
+        const enterRaw = clamp((time - beat.start) / beat.enter, 0, 1);
+        const exitRaw = holds ? 0 : clamp((time - (beat.end - beat.exit)) / beat.exit, 0, 1);
+        const span = Math.max(0.001, beat.end - beat.start);
+        beat.el.classList.toggle("on", visible);
+        beat.el.style.setProperty("--e", easeOutCubic(enterRaw).toFixed(4));
+        beat.el.style.setProperty("--m", easeOutBack(enterRaw).toFixed(4));
+        beat.el.style.setProperty("--x", easeOutCubic(exitRaw).toFixed(4));
+        beat.el.style.setProperty("--p", clamp((time - beat.start) / span, 0, 1).toFixed(4));
+      }
+      if (scrub && document.activeElement !== scrub) scrub.value = String(time);
+      if (readout) readout.textContent = time.toFixed(1) + "s";
+    }
+
+    function frame(now) {
+      if (!playing) return;
+      if (!last) last = now;
+      const delta = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (time + delta >= duration) {
+        apply(duration);
+        playing = false;
+        setToggle();
+        return;
+      }
+      apply(time + delta);
+      requestAnimationFrame(frame);
+    }
+
+    function play() {
+      if (time >= duration - 0.001) time = 0;
+      playing = true;
+      last = 0;
+      setToggle();
+      requestAnimationFrame(frame);
+    }
+
+    function pause() {
+      playing = false;
+      setToggle();
+    }
+
+    function seek(value) {
+      pause();
+      apply(Number(value) || 0);
+    }
+
+    window.addEventListener("resize", fit);
+    if (scrub) {
+      scrub.max = String(duration);
+      scrub.step = "0.01";
+      scrub.addEventListener("input", () => seek(scrub.value));
+    }
+    document.getElementById("replay")?.addEventListener("click", () => {
+      seek(0);
+      play();
+    });
+    toggle?.addEventListener("click", () => {
+      if (playing) pause();
+      else play();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.target && event.target.matches("input, textarea")) return;
+      if (event.code === "Space") {
+        event.preventDefault();
+        if (playing) pause();
+        else play();
+      } else if (event.key === "r" || event.key === "R") {
+        seek(0);
+        play();
+      }
+    });
+
+    fit();
+    fitText();
+    const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    const fitted = fonts.then(() => {
+      fit();
+      fitText();
+      apply(time);
+    });
+    if (reduce) {
+      document.documentElement.classList.add("reduce-motion");
+      apply(Math.max(0, duration - 0.05));
+      pause();
+    } else {
+      apply(0);
+      play();
+    }
+
+    window.ad = {
+      duration,
+      seek,
+      play,
+      pause,
+      getTime: () => time,
+      fitted,
+      ready: true,
+    };
+    return window.ad;
+  }
+
+  window.MotionAd = { mount };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mount);
+  } else {
+    mount();
+  }
+})();
+
+</script>
+</body>
+</html>
