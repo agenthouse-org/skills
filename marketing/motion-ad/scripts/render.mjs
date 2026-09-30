@@ -184,6 +184,8 @@ function inspectFrame() {
         bottom: Math.min(box.bottom, edge.bottom),
       };
       if (next.right - next.left < 1 || next.bottom - next.top < 1) return { hidden: true };
+      // Horizontal only. Masked lines use clip-path on the Y axis while they rise;
+      // glyph ink also often pokes a few pixels past a tight line-box.
       const partial = next.left > box.left + 2 || next.right < box.right - 2;
       if (partial && !cut) cut = node;
       box = next;

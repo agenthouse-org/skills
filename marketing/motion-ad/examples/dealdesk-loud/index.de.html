@@ -55,14 +55,20 @@ body {
 .ln {
   --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--win, 0.5), 1);
   display: block;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
+  /* Mask stays tight while the line rises; once landed (--c = 1) it opens
+     past the em-box so umlauts and descenders are not cut off. */
+  clip-path: inset(
+    calc(var(--c) * -0.35em)
+    -0.12em
+    calc(var(--c) * -0.45em)
+    -0.12em
+  );
 }
 .ln > * {
   display: inline-block;
-  transform: translateY(calc((1 - var(--c)) * 115%));
+  transform: translateY(calc((1 - var(--c)) * 120%));
 }
 .draw {
   fill: none;
@@ -477,10 +483,10 @@ h1, h2, p { margin: 0; }
     <section class="beat gaps" data-in="3.25" data-out="6.2" data-enter="0.2" data-exit="0.05">
       <div class="sheet">
         <p class="gapword" data-fit>dazwischen.</p>
-        <div class="half top">
+        <div class="half top" data-bleed>
           <div class="cut"><h2 class="slam" data-fit>Es sind die Brüche</h2></div>
         </div>
-        <div class="half bot" aria-hidden="true">
+        <div class="half bot" data-bleed aria-hidden="true">
           <div class="cut"><h2 class="slam" data-fit>Es sind die Brüche</h2></div>
         </div>
       </div>

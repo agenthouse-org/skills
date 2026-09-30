@@ -93,7 +93,7 @@ One scene, one `copy.<lang>.json` per language, one packed `index.<lang>.html` p
 - Translate from the destination page in that language, not from your English copy. Use its terms for steps, buttons, and the tagline, and link its URL. If the page does not exist in that language, say so and translate the claims literally.
 - Keep the beat structure and timing. Rewrite a headline if the literal translation breaks the rhythm; keep line breaks at sense breaks.
 - German, French, and Finnish run 20–35% longer than English. Put `data-fit` on every text box that has a fixed width (titles, card labels, captions, buttons). The runtime shrinks its font-size until it and its `.ln` lines fit, down to 60% (`data-fit="0.5"` for 50%). Give those boxes a real width (`left` and `right`, or `width`) and `overflow: hidden` so there is something to fit into.
-- Mark decoration that is meant to run off the frame, such as outline marquees, with `data-bleed`.
+- Mark decoration that is meant to run off the frame, such as outline marquees or a split-headline half that clips on purpose, with `data-bleed`.
 - `data-fit` measures once, at the start, when entrances have not landed. Put it on the element that scales or slams, not on its parent, or the parent measures its child at full oversize and shrinks for nothing.
 
 Then check each language in a real browser:

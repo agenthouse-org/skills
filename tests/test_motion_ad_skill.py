@@ -127,6 +127,13 @@ class MotionAdSkillTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_masked_lines_open_clip_when_landed(self):
+        shell = (SKILL / "assets" / "shell.css").read_text(encoding="utf-8")
+        self.assertIn(".ln", shell)
+        self.assertIn("clip-path", shell)
+        self.assertIn("var(--c) * -0.35em", shell)
+        self.assertIn("overflow: visible", shell)
+
     def test_skill_starts_from_a_brief_and_a_story_arc(self):
         skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         story = (SKILL / "references" / "story.md").read_text(encoding="utf-8")
