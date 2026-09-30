@@ -93,8 +93,10 @@ function renderDirectory() {
           </div>
           <p>${escapeHtml(skill.description)}</p>
           ${renderDemos(skill)}
+          ${renderPrompt(skill)}
           <div class="actions">
-            <a class="button primary" href="${escapeAttr(skill.downloadUrl)}">Download ZIP</a>
+            ${skill.agentPrompt ? `<button type="button" class="button primary" data-copy="${escapeAttr(skill.name)}">Copy agent prompt</button>` : ""}
+            <a class="button ${skill.agentPrompt ? "secondary" : "primary"}" href="${escapeAttr(skill.downloadUrl)}">Download ZIP</a>
             <a class="button secondary" href="${escapeAttr(skill.skillUrl)}">View files</a>
             <a class="button secondary" href="${escapeAttr(skill.releaseUrl)}">Release</a>
           </div>
@@ -119,13 +121,62 @@ function renderDemos(skill) {
   if (!demos.length) {
     return "";
   }
-  const links = demos
-    .map((demo) => {
-      const label = demo.lang ? demo.lang.toUpperCase() : "Open";
-      return `<a class="demo-link" href="${escapeAttr(demo.url)}" title="${escapeAttr(demo.title)}" hreflang="${escapeAttr(demo.lang)}">${escapeHtml(label)}</a>`;
+  const groups = new Map();
+  for (const demo of demos) {
+    const key = demo.example || "";
+    if (!groups.has(key)) {
+      groups.set(key, []);
+    }
+    groups.get(key).push(demo);
+  }
+  const named = groups.size > 1;
+  const links = [...groups.entries()]
+    .map(([example, items]) => {
+      const group = items
+        .map((demo) => {
+          const label = demo.lang ? demo.lang.toUpperCase() : "Open";
+          return `<a class="demo-link" href="${escapeAttr(demo.url)}" title="${escapeAttr(demo.title)}" hreflang="${escapeAttr(demo.lang)}">${escapeHtml(label)}</a>`;
+        })
+        .join("");
+      return named ? `<span class="demos-label">${escapeHtml(example)}</span>${group}` : group;
     })
     .join("");
-  return `<div class="demos"><span class="demos-label">Live demo</span>${links}</div>`;
+  return `<div class="demos"><span class="demos-label">Live demo${named ? ":" : ""}</span>${links}</div>`;
+}
+
+function renderPrompt(skill) {
+  if (!skill.agentPrompt) {
+    return "";
+  }
+  return `
+          <details class="prompt">
+            <summary>Install with your agent</summary>
+            <pre id="prompt-${escapeAttr(skill.name)}">${escapeHtml(skill.agentPrompt)}</pre>
+          </details>`;
+}
+
+async function copyPrompt(button) {
+  const skill = state.skills.find((item) => item.name === button.dataset.copy);
+  if (!skill) {
+    return;
+  }
+  const label = button.textContent;
+  try {
+    await navigator.clipboard.writeText(skill.agentPrompt);
+    button.textContent = "Copied — paste it into your agent";
+  } catch {
+    const details = button.closest(".skill").querySelector(".prompt");
+    details.open = true;
+    const range = document.createRange();
+    range.selectNodeContents(details.querySelector("pre"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    button.textContent = "Selected — press Ctrl+C or ⌘C";
+  }
+  setTimeout(() => {
+    button.textContent = label;
+  }, 2500);
 }
 
 function escapeHtml(value) {
@@ -154,6 +205,13 @@ function bindEvents() {
     state.category = button.dataset.category;
     renderFilters();
     renderDirectory();
+  });
+
+  els.directory.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-copy]");
+    if (button) {
+      copyPrompt(button);
+    }
   });
 }
 

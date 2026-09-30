@@ -169,6 +169,38 @@ def ensure_download_markers(readme: str) -> str:
     return readme[:insert_at] + "\n" + block + readme[insert_at:]
 
 
+AGENT_INSTALL_HEADING = "### Install with your agent"
+
+
+def summary_of(description: str) -> str:
+    match = re.match(r"(.+?[.!?])(\s|$)", description.strip())
+    return match.group(1) if match else description.strip()
+
+
+def agent_install_prompt(item: dict[str, str], repository: str, release_tag: str) -> str:
+    name = item["name"]
+    zip_url = download_url(repository, release_tag, name, item["version"])
+    author = f" by {item['author']}" if item.get("author") else ""
+    lines = [
+        f'Please install the agent skill "{name}" for me.',
+        "",
+        f"Skill: {name} v{item['version']}{author}. {summary_of(item.get('description', ''))}".rstrip(),
+        f"Files: {skill_url(repository, item['path'])}",
+        f"ZIP: {zip_url}",
+        f"SHA-256: {zip_url}.sha256",
+        "",
+        "Steps:",
+        "1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.",
+        "2. If you can run shell commands and Node.js 22.20 or newer is available, run:",
+        f"   npx skills add {repository} --skill {name}",
+        f"3. Otherwise download the ZIP, compare its SHA-256 with the checksum file, and extract the {name} folder into your skills folder (for example .claude/skills/, .agents/skills/, .gemini/skills/, or .cursor/skills/).",
+        "4. If you cannot run commands or write files, give me short step-by-step instructions for adding the ZIP in this app instead.",
+        "5. Do not run any script from the skill during installation. Read its SKILL.md and tell me in two sentences what it does and whether it needs extra tools such as Node.js, Python, or a browser.",
+        "6. Confirm where it is installed and show me one example prompt to start using it.",
+    ]
+    return "\n".join(lines)
+
+
 def download_section(item: dict[str, str], repository: str, release_tag: str) -> str:
     zip_url = download_url(repository, release_tag, item["name"], item["version"])
     release_url = f"https://github.com/{repository}/releases/tag/{release_tag}"
@@ -181,6 +213,14 @@ def download_section(item: dict[str, str], repository: str, release_tag: str) ->
             f"- **ZIP:** [{asset}]({zip_url})",
             f"- **Release:** [{release_tag}]({release_url})",
             f"- **Install:** `npx skills add {repository} --skill {item['name']}`",
+            "",
+            AGENT_INSTALL_HEADING,
+            "",
+            "Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or a chat app). It installs the skill or, where it cannot, tells you how:",
+            "",
+            "```text",
+            agent_install_prompt(item, repository, release_tag),
+            "```",
         ]
     )
 
@@ -197,12 +237,13 @@ def update_main_readme(items: list[dict[str, str]], repository: str, release_tag
             f"| {item['description']} "
             f"| `{item['version']}` "
             f"| [View]({url}) "
-            f"| [ZIP]({zip_link}) |"
+            f"| [ZIP]({zip_link}) "
+            f"| [Prompt]({url}#install-with-your-agent) |"
         )
     body = "\n".join(
         [
-            "| Skill | Purpose | Version | Files | Download |",
-            "|---|---|---:|---|---|",
+            "| Skill | Purpose | Version | Files | Download | Agent install |",
+            "|---|---|---:|---|---|---|",
             *rows,
         ]
     )
@@ -273,6 +314,8 @@ def catalogue_payload(items: list[dict[str, str]], repository: str, release_tag:
                 "license": item.get("license", ""),
                 "skillUrl": skill_url(repository, item["path"]),
                 "downloadUrl": download_url(repository, release_tag, item["name"], item["version"]),
+                "checksumUrl": download_url(repository, release_tag, item["name"], item["version"]) + ".sha256",
+                "agentPrompt": agent_install_prompt(item, repository, release_tag),
                 "releaseUrl": f"https://github.com/{repository}/releases/tag/{release_tag}",
                 "install": f"npx skills add {repository} --skill {item['name']}",
                 "demos": demos,

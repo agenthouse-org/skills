@@ -23,7 +23,29 @@ The skills are designed for compatible `SKILL.md`-based agents and tools, includ
 
 # 🚀 Quick Start
 
-### Fastest: Load from ZIP URL
+### Easiest: ask your agent
+
+Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or a chat app). It shows you the skills, lets you pick, and installs them, or tells you how where it cannot:
+
+```text
+Please help me install agent skills from agenthouse.
+
+Catalogue: https://agenthouse-org.github.io/skills/skills.json
+Repository: https://github.com/agenthouse-org/skills
+
+Steps:
+1. Read the catalogue. List the skills grouped by category, each with its name and a one-line purpose. If I already named a skill or a task, suggest the matching ones first.
+2. Let me pick one or more. Do not install anything I did not pick.
+3. Tell me which agent you are and where you load skills from. Ask whether I want the skills for this project only or for all my projects, unless I already said.
+4. For each skill I picked, follow its "agentPrompt" in the catalogue: install with "npx skills add agenthouse-org/skills --skill <name>" when you can run commands and Node.js 22.20 or newer is available; otherwise download its "downloadUrl" ZIP, check it against "checksumUrl", and extract it into your skills folder.
+5. If you cannot run commands or write files, give me short step-by-step instructions for adding the ZIPs in this app instead.
+6. Do not run any script from a skill during installation. For each skill, tell me in two sentences what it does and whether it needs extra tools.
+7. Confirm where each skill is installed and show me one example prompt for each.
+```
+
+Every skill also has its own ready-made prompt: in its README under **Install with your agent**, in the **Agent install** column of the [skill table](#skill-table), and behind **Copy agent prompt** in the [Skills Directory](https://agenthouse-org.github.io/skills/).
+
+### Load from ZIP URL
 
 If you already have a ZIP link, paste it directly into your AI agent (for example ChatGPT or Claude) and ask it to load/import the skill.
 
@@ -166,7 +188,7 @@ The discovery workflow searches the repository for every `SKILL.md`.
 | `templates/` | Output templates |
 | `examples/` | Worked examples |
 
-Only `SKILL.md` is mandatory. If a skill `README.md` exists, release automation keeps a download section between `<!-- DOWNLOAD_START -->` and `<!-- DOWNLOAD_END -->`.
+Only `SKILL.md` is mandatory. If a skill `README.md` exists, release automation keeps a download section and the **Install with your agent** prompt between `<!-- DOWNLOAD_START -->` and `<!-- DOWNLOAD_END -->`. The prompt is built from the skill's frontmatter (`name`, `version`, `author`, `description`), so it never needs editing by hand.
 
 ---
 
@@ -189,6 +211,7 @@ GitHub Actions automatically:
 - generates SHA-256 checksums
 - publishes GitHub Releases
 - updates ZIP download sections in the root and skill READMEs
+- writes a copy-paste agent install prompt into every skill README and every Skills Directory card
 - deploys the searchable Skills Directory to GitHub Pages
 
 ---

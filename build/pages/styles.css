@@ -345,6 +345,35 @@ h1 {
   color: var(--ink);
 }
 
+button.button {
+  cursor: pointer;
+}
+
+.prompt {
+  font-size: 0.85rem;
+}
+
+.prompt summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.prompt pre {
+  max-height: 16rem;
+  overflow: auto;
+  margin: 0.5rem 0 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
 .empty {
   margin: 3rem 0;
   padding: 2rem;
