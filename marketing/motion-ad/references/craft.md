@@ -54,7 +54,7 @@ CSS order is `clamp(min, value, max)`. Write `clamp(0, expr, 1)`. `clamp(expr, 0
 
 A sub-window of the clock: `--k: clamp(0, (var(--p) - 0.3) / 0.1, 1)` runs from 0 to 1 between 30% and 40% of the beat. Ease it with `calc(var(--k) * (2 - var(--k)))` or smoothstep `calc(var(--k) * var(--k) * (3 - 2 * var(--k)))`.
 
-**Masked line.** `<span class="ln" style="--d: 0.2"><span>Line</span></span>`. The inner span rises out of a clip. `--win` sets how long it takes. Keep `--d + --win` under 1, or the line never lands. For a word that builds letter by letter, give each letter span its own `--d` and a shorter `--c` window.
+**Masked line.** `<span class="ln" style="--d: 0.2"><span>Line</span></span>`. The inner span rises out of a clip. `--win` sets how long it takes. Keep `--d + --win` under 1, or the line never lands. The shell uses a `clip-path` that opens past the em-box once `--c` reaches 1, so umlauts and descenders are not left with a cut through them. If you swap one masked title for another in the same spot, fade the outgoing `.ln` with opacity as well as the rise. For a word that builds letter by letter, give each letter span its own `--d` and a shorter `--c` window.
 
 **Wipe between beats.** The next beat enters on top and clips itself open: `clip-path: inset(calc((1 - var(--wp)) * 100%) 0 0 0)` (up), `inset(0 calc((1 - var(--wp)) * 100%) 0 0)` (across), or `circle(calc(var(--wp) * 150%) at 80% 50%)`. Use `--wp: clamp(0, var(--e) * 1.6, 1)` so the wipe is fast while the copy inside keeps settling. Keep the old beat on (`data-out` after the wipe closes) so there is never a gap. Change the background color at every wipe.
 
@@ -93,7 +93,7 @@ Techniques:
 
 **Impact.** When the key line lands, knock the whole sheet for a few frames: a small translate, a fraction of a degree, and a 5% scale so no edge shows. It decays within about 0.2s.
 
-**Split headline.** Render the headline twice, in a top half and a bottom half that each clip it, so together they read as one line. Then drive the halves apart and let the next line appear in the gap. Mark the second copy `aria-hidden`.
+**Split headline.** Render the headline twice, in a top half and a bottom half that each clip it, so together they read as one line. Then drive the halves apart and let the next line appear in the gap. Mark the second copy `aria-hidden`. Put `data-bleed` on each half so the fit check does not treat the intentional clip as a fault.
 
 **Snap sequence.** Instead of showing a row of steps, show one step word at a time in the same spot, each pushing the last one out sideways in a few frames, while a rail below fills node by node. The outgoing word is gone before the next arrives; two words in one spot read as a smear. Enter from slightly smaller, not larger, so a long word never crosses the frame edge. Hold the last step for at least a second.
 

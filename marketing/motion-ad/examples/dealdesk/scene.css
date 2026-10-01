@@ -313,10 +313,10 @@ ol { padding: 0; list-style: none; }
 }
 .product .mark { color: var(--blue); }
 .product .title { top: 300px; right: auto; width: 920px; font-size: 110px; line-height: 0.95; }
-.product .a { --out: clamp(0, (var(--p) - 0.43 - var(--k)) / 0.05, 1); }
-.product .a > span { transform: translateY(calc((1 - var(--c)) * 115% - var(--out) * 115%)); }
+.product .a { --out: clamp(0, (var(--p) - 0.43 - var(--k)) / 0.05, 1); opacity: calc(1 - var(--out)); }
+.product .a > span { transform: translateY(calc((1 - var(--c)) * 120% - var(--out) * 120%)); }
 .product .b { --in: clamp(0, (var(--p) - 0.48 - var(--k)) / 0.07, 1); }
-.product .b > span { transform: translateY(calc((1 - var(--in)) * 115%)); }
+.product .b > span { transform: translateY(calc((1 - var(--in)) * 120%)); }
 
 .quote {
   position: absolute;

@@ -45,14 +45,20 @@ body {
 .ln {
   --c: clamp(0, (var(--e, 0) - var(--d, 0)) / var(--win, 0.5), 1);
   display: block;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
+  /* Mask stays tight while the line rises; once landed (--c = 1) it opens
+     past the em-box so umlauts and descenders are not cut off. */
+  clip-path: inset(
+    calc(var(--c) * -0.35em)
+    -0.12em
+    calc(var(--c) * -0.45em)
+    -0.12em
+  );
 }
 .ln > * {
   display: inline-block;
-  transform: translateY(calc((1 - var(--c)) * 115%));
+  transform: translateY(calc((1 - var(--c)) * 120%));
 }
 .draw {
   fill: none;
