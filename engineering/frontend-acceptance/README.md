@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.2.0`
-- **ZIP:** [frontend-acceptance-v0.2.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/frontend-acceptance-v0.2.0.zip)
-- **Release:** [release-2026-09-30](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-30)
+- **ZIP:** [frontend-acceptance-v0.2.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/frontend-acceptance-v0.2.0.zip)
+- **Release:** [release-2026-10-01](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-01)
 - **Install:** `npx skills add agenthouse-org/skills --skill frontend-acceptance`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "frontend-acceptance" for me.
 
 Skill: frontend-acceptance v0.2.0 by Neri GmbH. Design and verify frontend changes through explicit design principles, browser-driven acceptance tests, and screenshot evidence.
 Files: https://github.com/agenthouse-org/skills/tree/main/engineering/frontend-acceptance
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/frontend-acceptance-v0.2.0.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/frontend-acceptance-v0.2.0.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/frontend-acceptance-v0.2.0.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/frontend-acceptance-v0.2.0.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

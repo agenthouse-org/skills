@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.0`
-- **ZIP:** [ai-content-disclosure-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/ai-content-disclosure-v0.1.0.zip)
-- **Release:** [release-2026-09-30](https://github.com/agenthouse-org/skills/releases/tag/release-2026-09-30)
+- **ZIP:** [ai-content-disclosure-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/ai-content-disclosure-v0.1.0.zip)
+- **Release:** [release-2026-10-01](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-01)
 - **Install:** `npx skills add agenthouse-org/skills --skill ai-content-disclosure`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "ai-content-disclosure" for me.
 
 Skill: ai-content-disclosure v0.1.0 by Neri GmbH. Assess AI-generated and AI-modified content, determine applicable transparency disclosures, and apply visible disclosure labels and official EU AI icons in support of Article 50 of the EU AI Act.
 Files: https://github.com/agenthouse-org/skills/tree/main/governance/ai-content-disclosure
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/ai-content-disclosure-v0.1.0.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-09-30/ai-content-disclosure-v0.1.0.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/ai-content-disclosure-v0.1.0.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/ai-content-disclosure-v0.1.0.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.
