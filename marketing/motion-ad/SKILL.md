@@ -1,7 +1,7 @@
 ---
 name: "motion-ad"
 description: "Build a browser-played HTML motion graphic for a product, idea, or message. One self-contained page per language with a timed stage, no video file inside, and an optional WebM export. Use when the user asks for a motion ad, motion design, kinetic typography, a launch graphic, a short animated ad for the web or social, or a translated or exported version of one."
-version: 0.2.0
+version: 0.2.1
 author: "agenthouse"
 license: MIT
 price: 0
