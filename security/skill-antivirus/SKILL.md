@@ -2,7 +2,7 @@
 name: "skill-antivirus"
 description: "Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file. Stages ZIPs read-only to temp, never executes content, and flags executables for classic antivirus. Dual-use CLI and agent orchestration."
 version: 0.3.1
-author: "AgentHouse"
+author: "agenthouse"
 license: MIT
 price: 0
 tags:

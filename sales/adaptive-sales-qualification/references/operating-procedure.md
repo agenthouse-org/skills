@@ -33,7 +33,7 @@ Keep this step generic: do not assume any specific integration exists.
 
 If one or more tools appear available, ask the user whether the agent should retrieve data from them before continuing discovery.
 
-Possible examples include Salesforce, HubSpot, AgentHouse DealDesk, Microsoft Dynamics 365, Pipedrive, Zoho CRM, and other approved systems.
+Possible examples include Salesforce, HubSpot, agenthouse DealDesk, Microsoft Dynamics 365, Pipedrive, Zoho CRM, and other approved systems.
 
 When data access is not available, not approved, or not requested, continue with the best available internal and user-provided context and explicitly mark CRM fields as unknown.
 

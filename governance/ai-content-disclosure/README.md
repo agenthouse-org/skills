@@ -31,7 +31,7 @@ Steps:
 ```
 <!-- DOWNLOAD_END -->
 
-An open AgentHouse skill for assessing and applying AI-content disclosures in support of Article 50 of the EU AI Act.
+An open agenthouse skill for assessing and applying AI-content disclosures in support of Article 50 of the EU AI Act.
 
 ## Capabilities
 
@@ -45,7 +45,7 @@ An open AgentHouse skill for assessing and applying AI-content disclosures in su
 ## Install
 
 ```bash
-npx skills add AgentHouse-org/skills --skill ai-content-disclosure
+npx skills add agenthouse-org/skills --skill ai-content-disclosure
 ```
 
 ## Scripts

@@ -31,7 +31,7 @@ Steps:
 ```
 <!-- DOWNLOAD_END -->
 
-A free, configurable skill from **Neri GmbH** and **AgentHouse** for evidence-based qualification of leads, accounts, and opportunities.
+A free, configurable skill from **Neri GmbH** and **agenthouse** for evidence-based qualification of leads, accounts, and opportunities.
 
 ## Package Structure
 

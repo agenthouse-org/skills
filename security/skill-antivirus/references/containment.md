@@ -37,7 +37,7 @@ Rules:
 - Reject absolute paths, `..` segments, and symlink/junction entries.
 - Enforce file-count, per-file, and total-size limits before and during extract.
 - After extract, mark staged files **read-only** (best-effort on the host OS).
-- Do not stage into the AgentHouse skills repo, the skill-antivirus tree, or user project source roots unless the user explicitly demands a path — prefer the system temp area.
+- Do not stage into the agenthouse skills repo, the skill-antivirus tree, or user project source roots unless the user explicitly demands a path — prefer the system temp area.
 - Delete the stage when the review finishes (or leave it only if the user asks to keep it).
 
 ## How the two analyses stay contained
@@ -66,4 +66,4 @@ Extensions such as `.exe`, `.com`, `.scr`, `.msi`, `.dll`, `.vbs`, `.vbe`, `.hta
 
 ## Self-test fixture
 
-`fixtures/eicar-test-skill` is inert text only. Use it to verify detection. Never execute it, never upload it as malware, and never treat a hit on that fixture inside this skill’s tree as a supply-chain compromise of AgentHouse.
+`fixtures/eicar-test-skill` is inert text only. Use it to verify detection. Never execute it, never upload it as malware, and never treat a hit on that fixture inside this skill’s tree as a supply-chain compromise of agenthouse.

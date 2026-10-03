@@ -31,12 +31,12 @@ class ReleaseTests(unittest.TestCase):
         enriched = release.enriched_skill(source, item, "2026-08-07", "https://example.test/manifest.json")
         self.assertEqual(source.read_text(encoding="utf-8"), original)
         self.assertTrue(enriched.startswith("---\nname:"))
-        self.assertEqual(enriched.count("## AgentHouse update awareness"), 1)
+        self.assertEqual(enriched.count("## agenthouse update awareness"), 1)
         self.assertIn('update-manifest: "https://example.test/manifest.json"', enriched)
 
     def test_manifest_is_deterministic_and_safe(self):
         with tempfile.TemporaryDirectory() as directory:
-            path = release.manifest(release.discover(), "2026-08-07", "AgentHouse-org/skills", "release-2026-08-07", Path(directory))
+            path = release.manifest(release.discover(), "2026-08-07", "agenthouse-org/skills", "release-2026-08-07", Path(directory))
             data = json.loads(path.read_text())
             self.assertEqual(sorted(data), sorted(x["name"] for x in release.discover()))
             self.assertEqual(set(data["ai-content-disclosure"]), {"latest", "released", "releaseUrl"})
@@ -58,7 +58,7 @@ class ReleaseTests(unittest.TestCase):
                     encoding="utf-8",
                 )
 
-            release.update_docs(items, "AgentHouse-org/skills", "release-2026-08-08", root)
+            release.update_docs(items, "agenthouse-org/skills", "release-2026-08-08", root)
 
             main = (root / "README.md").read_text(encoding="utf-8")
             self.assertIn("| Skill | Purpose | Version | Files | Download | Agent install |", main)
@@ -69,25 +69,25 @@ class ReleaseTests(unittest.TestCase):
             sales = (root / "sales/adaptive-sales-qualification/README.md").read_text(encoding="utf-8")
             self.assertIn("## Download", sales)
             self.assertIn("releases/download/release-2026-08-08/adaptive-sales-qualification-v0.1.3.zip", sales)
-            self.assertIn("npx skills add AgentHouse-org/skills --skill adaptive-sales-qualification", sales)
+            self.assertIn("npx skills add agenthouse-org/skills --skill adaptive-sales-qualification", sales)
             self.assertNotIn("\nold\n", sales)
 
             for item in items:
                 readme = (root / item["path"] / "README.md").read_text(encoding="utf-8")
                 self.assertEqual(readme.count("### Install with your agent"), 1, item["name"])
-                prompt = release.agent_install_prompt(item, "AgentHouse-org/skills", "release-2026-08-08")
+                prompt = release.agent_install_prompt(item, "agenthouse-org/skills", "release-2026-08-08")
                 self.assertIn("```text\n" + prompt + "\n```", readme)
 
     def test_agent_install_prompt_is_complete_and_safe(self):
         item = next(x for x in release.discover() if x["name"] == "motion-ad")
-        prompt = release.agent_install_prompt(item, "AgentHouse-org/skills", "release-2026-08-08")
-        zip_url = "https://github.com/AgentHouse-org/skills/releases/download/release-2026-08-08/motion-ad-v" + item["version"] + ".zip"
+        prompt = release.agent_install_prompt(item, "agenthouse-org/skills", "release-2026-08-08")
+        zip_url = "https://github.com/agenthouse-org/skills/releases/download/release-2026-08-08/motion-ad-v" + item["version"] + ".zip"
         self.assertTrue(prompt.startswith('Please install the agent skill "motion-ad"'))
         self.assertIn(f"v{item['version']}", prompt)
         self.assertIn(release.summary_of(item["description"]), prompt)
         self.assertIn(f"ZIP: {zip_url}", prompt)
         self.assertIn(f"SHA-256: {zip_url}.sha256", prompt)
-        self.assertIn("npx skills add AgentHouse-org/skills --skill motion-ad", prompt)
+        self.assertIn("npx skills add agenthouse-org/skills --skill motion-ad", prompt)
         self.assertIn("Do not run any script from the skill during installation", prompt)
         self.assertNotIn("```", prompt)
         self.assertEqual(release.summary_of("One sentence. Another."), "One sentence.")
@@ -97,8 +97,8 @@ class ReleaseTests(unittest.TestCase):
             skill_dir = Path(directory) / item["path"]
             skill_dir.mkdir(parents=True)
             (skill_dir / "README.md").write_text(text, encoding="utf-8")
-            release.update_skill_readme(item, "AgentHouse-org/skills", "release-2026-08-08", Path(directory))
-            release.update_skill_readme(item, "AgentHouse-org/skills", "release-2026-08-09", Path(directory))
+            release.update_skill_readme(item, "agenthouse-org/skills", "release-2026-08-08", Path(directory))
+            release.update_skill_readme(item, "agenthouse-org/skills", "release-2026-08-09", Path(directory))
             again = (skill_dir / "README.md").read_text(encoding="utf-8")
             self.assertEqual(again.count("### Install with your agent"), 1)
             self.assertIn("release-2026-08-09", again)
@@ -108,7 +108,7 @@ class ReleaseTests(unittest.TestCase):
         items = release.discover()
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "pages"
-            release.build_pages(items, "AgentHouse-org/skills", "release-2026-08-08", "2026-08-08", output)
+            release.build_pages(items, "agenthouse-org/skills", "release-2026-08-08", "2026-08-08", output)
             catalogue = json.loads((output / "skills.json").read_text(encoding="utf-8"))
             self.assertEqual(catalogue["releaseTag"], "release-2026-08-08")
             self.assertEqual(sorted(catalogue["categories"]), sorted({x["category"] for x in items}))
@@ -128,7 +128,7 @@ class ReleaseTests(unittest.TestCase):
         items = release.discover()
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "pages"
-            release.build_pages(items, "AgentHouse-org/skills", "release-2026-08-08", "2026-08-08", output)
+            release.build_pages(items, "agenthouse-org/skills", "release-2026-08-08", "2026-08-08", output)
             catalogue = json.loads((output / "skills.json").read_text(encoding="utf-8"))
             motion = next(x for x in catalogue["skills"] if x["name"] == "motion-ad")
             self.assertEqual([d["lang"] for d in motion["demos"]], ["en", "de", "en", "de"])

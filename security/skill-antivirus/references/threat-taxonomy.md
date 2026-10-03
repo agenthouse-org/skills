@@ -7,7 +7,7 @@ Use these categories for findings. Prefer the most specific category that fits. 
 | Category | Look for |
 |---|---|
 | `prompt-injection` | Ignore/override system, developer, safety, or prior instructions; “you are now”; jailbreak frames; hidden instructions in HTML comments, zero-width text, or alternate encodings |
-| `trust-misrepresentation` | Claims of official Cursor/OpenAI/Anthropic/AgentHouse mandate; fake “security update required”; social engineering to skip review |
+| `trust-misrepresentation` | Claims of official Cursor/OpenAI/Anthropic/agenthouse mandate; fake “security update required”; social engineering to skip review |
 
 ## Secret and private-data harvesting
 
@@ -76,7 +76,7 @@ Use these categories for findings. Prefer the most specific category that fits. 
 
 | Category | Look for |
 |---|---|
-| `test-signature` | AgentHouse/EICAR-style inert antivirus test markers. Report as test signature — never claim live malware execution. |
+| `test-signature` | agenthouse/EICAR-style inert antivirus test markers. Report as test signature — never claim live malware execution. |
 
 ## Coverage reminder
 

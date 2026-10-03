@@ -15,7 +15,7 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "skill-antivirus" for me.
 
-Skill: skill-antivirus v0.3.1 by AgentHouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
+Skill: skill-antivirus v0.3.1 by agenthouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
 Files: https://github.com/agenthouse-org/skills/tree/main/security/skill-antivirus
 ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/skill-antivirus-v0.3.1.zip
 SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/skill-antivirus-v0.3.1.zip.sha256
@@ -31,7 +31,7 @@ Steps:
 ```
 <!-- DOWNLOAD_END -->
 
-An AgentHouse security skill that statically reviews untrusted agent skills before you install or trust them.
+An agenthouse security skill that statically reviews untrusted agent skills before you install or trust them.
 
 Dual-use:
 
@@ -52,7 +52,7 @@ It never executes submitted skill code, never auto-uploads samples, and does not
 ## Install
 
 ```bash
-npx skills add AgentHouse-org/skills --skill skill-antivirus
+npx skills add agenthouse-org/skills --skill skill-antivirus
 ```
 
 ## CLI

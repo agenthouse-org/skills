@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and validate AgentHouse skill release artifacts."""
+"""Build and validate agenthouse skill release artifacts."""
 from __future__ import annotations
 
 import argparse
@@ -101,7 +101,7 @@ def enriched_skill(source: Path, item: dict[str, str], release_date: str, manife
     end = text.find("\n---", 4)
     metadata = [
         "metadata:",
-        "  publisher: AgentHouse",
+        "  publisher: agenthouse",
         f'  version: "{item["version"]}"',
         f'  release-date: "{release_date}"',
         f'  update-manifest: "{manifest_url}"',
@@ -357,7 +357,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=["validate", "package", "manifest", "update-docs", "pages"])
     parser.add_argument("--output", type=Path, default=Path("dist"))
-    parser.add_argument("--repository", default="AgentHouse-org/skills")
+    parser.add_argument("--repository", default="agenthouse-org/skills")
     parser.add_argument("--release-tag", default="release-local")
     parser.add_argument("--release-date", default=date.today().isoformat())
     parser.add_argument("--manifest-url", default="https://agenthouse-org.github.io/skills/manifest.json")
