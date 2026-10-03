@@ -62,13 +62,13 @@ class ReleaseTests(unittest.TestCase):
 
             main = (root / "README.md").read_text(encoding="utf-8")
             self.assertIn("| Skill | Purpose | Version | Files | Download | Agent install |", main)
-            self.assertIn("adaptive-sales-qualification-v0.1.2.zip", main)
+            self.assertIn("adaptive-sales-qualification-v0.1.3.zip", main)
             self.assertIn("skill-antivirus", main)
             self.assertIn("/sales/adaptive-sales-qualification#install-with-your-agent", main)
 
             sales = (root / "sales/adaptive-sales-qualification/README.md").read_text(encoding="utf-8")
             self.assertIn("## Download", sales)
-            self.assertIn("releases/download/release-2026-08-08/adaptive-sales-qualification-v0.1.2.zip", sales)
+            self.assertIn("releases/download/release-2026-08-08/adaptive-sales-qualification-v0.1.3.zip", sales)
             self.assertIn("npx skills add AgentHouse-org/skills --skill adaptive-sales-qualification", sales)
             self.assertNotIn("\nold\n", sales)
 
@@ -115,7 +115,7 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(len(catalogue["skills"]), len(items))
             sample = next(x for x in catalogue["skills"] if x["name"] == "adaptive-sales-qualification")
             self.assertEqual(sample["category"], "sales")
-            self.assertTrue(sample["downloadUrl"].endswith("adaptive-sales-qualification-v0.1.2.zip"))
+            self.assertTrue(sample["downloadUrl"].endswith("adaptive-sales-qualification-v0.1.3.zip"))
             self.assertEqual(sample["checksumUrl"], sample["downloadUrl"] + ".sha256")
             self.assertIn(sample["downloadUrl"], sample["agentPrompt"])
             self.assertIn("data-copy", (output / "app.js").read_text(encoding="utf-8"))

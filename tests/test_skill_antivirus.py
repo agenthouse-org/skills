@@ -171,7 +171,7 @@ class SkillAntivirusTests(unittest.TestCase):
         text = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
         self.assertTrue(text.startswith("---\n"))
         self.assertIn('name: "skill-antivirus"', text)
-        self.assertIn("version: 0.3.0", text)
+        self.assertIn("version: 0.3.1", text)
         self.assertIn("ai_disclosure:", text)
         self.assertTrue((SKILL_ROOT / "references" / "containment.md").is_file())
         skill_mds = list(SKILL_ROOT.rglob("SKILL.md"))

@@ -1,7 +1,7 @@
 ---
 name: "positioning-brief"
 description: "Clarify who an offer is for, what it changes for them, and why they should believe it, then write a short positioning and messaging brief that other work can reuse. Reads the available sources first, consults the user only on what is missing, and chooses a narrative framework such as strategic narrative, PAS, BAB, ABT, or AIDA. Use when the user asks for positioning, an ideal customer profile, a value proposition, key messages, a story line, or a brief for an ad, landing page, pitch, or campaign."
-version: 0.1.0
+version: 0.1.1
 author: "agenthouse"
 license: MIT
 price: 0
@@ -19,13 +19,20 @@ ai_disclosure: "AI MODIFIED"
 
 Write one page that answers six questions: who is this for, what are they trying to get done, what do they use today, what is different here, why should they believe it, and which story carries it. The brief feeds copy, ads, pages, pitches, and campaigns. It is not the copy itself.
 
+## Contents
+
+- [Required resources](#required-resources)
+- [Rules](#rules)
+- [Workflow](#workflow)
+- [Review](#review)
+- [Using the brief elsewhere](#using-the-brief-elsewhere)
+- [Frameworks](references/frameworks.md)
+- [Questions](references/questions.md)
+- [Brief template](templates/brief.md)
+
 ## Required resources
 
-Read:
-
-- `references/frameworks.md` for the positioning lenses and the narrative frameworks;
-- `references/questions.md` before consulting the user;
-- `templates/brief.md` before writing the brief.
+Read: `references/frameworks.md`, `references/questions.md` before consulting the user, `templates/brief.md` before writing.
 
 ## Rules
 
@@ -51,26 +58,27 @@ Read:
 
 1. Gather. Collect what the sources say about the audience, the offer, alternatives, and proof. Note each fact with its source.
 
-2. Position. Work through the lenses in [references/frameworks.md](references/frameworks.md): audience and trigger, jobs, pains and gains, current alternatives, what is different and the value it creates, and proof. Condense the result into one positioning statement.
+2. Position. Work through the lenses in [references/frameworks.md](references/frameworks.md): audience and trigger, jobs, pains and gains, current alternatives, what is different and the value it creates, and proof. Condense into one positioning statement.
 
 3. Check. Show the draft in five or six lines with the one assumption that matters most. Ask one question about it, then continue.
 
-4. Narrate. Choose a framework by goal, say why in one sentence, or offer the user two to pick from:
+4. Narrate. Choose a framework by goal (see frameworks reference), say why in one sentence, or offer two to pick from. Write the arc in three to six steps, each with source or assumption.
 
-| Goal | Framework |
-|---|---|
-| Launch, new category, pitch, a change bigger than a feature | Strategic narrative |
-| A clear, felt pain with a direct fix | PAS: problem, agitate, solve |
-| A transformation that is easy to show | BAB: before, after, bridge |
-| A very short piece, an opening, a one-liner | ABT: and, but, therefore |
-| Cold audiences who do not know the offer yet | AIDA: attention, interest, desire, action |
+5. Write. Fill [templates/brief.md](templates/brief.md). Save as `brief.md` unless the user names a path. New file per version; do not overwrite.
 
-Write the arc in three to six steps, each built from positioning content and each with its source or assumption.
+6. Hand over. Report path, positioning statement, arc, open assumptions, and claims still lacking a source.
 
-5. Write. Fill [templates/brief.md](templates/brief.md). Save it as `brief.md` in the working folder unless the user names a path. Deliver a new file for a new version; do not overwrite an earlier one.
+## Review
 
-6. Hand over. Report the file path, the positioning statement, the arc, the open assumptions, and the claims that still lack a source.
+- [ ] One audience and one main message
+- [ ] Claims sourced or marked unverified; do-not-claim list present
+- [ ] Assumptions labeled
+- [ ] Template headings preserved for downstream skills
 
 ## Using the brief elsewhere
 
 Keep the template headings so other work can find its inputs. The motion-ad skill, for example, reads the audience, the promise, the proof, the do-not-claim list, and the arc, then maps the arc onto its beats. A landing page or an email sequence can reuse the same brief.
+
+---
+
+EU AI Act disclosure: **AI MODIFIED**

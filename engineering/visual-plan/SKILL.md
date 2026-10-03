@@ -1,7 +1,7 @@
 ---
 name: "visual-plan"
 description: "Draft local wireframes and mermaid architecture diagrams before implementation. Use when a UI layout, data model, or API shape must be seen and decided before code, or when the user asks for a mockup, wireframe, ERD, UML, or visual plan."
-version: 0.1.0
+version: 0.1.1
 author: "agenthouse"
 license: MIT
 price: 0
@@ -18,6 +18,23 @@ ai_disclosure: "AI MODIFIED"
 # Visual Plan
 
 Produce a short, reviewable plan in Git: semantic HTML wireframes for screens, mermaid for architecture. Do not host a review UI. Do not edit application source while planning.
+
+## Contents
+
+- [Workflow](#workflow)
+- [Decide first](#decide-first)
+- [Artifacts](#artifacts)
+- [Review](#review)
+- [Template](templates/visual-plan.md)
+
+## Workflow
+
+```
+- [ ] Decide: wireframe / mermaid / both / neither
+- [ ] Produce artifacts for the chosen surface
+- [ ] List open questions with one recommended default
+- [ ] Stop for accept/reject (no implementation yet)
+```
 
 ## Decide first
 
@@ -40,6 +57,10 @@ Reply as **Decide / Artifacts / Open**. Expand only if the user asks.
 
 When agenthouse engineering is enrolled, write a visual-plan JSON, set `fields.visualPlan` on the work item, and run `visual-plan check`. Otherwise keep the HTML and mermaid files next to the work.
 
-## Completion
+## Review
 
 The plan is ready when the user can accept or reject each decision without reading a narrative, and the files match the chosen surface. A wireframe is not a pixel baseline. A mermaid diagram is a projection of the intended model, not proof the model is right.
+
+---
+
+EU AI Act disclosure: **AI MODIFIED**

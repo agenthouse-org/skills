@@ -1,7 +1,7 @@
 ---
 name: "ai-content-disclosure"
 description: "Assess AI-generated and AI-modified content, determine applicable transparency disclosures, and apply visible disclosure labels and official EU AI icons in support of Article 50 of the EU AI Act."
-version: 0.1.0
+version: 0.1.1
 author: "Neri GmbH"
 license: MIT
 price: 0
@@ -21,177 +21,79 @@ ai_disclosure: "PARTIALLY AI-MODIFIED"
 
 # AI Content Disclosure
 
-## Purpose
+Classify content, decide whether a visible AI disclosure is required or advisable, select the official EU icon, and apply it consistently. Supports compliance work; not legal advice and not a guarantee of compliance.
 
-Use this skill to classify content, determine whether a visible AI disclosure is required or advisable, select the appropriate official EU icon, and apply that icon consistently to an image.
+## Contents
 
-This skill supports compliance work. It does not provide legal advice and does not guarantee compliance. Article 50 duties depend on the actor's role, the content, the publication context, human review, editorial responsibility, and any applicable exceptions.
+- [Terminology](#terminology)
+- [When to use](#when-to-use)
+- [Setup](#setup)
+- [Workflow](#workflow)
+- [Review](#review)
+- [Operating procedure](references/operating-procedure.md) — steps, output format, guardrails
+- [Article 50 decision guide](references/article-50-decision-guide.md)
+- [Placement and accessibility](references/placement-and-accessibility.md)
 
-## Official terminology
+## Terminology
 
-Use these labels exactly when selecting an EU icon:
-
-- **Fully AI-Generated**
-- **Partially AI-Modified**
-- **Basic icon** with a clear custom text label when neither specific label accurately describes the disclosure
-
-Do not replace the official labels with ambiguous shorthand in user-facing content. Metadata systems may normalize them internally, but outputs should preserve the official wording.
+Use these labels exactly when selecting an EU icon: **Fully AI-Generated**, **Partially AI-Modified**, or **Basic icon** with clear custom text. Do not replace official labels with ambiguous shorthand in user-facing content.
 
 ## When to use
 
-Use this skill when an agent is asked to:
+Publish or prepare AI-generated/modified media; assess deep-fake or public-interest Article 50(4) cases; voluntary transparency labelling; place an official EU AI icon; write disclosure/alt text; distinguish visible labelling from provider-side machine-readable marking.
 
-- publish or prepare AI-generated or AI-modified image, audio, video, or text;
-- assess whether content is a deep fake or public-interest publication within Article 50(4);
-- label content voluntarily as a transparency best practice;
-- place an official EU AI icon on a raster image;
-- provide disclosure wording, alt text, or a machine-readable manifest;
-- distinguish visible labelling from provider-side machine-readable marking.
+## Setup
 
-## Required references
+Icons live in `assets/eu-ai-icons/PNG` and `assets/eu-ai-icons/SVG`.
 
-Read:
+**Python** (Pillow + CairoSVG):
 
-- `references/article-50-decision-guide.md`
-- `references/placement-and-accessibility.md`
-- `assets/eu-ai-icons/PNG`
-- `assets/eu-ai-icons/SVG`
+```bash
+pip install -r requirements.txt
+python scripts/apply_disclosure.py input.jpg output.png \
+  --icon "assets/eu-ai-icons/SVG/LABEL_AI GENERATED_black.svg" \
+  --corner bottom-right
+```
 
-Use `scripts/apply_disclosure.py` or `scripts/apply-disclosure.mjs` when deterministic image placement is requested or preferable.
+**Node.js** (sharp):
 
-## Operating procedure
+```bash
+npm install
+node scripts/apply-disclosure.mjs input.jpg output.png \
+  --icon "assets/eu-ai-icons/SVG/LABEL_AI GENERATED_black.svg" \
+  --corner bottom-right
+```
 
-### 1. Establish facts
+Prefer these scripts for deterministic placement. Options: `--corner`, `--relative-width`, `--margin`, `--overwrite`.
 
-Identify:
+## Workflow
 
-- the content modality;
-- whether the content is fully generated, partially modified, or only assisted by AI;
-- whether it resembles real persons, objects, places, entities, or events and could falsely appear authentic;
-- whether text is published to inform the public on a matter of public interest;
-- whether the text underwent human review or editorial control;
-- whether a natural or legal person assumes editorial responsibility;
-- whether an artistic, creative, satirical, fictional, legal-authorisation, or other exception may apply;
-- whether the user is acting as provider, deployer, publisher, creator, or another role.
+```
+- [ ] Establish facts (modality, role, authenticity risk, exceptions)
+- [ ] Classify: Fully AI-Generated / Partially AI-Modified / AI-assisted only / Unknown
+- [ ] Determine disclosure status
+- [ ] Select official icon and contrast variant
+- [ ] Choose placement; prefer deterministic script
+- [ ] Write new output; preserve original
+- [ ] Add accessible text / alt where the channel allows
+- [ ] Note any separate machine-readable (Article 50(2)) duties
+```
 
-Do not infer missing legal facts as certain.
+Execute detail from [references/operating-procedure.md](references/operating-procedure.md). Read the decision guide and placement reference before judging.
 
-### 2. Classify the content
+## Review
 
-Choose one:
-
-- **Fully AI-Generated** — all relevant content was generated by AI, apart from prompting, without human-created source elements.
-- **Partially AI-Modified** — pre-existing human-made content was materially altered by AI.
-- **AI-assisted only** — AI supported ideation, correction, translation, formatting, or another process without generating or materially manipulating the relevant content.
-- **Unknown** — insufficient evidence.
-
-A minor technical adjustment does not automatically make content Partially AI-Modified. Assess whether AI materially altered what a person perceives or understands.
-
-### 3. Determine disclosure status
-
-Return one:
-
-- **Required under Article 50(4)**
-- **Potentially required — legal/context review needed**
-- **Recommended transparency practice**
-- **Not required based on available facts**
-- **Insufficient information**
-
-Never claim that using an icon alone establishes compliance.
-
-### 4. Select the icon
-
-- Select **Fully AI-Generated** when the whole relevant content is AI-generated.
-- Select **Partially AI-Modified** when human-made content was materially modified by AI.
-- Select the **Basic icon** with plain-language text when a more specific or contextual statement is needed.
-
-Use black, white, black 50%, or white 50% according to contrast. Prefer an opaque version unless transparency is necessary and remains clearly perceivable.
-
-### 5. Choose placement
-
-Prefer deterministic placement for production workflows:
-
-- default corner: bottom-right;
-- keep a proportional safe margin;
-- avoid faces, text, logos, subtitles, controls, and other overlays;
-- maintain sufficient contrast;
-- ensure the disclosure remains visible when downloaded or reshared.
-
-An agent may use an image-generation or image-editing model when deterministic placement is unavailable, but it must verify that the official icon was not distorted, redrawn, misspelled, or semantically altered.
-
-### 6. Preserve originals
-
-Do not overwrite the source by default. Create a new output file and record:
-
-- source file;
-- output file;
-- classification;
-- selected icon;
-- placement;
-- timestamp when available;
-- whether the decision was legally required, recommended, or uncertain.
-
-### 7. Add accessible disclosure
-
-Where the publication channel permits, provide alt text or an ARIA label such as:
-
-- `Fully AI-generated content.`
-- `Content partially modified using AI.`
-
-Use plain language. Do not rely solely on colour or visual placement.
-
-### 8. Distinguish visible and machine-readable marking
-
-Visible labelling for deployers does not replace provider-side duties to make synthetic output detectable in a machine-readable format where Article 50(2) applies.
-
-When relevant, state that provenance metadata, watermarking, content credentials, or another machine-readable technique may also be required. Do not claim the included scripts satisfy Article 50(2).
-
-## Output format
-
-Provide:
-
-1. **Classification**
-2. **Disclosure status**
-3. **Reasoning and known facts**
-4. **Unknowns or exceptions requiring review**
-5. **Recommended icon and variant**
-6. **Recommended placement and accessible text**
-7. **Execution method** — Python script, Node.js script, or verified image-editing workflow
-8. **Compliance caveat**
-
-## Guardrails
-
-You MUST:
-
-- use the official terminology;
-- distinguish legal requirements from voluntary transparency;
-- preserve uncertainty;
-- use official icon files without visual modification beyond scaling and permitted opacity variants;
-- keep the disclosure visible and distinguishable;
-- preserve the original content unless overwrite is explicitly requested.
-
-You MUST NOT:
-
-- state that all AI-generated content must carry a visible icon;
-- state that icon use alone establishes compliance;
-- invent human review or editorial responsibility;
-- remove or conceal existing provenance metadata without instruction and a legitimate reason;
-- recreate an approximate EU icon when the official asset is available;
-- imply that use of the icons means the publisher signed the Code of Practice.
+- [ ] Official terminology preserved
+- [ ] Icon not distorted, redrawn, or semantically altered
+- [ ] Original file not overwritten unless requested
+- [ ] Uncertainty and compliance caveat stated
+- [ ] Icon use is not claimed as full compliance
 
 ## Quick start
 
 ```text
 Assess this content under the AI Content Disclosure skill. Determine whether it is Fully AI-Generated, Partially AI-Modified, AI-assisted only, or unknown; assess the Article 50 disclosure status; select the appropriate official EU icon; and apply it deterministically without overwriting the original.
 ```
-
-## Permissions
-
-- Read files: yes
-- Write files: optional, limited to derived labelled outputs and manifests
-- Execute scripts: optional
-- Browser/network: optional for retrieving current official guidance and icon assets
-- Legal decision-making: no; escalate ambiguous or high-risk cases
 
 ---
 
