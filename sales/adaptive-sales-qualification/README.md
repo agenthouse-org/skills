@@ -3,9 +3,9 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-- **Version:** `0.1.2`
-- **ZIP:** [adaptive-sales-qualification-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/adaptive-sales-qualification-v0.1.2.zip)
-- **Release:** [release-2026-10-01](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-01)
+- **Version:** `0.1.3`
+- **ZIP:** [adaptive-sales-qualification-v0.1.3.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/adaptive-sales-qualification-v0.1.3.zip)
+- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
 - **Install:** `npx skills add agenthouse-org/skills --skill adaptive-sales-qualification`
 
 ### Install with your agent
@@ -15,10 +15,10 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "adaptive-sales-qualification" for me.
 
-Skill: adaptive-sales-qualification v0.1.2 by Neri GmbH. Assess, verify, score, and prioritize leads, accounts, and sales opportunities using an adaptive, evidence-based qualification process.
+Skill: adaptive-sales-qualification v0.1.3 by Neri GmbH. Assess, verify, score, and prioritize leads, accounts, and sales opportunities using an adaptive, evidence-based qualification process.
 Files: https://github.com/agenthouse-org/skills/tree/main/sales/adaptive-sales-qualification
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/adaptive-sales-qualification-v0.1.2.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/adaptive-sales-qualification-v0.1.2.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/adaptive-sales-qualification-v0.1.3.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/adaptive-sales-qualification-v0.1.3.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

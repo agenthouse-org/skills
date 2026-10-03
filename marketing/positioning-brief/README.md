@@ -3,9 +3,9 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-- **Version:** `0.1.0`
-- **ZIP:** [positioning-brief-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/positioning-brief-v0.1.0.zip)
-- **Release:** [release-2026-10-01](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-01)
+- **Version:** `0.1.1`
+- **ZIP:** [positioning-brief-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/positioning-brief-v0.1.1.zip)
+- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
 - **Install:** `npx skills add agenthouse-org/skills --skill positioning-brief`
 
 ### Install with your agent
@@ -15,10 +15,10 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "positioning-brief" for me.
 
-Skill: positioning-brief v0.1.0 by agenthouse. Clarify who an offer is for, what it changes for them, and why they should believe it, then write a short positioning and messaging brief that other work can reuse.
+Skill: positioning-brief v0.1.1 by agenthouse. Clarify who an offer is for, what it changes for them, and why they should believe it, then write a short positioning and messaging brief that other work can reuse.
 Files: https://github.com/agenthouse-org/skills/tree/main/marketing/positioning-brief
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/positioning-brief-v0.1.0.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/positioning-brief-v0.1.0.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/positioning-brief-v0.1.1.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/positioning-brief-v0.1.1.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

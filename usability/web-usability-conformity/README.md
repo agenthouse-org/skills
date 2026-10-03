@@ -3,9 +3,9 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-- **Version:** `0.1.0`
-- **ZIP:** [web-usability-conformity-v0.1.0.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/web-usability-conformity-v0.1.0.zip)
-- **Release:** [release-2026-10-01](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-01)
+- **Version:** `0.1.1`
+- **ZIP:** [web-usability-conformity-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/web-usability-conformity-v0.1.1.zip)
+- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
 - **Install:** `npx skills add agenthouse-org/skills --skill web-usability-conformity`
 
 ### Install with your agent
@@ -15,10 +15,10 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "web-usability-conformity" for me.
 
-Skill: web-usability-conformity v0.1.0 by Neri GmbH. Audit, reach, and maintain web usability and accessibility conformity against WCAG 2.2 Level AA (ISO/IEC 40500:2025), with EN 301 549, BITV 2.0, and BFSG mapping.
+Skill: web-usability-conformity v0.1.1 by Neri GmbH. Audit, reach, and maintain web usability and accessibility conformity against WCAG 2.2 Level AA (ISO/IEC 40500:2025), with EN 301 549, BITV 2.0, and BFSG mapping.
 Files: https://github.com/agenthouse-org/skills/tree/main/usability/web-usability-conformity
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/web-usability-conformity-v0.1.0.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-01/web-usability-conformity-v0.1.0.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/web-usability-conformity-v0.1.1.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/web-usability-conformity-v0.1.1.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.
