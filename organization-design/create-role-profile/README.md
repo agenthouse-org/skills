@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.1`
-- **ZIP:** [create-role-profile-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/create-role-profile-v0.1.1.zip)
-- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
+- **ZIP:** [create-role-profile-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/create-role-profile-v0.1.1.zip)
+- **Release:** [release-2026-10-03-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill create-role-profile`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "create-role-profile" for me.
 
 Skill: create-role-profile v0.1.1 by Neri GmbH. Interview a user to define an organizational role, clarify its purpose, domains, responsibilities, authority, obligations, boundaries, requirements, holder, and approval, then create a professional role profile as DOCX or Excel.
 Files: https://github.com/agenthouse-org/skills/tree/main/organization-design/create-role-profile
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/create-role-profile-v0.1.1.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/create-role-profile-v0.1.1.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/create-role-profile-v0.1.1.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/create-role-profile-v0.1.1.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

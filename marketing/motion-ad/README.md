@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.2.2`
-- **ZIP:** [motion-ad-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/motion-ad-v0.2.2.zip)
-- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
+- **ZIP:** [motion-ad-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/motion-ad-v0.2.2.zip)
+- **Release:** [release-2026-10-03-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill motion-ad`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "motion-ad" for me.
 
 Skill: motion-ad v0.2.2 by agenthouse. Build a browser-played HTML motion graphic for a product, idea, or message.
 Files: https://github.com/agenthouse-org/skills/tree/main/marketing/motion-ad
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/motion-ad-v0.2.2.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/motion-ad-v0.2.2.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/motion-ad-v0.2.2.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/motion-ad-v0.2.2.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

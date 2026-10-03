@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.3.1`
-- **ZIP:** [skill-antivirus-v0.3.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/skill-antivirus-v0.3.1.zip)
-- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
+- **ZIP:** [skill-antivirus-v0.3.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip)
+- **Release:** [release-2026-10-03-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill skill-antivirus`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "skill-antivirus" for me.
 
 Skill: skill-antivirus v0.3.1 by agenthouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
 Files: https://github.com/agenthouse-org/skills/tree/main/security/skill-antivirus
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/skill-antivirus-v0.3.1.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/skill-antivirus-v0.3.1.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

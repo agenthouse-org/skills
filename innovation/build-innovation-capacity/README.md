@@ -4,8 +4,8 @@
 ## Download
 
 - **Version:** `0.1.1`
-- **ZIP:** [build-innovation-capacity-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/build-innovation-capacity-v0.1.1.zip)
-- **Release:** [release-2026-10-03](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03)
+- **ZIP:** [build-innovation-capacity-v0.1.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/build-innovation-capacity-v0.1.1.zip)
+- **Release:** [release-2026-10-03-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill build-innovation-capacity`
 
 ### Install with your agent
@@ -17,8 +17,8 @@ Please install the agent skill "build-innovation-capacity" for me.
 
 Skill: build-innovation-capacity v0.1.1 by Neri GmbH. Help executives and founders understand where organizational attention is consumed, distinguish operational work from implementation and exploratory innovation, release capacity for unconventional ideas, and turn promising ideas into validated change using the Alpha Pyramid framework.
 Files: https://github.com/agenthouse-org/skills/tree/main/innovation/build-innovation-capacity
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/build-innovation-capacity-v0.1.1.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03/build-innovation-capacity-v0.1.1.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/build-innovation-capacity-v0.1.1.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/build-innovation-capacity-v0.1.1.zip.sha256
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.
