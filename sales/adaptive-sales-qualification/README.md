@@ -4,9 +4,9 @@
 ## Download
 
 - **Version:** `0.1.4`
-- **ZIP:** [adaptive-sales-qualification-v0.1.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/adaptive-sales-qualification-v0.1.4.zip)
-- **Plugin package:** [adaptive-sales-qualification-plugin-v0.1.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/adaptive-sales-qualification-plugin-v0.1.4.zip)
-- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
+- **ZIP:** [adaptive-sales-qualification-v0.1.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/adaptive-sales-qualification-v0.1.4.zip)
+- **Plugin package:** [adaptive-sales-qualification-plugin-v0.1.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/adaptive-sales-qualification-plugin-v0.1.4.zip)
+- **Release:** [release-2026-10-11-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill adaptive-sales-qualification`
 - **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
@@ -19,9 +19,9 @@ Please install the agent skill "adaptive-sales-qualification" for me.
 
 Skill: adaptive-sales-qualification v0.1.4 by Neri GmbH. Assess, verify, score, and prioritize leads, accounts, and sales opportunities using an adaptive, evidence-based qualification process.
 Files: https://github.com/agenthouse-org/skills/tree/main/sales/adaptive-sales-qualification
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/adaptive-sales-qualification-v0.1.4.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/adaptive-sales-qualification-v0.1.4.zip.sha256
-Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/adaptive-sales-qualification-plugin-v0.1.4.zip
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/adaptive-sales-qualification-v0.1.4.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/adaptive-sales-qualification-v0.1.4.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/adaptive-sales-qualification-plugin-v0.1.4.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

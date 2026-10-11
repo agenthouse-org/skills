@@ -3,10 +3,10 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-- **Version:** `0.2.3`
-- **ZIP:** [motion-ad-v0.2.3.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/motion-ad-v0.2.3.zip)
-- **Plugin package:** [motion-ad-plugin-v0.2.3.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/motion-ad-plugin-v0.2.3.zip)
-- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
+- **Version:** `0.2.4`
+- **ZIP:** [motion-ad-v0.2.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/motion-ad-v0.2.4.zip)
+- **Plugin package:** [motion-ad-plugin-v0.2.4.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/motion-ad-plugin-v0.2.4.zip)
+- **Release:** [release-2026-10-11-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill motion-ad`
 - **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
@@ -17,11 +17,11 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "motion-ad" for me.
 
-Skill: motion-ad v0.2.3 by agenthouse. Build a browser-played HTML motion graphic for a product, idea, or message.
+Skill: motion-ad v0.2.4 by agenthouse. Develop a browser-played HTML motion ad from idea and storyboard through review, or build in one pass when requested.
 Files: https://github.com/agenthouse-org/skills/tree/main/marketing/motion-ad
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/motion-ad-v0.2.3.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/motion-ad-v0.2.3.zip.sha256
-Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/motion-ad-plugin-v0.2.3.zip
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/motion-ad-v0.2.4.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/motion-ad-v0.2.4.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/motion-ad-plugin-v0.2.4.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

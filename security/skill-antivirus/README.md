@@ -4,9 +4,9 @@
 ## Download
 
 - **Version:** `0.3.2`
-- **ZIP:** [skill-antivirus-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip)
-- **Plugin package:** [skill-antivirus-plugin-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-plugin-v0.3.2.zip)
-- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
+- **ZIP:** [skill-antivirus-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/skill-antivirus-v0.3.2.zip)
+- **Plugin package:** [skill-antivirus-plugin-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/skill-antivirus-plugin-v0.3.2.zip)
+- **Release:** [release-2026-10-11-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill skill-antivirus`
 - **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
@@ -19,9 +19,9 @@ Please install the agent skill "skill-antivirus" for me.
 
 Skill: skill-antivirus v0.3.2 by agenthouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
 Files: https://github.com/agenthouse-org/skills/tree/main/security/skill-antivirus
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip.sha256
-Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-plugin-v0.3.2.zip
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/skill-antivirus-v0.3.2.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/skill-antivirus-v0.3.2.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/skill-antivirus-plugin-v0.3.2.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

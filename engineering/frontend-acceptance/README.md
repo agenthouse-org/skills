@@ -4,9 +4,9 @@
 ## Download
 
 - **Version:** `0.2.2`
-- **ZIP:** [frontend-acceptance-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/frontend-acceptance-v0.2.2.zip)
-- **Plugin package:** [frontend-acceptance-plugin-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/frontend-acceptance-plugin-v0.2.2.zip)
-- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
+- **ZIP:** [frontend-acceptance-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/frontend-acceptance-v0.2.2.zip)
+- **Plugin package:** [frontend-acceptance-plugin-v0.2.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/frontend-acceptance-plugin-v0.2.2.zip)
+- **Release:** [release-2026-10-11-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill frontend-acceptance`
 - **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
@@ -19,9 +19,9 @@ Please install the agent skill "frontend-acceptance" for me.
 
 Skill: frontend-acceptance v0.2.2 by Neri GmbH. Design and verify frontend changes through explicit design principles, browser-driven acceptance tests, and screenshot evidence.
 Files: https://github.com/agenthouse-org/skills/tree/main/engineering/frontend-acceptance
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/frontend-acceptance-v0.2.2.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/frontend-acceptance-v0.2.2.zip.sha256
-Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/frontend-acceptance-plugin-v0.2.2.zip
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/frontend-acceptance-v0.2.2.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/frontend-acceptance-v0.2.2.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/frontend-acceptance-plugin-v0.2.2.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.

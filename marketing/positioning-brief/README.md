@@ -4,9 +4,9 @@
 ## Download
 
 - **Version:** `0.1.2`
-- **ZIP:** [positioning-brief-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/positioning-brief-v0.1.2.zip)
-- **Plugin package:** [positioning-brief-plugin-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/positioning-brief-plugin-v0.1.2.zip)
-- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
+- **ZIP:** [positioning-brief-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/positioning-brief-v0.1.2.zip)
+- **Plugin package:** [positioning-brief-plugin-v0.1.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/positioning-brief-plugin-v0.1.2.zip)
+- **Release:** [release-2026-10-11-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11-2)
 - **Install:** `npx skills add agenthouse-org/skills --skill positioning-brief`
 - **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
@@ -19,9 +19,9 @@ Please install the agent skill "positioning-brief" for me.
 
 Skill: positioning-brief v0.1.2 by agenthouse. Clarify who an offer is for, what it changes for them, and why they should believe it, then write a short positioning and messaging brief that other work can reuse.
 Files: https://github.com/agenthouse-org/skills/tree/main/marketing/positioning-brief
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/positioning-brief-v0.1.2.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/positioning-brief-v0.1.2.zip.sha256
-Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/positioning-brief-plugin-v0.1.2.zip
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/positioning-brief-v0.1.2.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/positioning-brief-v0.1.2.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11-2/positioning-brief-plugin-v0.1.2.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.
