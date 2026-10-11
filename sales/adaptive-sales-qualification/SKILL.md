@@ -1,7 +1,7 @@
 ---
 name: "adaptive-sales-qualification"
 description: "Assess, verify, score, and prioritize leads, accounts, and sales opportunities using an adaptive, evidence-based qualification process. Designed primarily for B2B sales and adaptable to high-consideration B2C, custom industries, geographies, products, sales cycles, and costs of sale."
-version: 0.1.3
+version: 0.1.4
 author: "Neri GmbH"
 license: MIT
 price: 0

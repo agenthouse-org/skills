@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 import sys
 
@@ -33,6 +34,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertTrue(enriched.startswith("---\nname:"))
         self.assertEqual(enriched.count("## agenthouse update awareness"), 1)
         self.assertIn('update-manifest: "https://example.test/manifest.json"', enriched)
+        self.assertEqual(enriched.count("## Plugin runtime and environment"), 1)
 
     def test_manifest_is_deterministic_and_safe(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -61,15 +63,18 @@ class ReleaseTests(unittest.TestCase):
             release.update_docs(items, "agenthouse-org/skills", "release-2026-08-08", root)
 
             main = (root / "README.md").read_text(encoding="utf-8")
-            self.assertIn("| Skill | Purpose | Version | Files | Download | Agent install |", main)
-            self.assertIn("adaptive-sales-qualification-v0.1.3.zip", main)
+            self.assertIn("| Skill | Purpose | Version | Files | Download | Plugin package | Agent install |", main)
+            self.assertIn("adaptive-sales-qualification-v0.1.4.zip", main)
+            self.assertIn("Plugin package", main)
             self.assertIn("skill-antivirus", main)
             self.assertIn("/sales/adaptive-sales-qualification#install-with-your-agent", main)
 
             sales = (root / "sales/adaptive-sales-qualification/README.md").read_text(encoding="utf-8")
             self.assertIn("## Download", sales)
-            self.assertIn("releases/download/release-2026-08-08/adaptive-sales-qualification-v0.1.3.zip", sales)
+            self.assertIn("releases/download/release-2026-08-08/adaptive-sales-qualification-v0.1.4.zip", sales)
             self.assertIn("npx skills add agenthouse-org/skills --skill adaptive-sales-qualification", sales)
+            self.assertIn("adaptive-sales-qualification-plugin-v0.1.4.zip", sales)
+            self.assertIn("Plugins Directory", sales)
             self.assertNotIn("\nold\n", sales)
 
             for item in items:
@@ -87,6 +92,8 @@ class ReleaseTests(unittest.TestCase):
         self.assertIn(release.summary_of(item["description"]), prompt)
         self.assertIn(f"ZIP: {zip_url}", prompt)
         self.assertIn(f"SHA-256: {zip_url}.sha256", prompt)
+        self.assertIn("motion-ad-plugin-v0.2.3.zip", prompt)
+        self.assertIn("ChatGPT Chat or Work", prompt)
         self.assertIn("npx skills add agenthouse-org/skills --skill motion-ad", prompt)
         self.assertIn("Do not run any script from the skill during installation", prompt)
         self.assertNotIn("```", prompt)
@@ -115,9 +122,10 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(len(catalogue["skills"]), len(items))
             sample = next(x for x in catalogue["skills"] if x["name"] == "adaptive-sales-qualification")
             self.assertEqual(sample["category"], "sales")
-            self.assertTrue(sample["downloadUrl"].endswith("adaptive-sales-qualification-v0.1.3.zip"))
+            self.assertTrue(sample["downloadUrl"].endswith("adaptive-sales-qualification-v0.1.4.zip"))
             self.assertEqual(sample["checksumUrl"], sample["downloadUrl"] + ".sha256")
             self.assertIn(sample["downloadUrl"], sample["agentPrompt"])
+            self.assertTrue(sample["pluginDownloadUrl"].endswith("adaptive-sales-qualification-plugin-v0.1.4.zip"))
             self.assertIn("data-copy", (output / "app.js").read_text(encoding="utf-8"))
             self.assertTrue((output / "index.html").is_file())
             self.assertTrue((output / "styles.css").is_file())
@@ -140,6 +148,20 @@ class ReleaseTests(unittest.TestCase):
             self.assertFalse((output / "demos/motion-ad/dealdesk/scene.html").exists())
             sales = next(x for x in catalogue["skills"] if x["name"] == "adaptive-sales-qualification")
             self.assertEqual(sales["demos"], [])
+
+    def test_plugin_package_has_manifest_and_complete_skill(self):
+        item = next(x for x in release.discover() if x["name"] == "motion-ad")
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            archive_path = release.package_plugin(item, output, "2026-08-07", "https://example.test/manifest.json")
+            self.assertTrue(archive_path.is_file())
+            with zipfile.ZipFile(archive_path) as archive:
+                manifest = json.loads(archive.read("agenthouse-motion-ad/plugin.json"))
+                self.assertEqual(manifest["name"], "agenthouse-motion-ad")
+                self.assertEqual(manifest["version"], "0.2.3")
+                self.assertLessEqual(len(manifest["extensions"]["com.openai"]["interface"]["shortDescription"]), 30)
+                self.assertIn("agenthouse-motion-ad/skills/motion-ad/SKILL.md", archive.namelist())
+                self.assertIn("agenthouse-motion-ad/skills/motion-ad/scripts/render.mjs", archive.namelist())
 
 
 if __name__ == "__main__":

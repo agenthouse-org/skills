@@ -1,7 +1,7 @@
 ---
 name: "visual-plan"
 description: "Draft local wireframes and mermaid architecture diagrams before implementation. Use when a UI layout, data model, or API shape must be seen and decided before code, or when the user asks for a mockup, wireframe, ERD, UML, or visual plan."
-version: 0.1.1
+version: 0.1.2
 author: "agenthouse"
 license: MIT
 price: 0

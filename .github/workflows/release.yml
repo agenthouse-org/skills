@@ -143,6 +143,7 @@ jobs:
           echo "name=$NAME" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "asset=${NAME}-v${VERSION}.zip" >> "$GITHUB_OUTPUT"
+          echo "plugin_asset=${NAME}-plugin-v${VERSION}.zip" >> "$GITHUB_OUTPUT"
 
       - name: Create skill ZIP
         shell: bash
@@ -158,6 +159,7 @@ jobs:
 
           echo "Created:"
           ls -lh "dist/$ASSET_NAME" "dist/$ASSET_NAME.sha256"
+          ls -lh "dist/${{ steps.metadata.outputs.plugin_asset }}" "dist/${{ steps.metadata.outputs.plugin_asset }}.sha256"
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v7
@@ -166,6 +168,8 @@ jobs:
           path: |
             dist/${{ steps.metadata.outputs.asset }}
             dist/${{ steps.metadata.outputs.asset }}.sha256
+            dist/${{ steps.metadata.outputs.plugin_asset }}
+            dist/${{ steps.metadata.outputs.plugin_asset }}.sha256
           retention-days: 30
 
   release:

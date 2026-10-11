@@ -1,7 +1,7 @@
 ---
 name: "ai-content-disclosure"
 description: "Assess AI-generated and AI-modified content, determine applicable transparency disclosures, and apply visible disclosure labels and official EU AI icons in support of Article 50 of the EU AI Act."
-version: 0.1.1
+version: 0.1.2
 author: "Neri GmbH"
 license: MIT
 price: 0

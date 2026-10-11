@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = Path(__file__).with_name("update-management.md")
+PLUGIN_RUNTIME = Path(__file__).with_name("plugin-runtime.md")
 PAGES_SRC = Path(__file__).with_name("pages")
 SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 
@@ -57,6 +58,18 @@ def download_url(repository: str, release_tag: str, name: str, version: str) -> 
     return f"https://github.com/{repository}/releases/download/{release_tag}/{name}-v{version}.zip"
 
 
+def plugin_name(item: dict[str, str]) -> str:
+    """Return the stable package identity for a skill-only plugin."""
+    return f"agenthouse-{item['name']}"
+
+
+def plugin_download_url(repository: str, release_tag: str, name: str, version: str) -> str:
+    return (
+        f"https://github.com/{repository}/releases/download/{release_tag}/"
+        f"{name}-plugin-v{version}.zip"
+    )
+
+
 def skill_url(repository: str, path: str) -> str:
     return f"https://github.com/{repository}/tree/main/{path}"
 
@@ -65,9 +78,9 @@ def discover(root: Path = ROOT) -> list[dict[str, str]]:
     result = []
     # fixtures/ and tests/ may contain self-test packages that must not be published
     # as catalogue skills. Fixtures must not use SKILL.md (ZIP loaders require exactly one).
-    ignored = {".git", ".github", "build", "dist", "release-assets", "pages", "node_modules", "fixtures", "tests"}
+    ignored = {".git", ".github", "build", "release-assets", "pages", "node_modules", "fixtures", "tests"}
     for skill_file in sorted(root.rglob("SKILL.md")):
-        if any(part in ignored for part in skill_file.parts):
+        if any(part in ignored or part == "dist" or part.startswith("dist-") for part in skill_file.parts):
             continue
         _, _, meta = frontmatter(skill_file)
         name, version = meta.get("name", "").strip(), meta.get("version", "").strip()
@@ -107,7 +120,39 @@ def enriched_skill(source: Path, item: dict[str, str], release_date: str, manife
         f'  update-manifest: "{manifest_url}"',
     ]
     new_frontmatter = text[:4] + text[4:end] + "\n" + "\n".join(metadata) + text[end:]
-    return new_frontmatter + body + TEMPLATE.read_text(encoding="utf-8")
+    return new_frontmatter + body + TEMPLATE.read_text(encoding="utf-8") + PLUGIN_RUNTIME.read_text(encoding="utf-8")
+
+
+def plugin_manifest(item: dict[str, str]) -> dict:
+    """Build a portable Agent Plugins manifest for one self-contained skill."""
+    title = title_case(item["name"])
+    short_description = f"{title} workflow"
+    if len(short_description) > 30:
+        short_description = title[:30].rstrip()
+    return {
+        "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+        "name": plugin_name(item),
+        "version": item["version"],
+        "description": summary_of(item["description"]),
+        "author": {"name": item.get("author") or "agenthouse"},
+        "homepage": "https://agenthouse.org",
+        "repository": "https://github.com/agenthouse-org/skills",
+        "license": item.get("license") or "MIT",
+        "keywords": ["agenthouse", item["category"], item["name"]],
+        "extensions": {
+            "com.openai": {
+                "interface": {
+                    "displayName": title,
+                    "shortDescription": short_description,
+                    "longDescription": summary_of(item["description"]),
+                    "developerName": item.get("author") or "agenthouse",
+                    "category": "Productivity",
+                    "capabilities": ["Interactive"],
+                    "defaultPrompt": f"Use {title} to help me with this task.",
+                }
+            }
+        },
+    }
 
 
 def package(item: dict[str, str], output: Path, release_date: str, manifest_url: str) -> Path:
@@ -131,6 +176,31 @@ def package(item: dict[str, str], output: Path, release_date: str, manifest_url:
         for path in sorted(stage.rglob("*")):
             if path.is_file():
                 archive.write(path, Path(item["name"]) / path.relative_to(stage))
+    digest = hashlib.sha256(asset.read_bytes()).hexdigest()
+    asset.with_name(asset.name + ".sha256").write_text(f"{digest}  {asset.name}\n", encoding="utf-8")
+    return asset
+
+
+def package_plugin(item: dict[str, str], output: Path, release_date: str, manifest_url: str) -> Path:
+    """Create a portable skills-only plugin archive alongside the local skill ZIP."""
+    source_dir = ROOT / item["path"]
+    name = plugin_name(item)
+    stage = output / name
+    skill_stage = stage / "skills" / item["name"]
+    ignore = shutil.ignore_patterns(
+        "node_modules", ".audit-self-test", "*-shots", "renders", "package-lock.json",
+        "audit-report.json", ".gitignore", "__pycache__", "*.pyc",
+    )
+    shutil.copytree(source_dir, skill_stage, ignore=ignore)
+    (skill_stage / "SKILL.md").write_text(
+        enriched_skill(source_dir / "SKILL.md", item, release_date, manifest_url), encoding="utf-8"
+    )
+    (stage / "plugin.json").write_text(json.dumps(plugin_manifest(item), indent=2) + "\n", encoding="utf-8")
+    asset = output / f'{item["name"]}-plugin-v{item["version"]}.zip'
+    with zipfile.ZipFile(asset, "w", zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(stage.rglob("*")):
+            if path.is_file():
+                archive.write(path, Path(name) / path.relative_to(stage))
     digest = hashlib.sha256(asset.read_bytes()).hexdigest()
     asset.with_name(asset.name + ".sha256").write_text(f"{digest}  {asset.name}\n", encoding="utf-8")
     return asset
@@ -188,15 +258,17 @@ def agent_install_prompt(item: dict[str, str], repository: str, release_tag: str
         f"Files: {skill_url(repository, item['path'])}",
         f"ZIP: {zip_url}",
         f"SHA-256: {zip_url}.sha256",
+        f"Plugin package: {plugin_download_url(repository, release_tag, name, item['version'])}",
         "",
         "Steps:",
         "1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.",
-        "2. If you can run shell commands and Node.js 22.20 or newer is available, run:",
+        "2. If this is ChatGPT Chat or Work on web, desktop, or mobile, install the registered plugin from the Plugins Directory, then start a new chat and invoke it with @. A local ZIP does not by itself install a ChatGPT plugin.",
+        "3. If this is a local agent and Node.js 22.20 or newer is available, run:",
         f"   npx skills add {repository} --skill {name}",
-        f"3. Otherwise download the ZIP, compare its SHA-256 with the checksum file, and extract the {name} folder into your skills folder (for example .claude/skills/, .agents/skills/, .gemini/skills/, or .cursor/skills/).",
-        "4. If you cannot run commands or write files, give me short step-by-step instructions for adding the ZIP in this app instead.",
-        "5. Do not run any script from the skill during installation. Read its SKILL.md and tell me in two sentences what it does and whether it needs extra tools such as Node.js, Python, or a browser.",
-        "6. Confirm where it is installed and show me one example prompt to start using it.",
+        f"4. Otherwise download the local-skill ZIP, compare its SHA-256 with the checksum file, and extract the {name} folder into your skills folder (for example .claude/skills/, .agents/skills/, .gemini/skills/, or .cursor/skills/).",
+        "5. If you cannot run commands or write files, give me short step-by-step instructions for the supported installation flow in this app.",
+        "6. Do not run any script from the skill during installation. Read its SKILL.md and tell me in two sentences what it does and whether it needs extra tools such as Node.js, Python, or a browser.",
+        "7. Confirm where it is installed and show me one example prompt to start using it.",
     ]
     return "\n".join(lines)
 
@@ -211,8 +283,10 @@ def download_section(item: dict[str, str], repository: str, release_tag: str) ->
             "",
             f"- **Version:** `{item['version']}`",
             f"- **ZIP:** [{asset}]({zip_url})",
+            f"- **Plugin package:** [{item['name']}-plugin-v{item['version']}.zip]({plugin_download_url(repository, release_tag, item['name'], item['version'])})",
             f"- **Release:** [{release_tag}]({release_url})",
             f"- **Install:** `npx skills add {repository} --skill {item['name']}`",
+            "- **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.",
             "",
             AGENT_INSTALL_HEADING,
             "",
@@ -238,17 +312,18 @@ def update_main_readme(items: list[dict[str, str]], repository: str, release_tag
             f"| `{item['version']}` "
             f"| [View]({url}) "
             f"| [ZIP]({zip_link}) "
+            f"| [Plugin ZIP]({plugin_download_url(repository, release_tag, item['name'], item['version'])}) "
             f"| [Prompt]({url}#install-with-your-agent) |"
         )
     body = "\n".join(
         [
-            "| Skill | Purpose | Version | Files | Download | Agent install |",
-            "|---|---|---:|---|---|---|",
+            "| Skill | Purpose | Version | Files | Download | Plugin package | Agent install |",
+            "|---|---|---:|---|---|---|---|",
             *rows,
         ]
     )
     updated = replace_markers(readme_path.read_text(encoding="utf-8"), SKILLS_TABLE_START, SKILLS_TABLE_END, body)
-    readme_path.write_text(updated, encoding="utf-8")
+    readme_path.write_text(updated, encoding="utf-8", newline="\n")
     return readme_path
 
 
@@ -261,7 +336,7 @@ def update_skill_readme(item: dict[str, str], repository: str, release_tag: str,
     section = download_section(item, repository, release_tag)
     updated = replace_markers(text, DOWNLOAD_START, DOWNLOAD_END, section)
     readme_path.parent.mkdir(parents=True, exist_ok=True)
-    readme_path.write_text(updated, encoding="utf-8")
+    readme_path.write_text(updated, encoding="utf-8", newline="\n")
     return readme_path
 
 
@@ -314,6 +389,7 @@ def catalogue_payload(items: list[dict[str, str]], repository: str, release_tag:
                 "license": item.get("license", ""),
                 "skillUrl": skill_url(repository, item["path"]),
                 "downloadUrl": download_url(repository, release_tag, item["name"], item["version"]),
+                "pluginDownloadUrl": plugin_download_url(repository, release_tag, item["name"], item["version"]),
                 "checksumUrl": download_url(repository, release_tag, item["name"], item["version"]) + ".sha256",
                 "agentPrompt": agent_install_prompt(item, repository, release_tag),
                 "releaseUrl": f"https://github.com/{repository}/releases/tag/{release_tag}",
@@ -377,6 +453,7 @@ def main() -> None:
         args.output.mkdir(parents=True, exist_ok=True)
         for item in items:
             print(package(item, args.output, args.release_date, args.manifest_url))
+            print(package_plugin(item, args.output, args.release_date, args.manifest_url))
 
 
 if __name__ == "__main__":

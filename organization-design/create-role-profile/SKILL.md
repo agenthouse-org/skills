@@ -1,7 +1,7 @@
 ---
 name: "create-role-profile"
 description: "Interview a user to define an organizational role, clarify its purpose, domains, responsibilities, authority, obligations, boundaries, requirements, holder, and approval, then create a professional role profile as DOCX or Excel. Use when designing roles, clarifying accountability, separating roles from job positions, preparing organizational changes, improving handoffs, hiring, onboarding, governance, or documenting decision rights."
-version: 0.1.1
+version: 0.1.2
 author: "Neri GmbH"
 license: MIT
 price: 0

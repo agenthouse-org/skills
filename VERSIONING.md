@@ -2,7 +2,9 @@
 
 Each source `SKILL.md` keeps its own semantic version in frontmatter. That version is authoritative for the ZIP filename and the packaged version. Existing date-based `release-*` tags remain the repository-wide release convention.
 
-During GitHub Actions packaging, a temporary copy of each skill receives agenthouse metadata and the shared update-awareness instructions from `build/update-management.md`. Source skills are not modified.
+During GitHub Actions packaging, a temporary copy of each skill receives agenthouse metadata, the shared update-awareness instructions from `build/update-management.md`, and environment-safe plugin runtime guidance from `build/plugin-runtime.md`. Source skills are not modified.
+
+Each release produces two checksummed archives per skill: the existing local-skill ZIP and a portable skills-only plugin ZIP (`<skill>-plugin-v<version>.zip`). The plugin archive has a root `plugin.json` and places the complete skill under `skills/<skill>/`. Register that package through Plugin Creator or a marketplace before users can install it from the ChatGPT Plugins Directory; a release download alone does not complete that installation.
 
 The generated `manifest.json` contains only supported metadata: `latest`, `released`, and `releaseUrl`. It is published as a GitHub Release asset and to GitHub Pages. Set the repository variable `SKILL_MANIFEST_URL` when the public endpoint changes.
 

@@ -1,7 +1,7 @@
 ---
 name: "frontend-acceptance"
 description: "Design and verify frontend changes through explicit design principles, browser-driven acceptance tests, and screenshot evidence. Use when building or changing a web UI where visual quality, responsive behavior, accessibility, and proof of the delivered result matter."
-version: 0.2.1
+version: 0.2.2
 author: "Neri GmbH"
 license: MIT
 price: 0

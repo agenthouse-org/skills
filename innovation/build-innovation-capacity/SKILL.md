@@ -1,7 +1,7 @@
 ---
 name: "build-innovation-capacity"
 description: "Help executives and founders understand where organizational attention is consumed, distinguish operational work from implementation and exploratory innovation, release capacity for unconventional ideas, and turn promising ideas into validated change using the Alpha Pyramid framework. Use for innovation stagnation, operational overload, strategy renewal, transformation reviews, organizational design, assumption testing, and leadership workshops."
-version: 0.1.1
+version: 0.1.2
 author: "Neri GmbH"
 license: MIT
 price: 0

@@ -1,7 +1,7 @@
 ---
 name: "positioning-brief"
 description: "Clarify who an offer is for, what it changes for them, and why they should believe it, then write a short positioning and messaging brief that other work can reuse. Reads the available sources first, consults the user only on what is missing, and chooses a narrative framework such as strategic narrative, PAS, BAB, ABT, or AIDA. Use when the user asks for positioning, an ideal customer profile, a value proposition, key messages, a story line, or a brief for an ad, landing page, pitch, or campaign."
-version: 0.1.1
+version: 0.1.2
 author: "agenthouse"
 license: MIT
 price: 0

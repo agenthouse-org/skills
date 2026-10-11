@@ -3,10 +3,12 @@
 <!-- DOWNLOAD_START -->
 ## Download
 
-- **Version:** `0.3.1`
-- **ZIP:** [skill-antivirus-v0.3.1.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip)
-- **Release:** [release-2026-10-03-2](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-03-2)
+- **Version:** `0.3.2`
+- **ZIP:** [skill-antivirus-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip)
+- **Plugin package:** [skill-antivirus-plugin-v0.3.2.zip](https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-plugin-v0.3.2.zip)
+- **Release:** [release-2026-10-11](https://github.com/agenthouse-org/skills/releases/tag/release-2026-10-11)
 - **Install:** `npx skills add agenthouse-org/skills --skill skill-antivirus`
+- **ChatGPT Chat/Work:** Install the registered plugin from the Plugins Directory, start a new chat, then invoke it with `@`. The plugin package is for marketplace/Plugin Creator distribution; downloading it alone does not install it into ChatGPT.
 
 ### Install with your agent
 
@@ -15,19 +17,21 @@ Copy this prompt into your AI agent (Claude Code, Codex, Cursor, Gemini CLI, or 
 ```text
 Please install the agent skill "skill-antivirus" for me.
 
-Skill: skill-antivirus v0.3.1 by agenthouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
+Skill: skill-antivirus v0.3.2 by agenthouse. Review agent skills (SKILL.md, skill folders, or ZIP packages) with deterministic static analysis plus LLM heuristic review of every file.
 Files: https://github.com/agenthouse-org/skills/tree/main/security/skill-antivirus
-ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip
-SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-03-2/skill-antivirus-v0.3.1.zip.sha256
+ZIP: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip
+SHA-256: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-v0.3.2.zip.sha256
+Plugin package: https://github.com/agenthouse-org/skills/releases/download/release-2026-10-11/skill-antivirus-plugin-v0.3.2.zip
 
 Steps:
 1. Tell me which agent you are and where you load skills from. Ask whether I want it for this project only or for all my projects, unless I already said.
-2. If you can run shell commands and Node.js 22.20 or newer is available, run:
+2. If this is ChatGPT Chat or Work on web, desktop, or mobile, install the registered plugin from the Plugins Directory, then start a new chat and invoke it with @. A local ZIP does not by itself install a ChatGPT plugin.
+3. If this is a local agent and Node.js 22.20 or newer is available, run:
    npx skills add agenthouse-org/skills --skill skill-antivirus
-3. Otherwise download the ZIP, compare its SHA-256 with the checksum file, and extract the skill-antivirus folder into your skills folder (for example .claude/skills/, .agents/skills/, .gemini/skills/, or .cursor/skills/).
-4. If you cannot run commands or write files, give me short step-by-step instructions for adding the ZIP in this app instead.
-5. Do not run any script from the skill during installation. Read its SKILL.md and tell me in two sentences what it does and whether it needs extra tools such as Node.js, Python, or a browser.
-6. Confirm where it is installed and show me one example prompt to start using it.
+4. Otherwise download the local-skill ZIP, compare its SHA-256 with the checksum file, and extract the skill-antivirus folder into your skills folder (for example .claude/skills/, .agents/skills/, .gemini/skills/, or .cursor/skills/).
+5. If you cannot run commands or write files, give me short step-by-step instructions for the supported installation flow in this app.
+6. Do not run any script from the skill during installation. Read its SKILL.md and tell me in two sentences what it does and whether it needs extra tools such as Node.js, Python, or a browser.
+7. Confirm where it is installed and show me one example prompt to start using it.
 ```
 <!-- DOWNLOAD_END -->
 

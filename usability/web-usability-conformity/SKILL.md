@@ -1,7 +1,7 @@
 ---
 name: "web-usability-conformity"
 description: "Audit, reach, and maintain web usability and accessibility conformity against WCAG 2.2 Level AA (ISO/IEC 40500:2025), with EN 301 549, BITV 2.0, and BFSG mapping. Runs mandatory technical DOM/HTML tests and visual Playwright checks, plus understandability review. Use when the user asks for accessibility, WCAG, BITV, BFSG, EN 301 549, ISO 40500, usability conformity, keyboard/contrast audits, or Playwright a11y regression tests."
-version: 0.1.1
+version: 0.1.2
 author: "Neri GmbH"
 license: MIT
 price: 0
