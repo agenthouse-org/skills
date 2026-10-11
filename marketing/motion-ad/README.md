@@ -52,6 +52,10 @@ Use $motion-ad. Make a loud version of this ad: same claims, hard cuts, big type
 ```
 
 ```text
+Use $motion-ad. Before building, show me three distinct ideas and a storyboard or wireframe for the one you recommend. I want to review the story and layout before you write the HTML.
+```
+
+```text
 Use $motion-ad. Add a German version from the German product page, check that it fits, and export both as WebM.
 ```
 

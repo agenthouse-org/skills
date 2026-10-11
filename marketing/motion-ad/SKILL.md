@@ -1,7 +1,7 @@
 ---
 name: "motion-ad"
-description: "Build a browser-played HTML motion graphic for a product, idea, or message. One self-contained page per language with a timed stage, no video file inside, and an optional WebM export. Use when the user asks for a motion ad, motion design, kinetic typography, a launch graphic, a short animated ad for the web or social, or a translated or exported version of one."
-version: 0.2.3
+description: "Develop a browser-played HTML motion ad from idea and storyboard through review, or build in one pass when requested. One self-contained page per language with a timed stage, no video file inside, and an optional WebM export. Use for motion ads, kinetic typography, launch graphics, and translated or exported versions."
+version: 0.2.4
 author: "agenthouse"
 license: MIT
 price: 0
@@ -61,29 +61,43 @@ node scripts/render.mjs ad/index.en.html --webm ad/renders/ad-en.webm
 ## Workflow
 
 ```
-- [ ] Brief: use the one given, or read the sources and ask what is missing
-- [ ] Storyboard 4–5 beats from one story arc
+- [ ] Brief and idea: use the one given, or read the sources and agree on a direction
+- [ ] Storyboard or wireframe: agree on the sequence and frame layout before building
 - [ ] Scaffold, then rewrite copy, color, and layout
 - [ ] check-ad.mjs --strict
-- [ ] Play it in a browser and fix what you can see
+- [ ] Check timing, text fit, overlaps, and story logic; inspect in a browser when available
 - [ ] More languages, if asked: one copy file each, then render.mjs --fit
 - [ ] WebM, if asked: render.mjs --webm
 ```
 
-1. Brief. If a positioning brief exists (positioning-brief skill or user), take audience, promise, proof, do-not-claim, tone, CTA, and arc. Otherwise read sources, then ask only what they leave open (who for, what changes, end action, calm/loud and where it runs). When positioning is unclear, suggest positioning-brief first.
+### 1. Brief and direction
 
-2. Storyboard. Choose one arc from [references/story.md](references/story.md). One short headline per beat. Overlap ~0.2–0.4s. Last beat holds. Read [references/craft.md](references/craft.md) before inventing a transition.
+Read the destination page, brief, and brand material first. If a positioning brief exists (positioning-brief skill or user), take its audience, promise, proof, do-not-claim list, tone, CTA, and arc. Otherwise ask only for facts that are missing; keep questions concise and one at a time. When positioning is unclear, suggest positioning-brief first.
 
-3. Scaffold with `new-ad.mjs`, edit the scene folder (not the packed page), pack with `pack.mjs --all`. Put every visible word in the copy file. Set brand colors on `#stage`.
+For an open-ended request, offer two or three distinct creative directions before writing the finished ad. For each, give the central idea, audience insight, story arc, visual approach, and ending action; recommend one and say why. Keep claims tied to the source. Ask the user to choose or adjust a direction, then continue. If the user supplied a complete direction or asks for a one-shot result, state reasonable assumptions and proceed without adding a gate.
 
-4. `check-ad.mjs --strict`, then open in a browser (Space pause, `R` replay, scrub, `?present=1`). Languages, clock API, `data-fit`, and `--webm` detail: [references/runtime.md](references/runtime.md).
+### 2. Storyboard and layout
+
+After the direction is chosen, propose four or five beats from one arc in [references/story.md](references/story.md). Before building the polished ad, share a compact storyboard with timing, each beat's job, exact on-screen copy, frame composition, and hand-off to the next beat. For layout-heavy work, make a simple frame wireframe or storyboard contact sheet; use text or ASCII layout when visual-authoring tools are unavailable. Ask for feedback at this point. If the user asks to proceed, treat that as approval and build.
+
+Check that the beats form a logical sequence, each changes the audience's understanding, and repeated ideas are deliberate. A viewer should be able to explain why each beat follows the previous one. Give the turn enough room, keep each frame focused on one idea, and let the end card hold. Read [references/craft.md](references/craft.md) before inventing a transition. For detailed collaboration and review criteria, see [references/collaborative-workflow.md](references/collaborative-workflow.md).
+
+### 3. Build and inspect
+
+Use the storyboard as the source of truth for copy, layout, and timing. Scaffold with `new-ad.mjs`, edit the scene folder (not the packed page), and pack with `pack.mjs --all`. Put every visible word in the copy file. Set brand colors on `#stage`.
+
+Run `check-ad.mjs --strict`, then use `render.mjs --fit` for every language and inspect stills or the running page when browser access is available. Check settled frames and beat hand-offs for text collisions, clipping, duplicated or contradictory messages, and entrances that obscure copy. Fix each issue and recheck. If the current model or environment lacks a needed tool, use the strongest available fallback and say exactly what was and was not visually verified; never report a browser review that did not happen. Languages, clock API, `data-fit`, and `--webm` detail: [references/runtime.md](references/runtime.md).
 
 ## Review
 
-- [ ] Scrub each beat after arrival and once in the hold
+- [ ] The user-approved direction and storyboard match the built ad, unless the user chose one-shot
+- [ ] Every beat advances a clear, logical story; repeated copy is intentional
+- [ ] Scrub each beat after arrival, at each hand-off, and once in the hold
+- [ ] No unintended text overlaps, clipping, or competing headlines; use `--fit` and visual inspection where available
 - [ ] `check-ad.mjs --strict` clean (or reasoned `ad-ok` comments)
 - [ ] Every language: `--fit` then visual stills
 - [ ] Claims grounded; no invented proof
+- [ ] Report any visual or runtime checks that the available tools could not perform
 - [ ] Delivery report: paths, arc, beat lines, assumptions
 
 ## Delivery
