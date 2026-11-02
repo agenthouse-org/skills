@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "first-change",
+  "title": "Release motion-ad 3D scene and tooling",
+  "kind": "change",
+  "stage": "discover",
+  "revision": 1,
+  "fields": {
+    "outcome": "Publish the motion-ad tooling and the redesigned DealDesk 3D example in English and German.",
+    "scope": "Release the existing workspace changes and motion-ad version 0.3.0 through the repository release workflow.",
+    "verification": "Run python -m unittest discover -s tests -v; check both 3D language pages for deterministic seeking, reduced motion, and WebGL fallback; run the frozen repository evaluation and verify the release workflow."
+  },
+  "criteria": [],
+  "evidence": [],
+  "history": []
+}
