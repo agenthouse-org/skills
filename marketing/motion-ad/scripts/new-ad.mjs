@@ -14,6 +14,8 @@ function arg(name, fallback) {
 
 function retime(html) {
   return html
+    .replace('data-blueprint="__BLUEPRINT__"', `data-blueprint="${blueprint}"`)
+    .replace('<div class="field" aria-hidden="true"></div>', blueprint === "dimensional" ? '<canvas class="motion-three" data-motion-three aria-hidden="true"></canvas><div class="field" aria-hidden="true"></div>' : '<div class="field" aria-hidden="true"></div>')
     .replace('data-duration="15"', `data-duration="${duration}"`)
     .replace('data-w="1920"', `data-w="${width}"`)
     .replace('data-h="1080"', `data-h="${height}"`);
@@ -21,17 +23,22 @@ function retime(html) {
 
 const dir = arg("--dir");
 const out = arg("--out");
-if (!dir && !out) {
-  console.error("Usage: node scripts/new-ad.mjs --dir <scene-folder> [--duration 15] [--width 1920] [--height 1080] [--force]");
-  console.error("       node scripts/new-ad.mjs --out <file.html> [--title T] [--lang en] [--duration 15] [--width 1920] [--height 1080]");
-  process.exit(1);
+if (process.argv.includes("--help") || (!dir && !out)) {
+  console.error("Usage: node scripts/new-ad.mjs --dir <scene-folder> [--blueprint calm|loud|orbit|cascade|dimensional] [--duration 15] [--width 1920] [--height 1080] [--force]");
+  console.error("       node scripts/new-ad.mjs --out <file.html> [--blueprint calm|loud|orbit|cascade|dimensional] [--title T] [--lang en] [--duration 15] [--width 1920] [--height 1080]");
+  process.exit(process.argv.includes("--help") ? 0 : 1);
 }
 
 const duration = arg("--duration", "15");
 const width = arg("--width", "1920");
 const height = arg("--height", "1080");
 const lang = arg("--lang", "en");
-const changed = duration !== "15" || width !== "1920" || height !== "1080";
+const blueprint = arg("--blueprint", "calm");
+const blueprints = new Set(["calm", "loud", "orbit", "cascade", "dimensional"]);
+if (!blueprints.has(blueprint)) {
+  console.error(`error: unknown blueprint "${blueprint}". Choose: ${[...blueprints].join(", ")}`);
+  process.exit(1);
+}
 
 if (dir) {
   const target = path.resolve(dir);
@@ -47,9 +54,9 @@ if (dir) {
   console.log(target);
   console.log(destination);
 } else {
-  const destination = pack({ scene: templates, out, title: arg("--title", "Motion ad"), lang: "en" });
+  const destination = pack({ scene: templates, out, title: arg("--title", "Motion ad"), lang: "en", three: blueprint === "dimensional" });
   let html = fs.readFileSync(destination, "utf8").replace('<html lang="en"', `<html lang="${lang}"`);
-  if (changed) html = retime(html);
+  html = retime(html);
   fs.writeFileSync(destination, html);
   console.log(destination);
 }

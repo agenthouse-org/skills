@@ -92,7 +92,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertIn(release.summary_of(item["description"]), prompt)
         self.assertIn(f"ZIP: {zip_url}", prompt)
         self.assertIn(f"SHA-256: {zip_url}.sha256", prompt)
-        self.assertIn("motion-ad-plugin-v0.2.3.zip", prompt)
+        self.assertIn(f"motion-ad-plugin-v{item['version']}.zip", prompt)
         self.assertIn("ChatGPT Chat or Work", prompt)
         self.assertIn("npx skills add agenthouse-org/skills --skill motion-ad", prompt)
         self.assertIn("Do not run any script from the skill during installation", prompt)
@@ -139,10 +139,12 @@ class ReleaseTests(unittest.TestCase):
             release.build_pages(items, "agenthouse-org/skills", "release-2026-08-08", "2026-08-08", output)
             catalogue = json.loads((output / "skills.json").read_text(encoding="utf-8"))
             motion = next(x for x in catalogue["skills"] if x["name"] == "motion-ad")
-            self.assertEqual([d["lang"] for d in motion["demos"]], ["en", "de", "en", "de"])
-            self.assertEqual(motion["demos"][0]["url"], "demos/motion-ad/dealdesk/index.en.html")
-            self.assertEqual(motion["demos"][2]["url"], "demos/motion-ad/dealdesk-loud/index.en.html")
-            self.assertIn("DealDesk", motion["demos"][0]["title"])
+            demos = {d["url"]: d for d in motion["demos"]}
+            for example in ("dealdesk", "dealdesk-loud", "dealdesk-3d"):
+                for lang in ("en", "de"):
+                    demo = demos[f"demos/motion-ad/{example}/index.{lang}.html"]
+                    self.assertEqual(demo["lang"], lang)
+                    self.assertIn("DealDesk", demo["title"])
             for demo in motion["demos"]:
                 self.assertTrue((output / demo["url"]).is_file(), demo["url"])
             self.assertFalse((output / "demos/motion-ad/dealdesk/scene.html").exists())
@@ -158,7 +160,7 @@ class ReleaseTests(unittest.TestCase):
             with zipfile.ZipFile(archive_path) as archive:
                 manifest = json.loads(archive.read("agenthouse-motion-ad/plugin.json"))
                 self.assertEqual(manifest["name"], "agenthouse-motion-ad")
-                self.assertEqual(manifest["version"], "0.2.3")
+                self.assertEqual(manifest["version"], item["version"])
                 self.assertLessEqual(len(manifest["extensions"]["com.openai"]["interface"]["shortDescription"]), 30)
                 self.assertIn("agenthouse-motion-ad/skills/motion-ad/SKILL.md", archive.namelist())
                 self.assertIn("agenthouse-motion-ad/skills/motion-ad/scripts/render.mjs", archive.namelist())

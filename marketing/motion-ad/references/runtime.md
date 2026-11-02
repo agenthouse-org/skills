@@ -8,7 +8,7 @@ One scene, one `copy.<lang>.json` per language, one packed `index.<lang>.html` p
 
 - Translate from the destination page in that language, not from your English copy. Use its terms for steps, buttons, and the tagline, and link its URL. If the page does not exist in that language, say so and translate the claims literally.
 - Keep the beat structure and timing. Rewrite a headline if the literal translation breaks the rhythm; keep line breaks at sense breaks.
-- German, French, and Finnish run 20–35% longer than English. Put `data-fit` on every text box that has a fixed width (titles, card labels, captions, buttons). The runtime shrinks its font-size until it and its `.ln` lines fit, down to 60% (`data-fit="0.5"` for 50%). Give those boxes a real width (`left` and `right`, or `width`) and `overflow: hidden` so there is something to fit into.
+- German, French, and Finnish run 20–35% longer than English. Put `data-fit` on every text box that has a fixed width (titles, card labels, captions, buttons). The runtime shrinks its font-size until it and its `.ln` lines fit, down to 60% (`data-fit="0.5"` for 50%). Give those boxes a real width (`left` and `right`, or `width`). Avoid `overflow: hidden` on tight line boxes: it can cut off accents and descenders even after `.ln` opens its mask. If clipping is necessary, provide vertical padding and inspect the actual font and copy.
 - Mark decoration that is meant to run off the frame, such as outline marquees or a split-headline half that clips on purpose, with `data-bleed`.
 - `data-fit` measures once, at the start, when entrances have not landed. Put it on the element that scales or slams, not on its parent, or the parent measures its child at full oversize and shrinks for nothing.
 
@@ -18,7 +18,9 @@ Then check each language in a real browser:
 node scripts/render.mjs ad/index.en.html ad/index.de.html --fit
 ```
 
-`--fit` samples every beat at 70% and the hold. It fails on text that is cut off, spills out of its card or the stage, overlaps other text, or is still too wide at the smallest `data-fit` size. Then look at stills of each language, because the script cannot judge the rhythm:
+`--fit` samples every beat at 70% and the hold. It detects many horizontal cuts, spills, overlaps, and text still too wide at the smallest `data-fit` size. It does not reliably detect clipped glyph ink, vertical clipping, or every entrance; inspect settled text and transitions in each language, including accents and descenders:
+
+If a glyph is cut, inspect the `.ln` mask and each clipping ancestor (`overflow`, `clip-path`, fixed height and stage edges). A tight `line-height` with `overflow: hidden` can cut ink even when `.ln` is open. Prefer `overflow: visible` on text boxes; otherwise give the box enough vertical padding and height, then adjust its layout. Check the real loaded font and compare screenshots with and without the suspected clip at the same time. Do not remove a deliberate entrance mask without testing its animation. Existing exported HTML embeds its own CSS and must be rebuilt or edited to receive a fix.
 
 ```bash
 node scripts/render.mjs ad/index.de.html --stills

@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "marketing" / "motion-ad"
 DEALDESK = SKILL / "examples" / "dealdesk"
 LOUD = SKILL / "examples" / "dealdesk-loud"
+THREE = SKILL / "examples" / "dealdesk-3d"
 
 
 def node(*args: str) -> subprocess.CompletedProcess[str]:
@@ -117,7 +118,7 @@ class MotionAdSkillTests(unittest.TestCase):
 
     @unittest.skipUnless((SKILL / "node_modules" / "playwright-core").exists(), "run npm install in the skill for browser checks")
     def test_dealdesk_fits_in_every_language(self):
-        for example in (DEALDESK, LOUD):
+        for example in (DEALDESK, LOUD, THREE):
             node("scripts/pack.mjs", "--scene", str(example.relative_to(SKILL)), "--all")
             result = node(
                 "scripts/render.mjs",
@@ -133,6 +134,68 @@ class MotionAdSkillTests(unittest.TestCase):
         self.assertIn("clip-path", shell)
         self.assertIn("var(--c) * -0.35em", shell)
         self.assertIn("overflow: visible", shell)
+
+    def test_new_ad_supports_deterministic_blueprints(self):
+        with tempfile.TemporaryDirectory() as directory:
+            scene = Path(directory) / "orbit"
+            created = node("scripts/new-ad.mjs", "--dir", str(scene), "--blueprint", "orbit")
+            self.assertEqual(created.returncode, 0, created.stderr)
+            html = (scene / "scene.html").read_text(encoding="utf-8")
+            css = (scene / "scene.css").read_text(encoding="utf-8")
+            self.assertIn('data-blueprint="orbit"', html)
+            self.assertIn('[data-blueprint="orbit"]', css)
+            packed = node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            self.assertEqual(packed.returncode, 0, packed.stderr)
+            page = scene / "index.en.html"
+            page.write_text(page.read_text(encoding="utf-8").replace(' data-scaffold="1"', ""), encoding="utf-8")
+            checked = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertEqual(checked.returncode, 0, checked.stderr + checked.stdout)
+
+    def test_single_file_blueprint_is_applied_without_size_flags(self):
+        with tempfile.TemporaryDirectory() as directory:
+            for blueprint in ("calm", "loud", "orbit", "cascade"):
+                page = Path(directory) / f"{blueprint}.html"
+                result = node("scripts/new-ad.mjs", "--out", str(page), "--blueprint", blueprint)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                html = page.read_text(encoding="utf-8")
+                self.assertIn(f'data-blueprint="{blueprint}"', html)
+                self.assertNotIn("__BLUEPRINT__", html)
+            invalid = node("scripts/new-ad.mjs", "--out", str(Path(directory) / "bad.html"), "--blueprint", "unknown")
+            self.assertNotEqual(invalid.returncode, 0)
+            self.assertFalse((Path(directory) / "bad.html").exists())
+            self.assertEqual(node("scripts/new-ad.mjs", "--help").returncode, 0)
+
+    @unittest.skipUnless((SKILL / "node_modules" / "three").exists() and (SKILL / "node_modules" / "esbuild").exists(), "run npm install for the optional 3D renderer")
+    def test_dimensional_scene_is_self_contained_and_seekable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            page = Path(directory) / "dimensional.html"
+            result = node("scripts/new-ad.mjs", "--out", str(page), "--blueprint", "dimensional")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            html = page.read_text(encoding="utf-8")
+            self.assertIn('data-blueprint="dimensional"', html)
+            self.assertIn('data-motion-three-bundle', html)
+            page.write_text(html.replace(' data-scaffold="1"', ""), encoding="utf-8")
+            checked = node("scripts/check-ad.mjs", str(page), "--strict")
+            self.assertEqual(checked.returncode, 0, checked.stderr)
+            browser = node("../../tests/motion_ad_three_browser.mjs", str(page))
+            self.assertEqual(browser.returncode, 0, browser.stdout + browser.stderr)
+
+    @unittest.skipUnless((SKILL / "node_modules" / "three").exists() and (SKILL / "node_modules" / "esbuild").exists(), "run npm install for the optional 3D renderer")
+    def test_custom_three_scene_is_bundled_from_scene_folder(self):
+        with tempfile.TemporaryDirectory() as directory:
+            scene = Path(directory) / "custom"
+            result = node("scripts/new-ad.mjs", "--dir", str(scene), "--blueprint", "dimensional")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            (scene / "scene-3d.js").write_text('window.MotionAd3D = { mount() { return { render() { document.documentElement.dataset.customScene = "yes"; } }; } };', encoding="utf-8")
+            packed = node("scripts/pack.mjs", "--scene", str(scene), "--all")
+            self.assertEqual(packed.returncode, 0, packed.stderr)
+            browser = node("../../tests/motion_ad_custom_browser.mjs", str(scene / "index.en.html"))
+            self.assertEqual(browser.returncode, 0, browser.stdout + browser.stderr)
+
+    @unittest.skipUnless((SKILL / "node_modules" / "playwright-core").exists(), "run npm install in the skill for browser checks")
+    def test_motion_primitives_and_settled_glyphs_in_browser(self):
+        result = node("../../tests/motion_ad_browser.mjs")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_skill_starts_from_a_brief_and_a_story_arc(self):
         skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")

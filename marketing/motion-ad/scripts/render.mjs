@@ -89,6 +89,13 @@ async function open(browser, file) {
     window.ad.pause();
     await window.ad.fitted;
   });
+  const missing3d = await page.locator('canvas[data-motion-three]').evaluateAll(
+    (canvases) => canvases.some((canvas) => canvas.dataset.threeStatus !== "ready"),
+  );
+  if (missing3d) {
+    await page.close();
+    throw new Error("3D rendering unavailable; this browser can show the 2D fallback but cannot verify or export the 3D scene");
+  }
   const clip = await page.evaluate(() => {
     const box = document.getElementById("stage").getBoundingClientRect();
     return { x: Math.round(box.left), y: Math.round(box.top), width: Math.round(box.width), height: Math.round(box.height) };

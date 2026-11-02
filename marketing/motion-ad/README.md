@@ -37,7 +37,27 @@ Steps:
 
 Build a short HTML motion graphic for a product, idea, or message. It plays in the browser, one page per language. A WebM export is available when you need a file for a platform that does not play HTML.
 
+## Choose your creative workflow
+
+Ask for **director mode** to explore ideas and shape the storyboard with the agent, or **producer mode** to let it choose a direction and build the ad in one pass. You can request effects in ordinary language, such as “a restrained morph into the logo” or “a burst of shapes at the reveal”; the agent chooses and adapts the techniques.
+
+Five scaffold directions provide starting points: `calm`, `loud`, `orbit`, `cascade`, and `dimensional`. They share a story structure and are intended to be redesigned for the brief; they are not five complete, independent ad templates. The skill can also compose its [motion primitives](references/motion-primitives.md) or create custom clock-driven motion. See [blueprints](references/blueprints.md) for examples.
+
+```bash
+node scripts/new-ad.mjs --dir ad --blueprint orbit
+# For the optional Three.js scene, run npm install first:
+node scripts/new-ad.mjs --dir ad-3d --blueprint dimensional
+```
+
 ## Example prompts
+
+```text
+Use $motion-ad in director mode. Suggest three directions for our launch, including one with a shape morph; help me choose and storyboard it.
+```
+
+```text
+Use $motion-ad in producer mode. Read our product page and make the creative decisions; use a burst only if it fits the story.
+```
 
 ```text
 Use $motion-ad. Make a 15-second HTML motion ad for this product. Read the page before writing claims. 16:9.
@@ -65,6 +85,8 @@ Use $motion-ad. Add a German version from the German product page, check that it
 
 [examples/dealdesk-loud](examples/dealdesk-loud) is the same ad from the same claims in the loud register: slams, hard cuts, a color flip at every beat. Watch it live: **[English](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk-loud/index.en.html)** · **[Deutsch](https://agenthouse-org.github.io/skills/demos/motion-ad/dealdesk-loud/index.de.html)**.
 
+[DealDesk in 3D](examples/dealdesk-3d) turns an enquiry, quote and order into dimensional documents inside a gold orbit, with 3D lettering, moving camera, particles and a held end card. Open the packed [English](examples/dealdesk-3d/index.en.html) or [German](examples/dealdesk-3d/index.de.html) file in a browser; WebGL is needed for the 3D elements. The examples will also be published as live demos by the next release.
+
 The skills directory publishes every packed example page (`examples/<name>/index.html` or `index.<lang>.html`) as a live demo on each release.
 
 ## Scripts
@@ -78,7 +100,7 @@ Run from the skill directory with Node 18 or newer.
 | `scripts/check-ad.mjs` | Static checks: clock, beats, reduced motion, no video, no leftovers, no default looks (glows, filter grades, emoji, randomness) |
 | `scripts/render.mjs` | Browser checks and export: `--fit`, `--stills`, `--webm` |
 
-`render.mjs` needs `npm install` (for `playwright-core`), Chrome or Edge, and `ffmpeg` for WebM.
+`render.mjs` needs `npm install` (for `playwright-core`), Chrome or Edge, and `ffmpeg` for WebM. The optional dimensional blueprint also needs `npm install` before packing; it embeds Three.js in its output. WebGL is required for the 3D object; the page retains a 2D field as a fallback, and `--fit` reports when 3D is unavailable.
 
 ## Included smoke test
 

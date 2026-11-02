@@ -21,6 +21,7 @@
     const duration = Number(stage.dataset.duration);
     const width = Number(stage.dataset.w || 1920);
     const height = Number(stage.dataset.h || 1080);
+    const three = window.MotionAd3D ? window.MotionAd3D.mount(stage) : null;
     const beats = [...stage.querySelectorAll(".beat")].map((el) => ({
       el,
       start: Number(el.dataset.in),
@@ -105,6 +106,7 @@
         beat.el.style.setProperty("--x", easeOutCubic(exitRaw).toFixed(4));
         beat.el.style.setProperty("--p", clamp((time - beat.start) / span, 0, 1).toFixed(4));
       }
+      if (three) three.render(time, duration);
       if (scrub && document.activeElement !== scrub) scrub.value = String(time);
       if (readout) readout.textContent = time.toFixed(1) + "s";
     }

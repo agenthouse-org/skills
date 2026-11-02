@@ -60,6 +60,26 @@ body {
   display: inline-block;
   transform: translateY(calc((1 - var(--c)) * 120%));
 }
+/* Composable effects: put these on separate wrappers when combining transforms.
+   --motion defaults to entrance; set it from --p for a later beat event. */
+.motion-reveal, .motion-pop, .motion-orbit, .motion-morph, .motion-burst {
+  --motion: var(--e, 0);
+}
+.motion-reveal { clip-path: inset(0 calc((1 - var(--motion)) * 100%) 0 0); }
+.motion-pop {
+  opacity: clamp(0, var(--motion) * 4, 1);
+  transform: scale(calc(0.25 + 0.75 * var(--motion)));
+}
+.motion-orbit { transform: rotate(calc(var(--motion) * 180deg)); }
+.motion-morph {
+  border-radius: calc(var(--motion) * 50%);
+  transform: rotate(calc(var(--motion) * 90deg));
+}
+.motion-burst > * {
+  opacity: calc(1 - var(--motion));
+  transform: translate(calc(var(--dx, 0px) * var(--motion)), calc(var(--dy, 0px) * var(--motion)))
+    rotate(calc(var(--spin, 0deg) * var(--motion))) scale(calc(1 - var(--motion) * 0.6));
+}
 .draw {
   fill: none;
   stroke-dasharray: 1 2;

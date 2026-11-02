@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "dependencies": {
+    "frontend-acceptance": {
+      "id": "frontend-acceptance",
+      "version": "0.2.0",
+      "source": {
+        "repository": "https://github.com/agenthouse-org/skills.git",
+        "commit": "664d8dc4216847a9fcc9442385af1137e4615fde",
+        "path": "engineering/frontend-acceptance"
+      },
+      "license": "MIT",
+      "digest": "03af5493599f3f332a9e71423308cfdac6bf1e006978e3801b0229c2c62da776",
+      "files": {
+        "README.md": "bccfebd6aa0dd46e145a6198582faa39bc4437855ab94ba38545bf448f35e581",
+        "SKILL.md": "82c15a0f08b25d9e5f7de193b21b58c64829807343e98456cc295d60ae976022",
+        "examples/smoke-test.md": "d5e89efb8b82d6465b8f3c86bf830b2320c6aac4df6414fca1616c4922d1c7b9",
+        "templates/evidence-record.md": "7c37b46b66283a5069f9e75941676ebbc6058ce5522fc58519017bcfc70a9bdb"
+      }
+    },
+    "web-usability-conformity": {
+      "id": "web-usability-conformity",
+      "version": "0.1.0",
+      "source": {
+        "repository": "https://github.com/agenthouse-org/skills.git",
+        "commit": "664d8dc4216847a9fcc9442385af1137e4615fde",
+        "path": "usability/web-usability-conformity"
+      },
+      "license": "MIT",
+      "digest": "00ae467e1ad6a6b13affd60f2bc3575ee16d1e44fb0a64f18b3d291435d6f5f0",
+      "files": {
+        ".gitignore": "8572f0f291659ec90fd992bd337c9d6255a194cda408b7c54a9408464af57c1a",
+        "LICENSE": "8659b7455b9d186d9b454a604e859058328b1c4c0da8ba80cf17c100fc25abdf",
+        "README.md": "c7576292a6b1b42852a508dcab57e97ebf295260dadfa55495d9f7cdcbc61f0e",
+        "SKILL.md": "988ed5f6ffd3825d3463f3a31ce75ec3babc988558613792dec1c0ee7d8bba56",
+        "agents/openai.yaml": "bdc6eae6c96c5b3103f3dd5d50e15eb696d3f694e87e76d5c64dc0e70fabcbe1",
+        "examples/sample-report.md": "21bb684184626dce6ae4f21f3fca48b1acf85c4659b3e9f0aaad55b95d5b6e40",
+        "fixtures/fail-basic.html": "9a88ea05e12f2342f824a2a983244d826c63683a0d7a13650268bbcb5706fc28",
+        "fixtures/pass-basic.html": "e1bcdcdb8938edcf4011217b202e288bdfcfd7f3e3d342bc08a300e7daa37ed8",
+        "package.json": "a2720cc24415fa2d9a5fb57a65db6dba743746e87e8bf29c934a8fd7ea78c54f",
+        "references/norms-mapping.md": "d71f3b58d4a8690a768c7a1db96dd31fa45adb8ac27d00cb52ac49e003e73bc8",
+        "references/sc-matrix.md": "efb79bb885fbcbb4d7dd31617683fd0616e10eead7ba81d6e8c0d85f4b23a61d",
+        "references/test-strategy.md": "f6f264603b2108fa90adcec7525ba3cbc01c2d0193f4f8e53aa79e370f54541d",
+        "references/understandability.md": "6c51ef26f945196ebf1550b7639c75c2b05ba874348b0033072c16ac3ae33704",
+        "scripts/audit.mjs": "eaae04599dff43e21422585b746e141082f962932b42a8def32c715da3333b1a",
+        "scripts/self-test.mjs": "f96716465fd278173949c6cf0155eb364784401ef7d86e638e48541934714263",
+        "templates/conformity-report.md": "ecaff145dd3e3a115ba75da084ac77abc01ad2baa14255c7c2c5a63f045c5907"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+const active=JSON.parse(fs.readFileSync(new URL('./active.json',import.meta.url),'utf8'));
+if(!/^[a-f0-9]{64}$/.test(active.digest) || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(active.version) || active.runtime!==`runtime/${active.version}-${active.digest}`)throw new Error('Invalid central runtime pin');
+const home=process.env.AGENTHOUSE_HOME || path.join(os.homedir(),'.agenthouse');
+if(!path.isAbsolute(home))throw new Error('AGENTHOUSE_HOME must be an absolute path');
+const target=path.join(home,active.runtime,'bin/ah-engineering.js');
+if(!fs.existsSync(target))throw new Error('Exact central runtime missing; run ah-engineering restore from the matching package or original offline bundle');
+await import(pathToFileURL(target).href);

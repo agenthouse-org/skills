@@ -33,7 +33,10 @@ if (/clamp\([^;{}]*?,\s*0\s*,\s*1\s*\)/.test(css)) {
 }
 
 const lines = html.split("\n");
+// The bundled Three.js implementation contains its own internal random IDs and
+// shader names. Inspect authored code for story-motion rules, not vendor internals.
 const code = html
+  .replace(/<script data-motion-three-bundle>[\s\S]*?<\/script>/g, (bundle) => bundle.replace(/[^\n]/g, " "))
   .replace(/\/\*[\s\S]*?\*\//g, (comment) => comment.replace(/[^\n]/g, " "))
   .replace(/<!--[\s\S]*?-->/g, (comment) => comment.replace(/[^\n]/g, " "))
   .split("\n");

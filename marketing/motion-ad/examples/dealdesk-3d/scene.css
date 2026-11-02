@@ -1,0 +1,11 @@
+body { --letterbox: #050a12; }
+#stage { --paper: #050a12; --ink: #f5f5ef; --accent: #eab044; background: #050a12; color: var(--ink); font-family: Inter, 'Segoe UI', Arial, sans-serif; }
+#stage::before { content: ''; position: absolute; inset: 0; background: linear-gradient(150deg,#050a12 10%,#0c2030 75%,#132d3b); }
+.motion-three { position: absolute; inset: 0; width: 1920px; height: 1080px; z-index: 2; pointer-events: none; }
+.beat { z-index: 3; background: transparent; }
+.end-link { position: absolute; left: 0; right: 0; bottom: 135px; text-align: center; color: #eab044; font-size: 27px; font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 8px; opacity: var(--e); }
+.fallback-word { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; font-size: 260px; font-weight: 800; letter-spacing: -.07em; }
+.fallback-word span { grid-area: 1 / 1; }
+.fallback-crm { opacity: clamp(0, (0.45 - var(--t)) * 20, 1); }
+.fallback-deal { color: #eab044; opacity: clamp(0, (var(--t) - .45) * 20, 1); }
+#stage:has(canvas[data-three-status='ready']) .fallback-word { visibility: hidden; }

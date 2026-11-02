@@ -117,3 +117,35 @@ body { --letterbox: #1a1a1a; }
 }
 .end p { margin-top: 18px; font-size: 28px; font-weight: 500; }
 .end .mark { display: none; }
+.motion-three { position: absolute; right: 80px; top: 150px; width: 640px; height: 640px; z-index: 0; pointer-events: none; }
+[data-blueprint="dimensional"] .field { opacity: 0.25; }
+
+/* Blueprint variations are deterministic clock poses, so playback, scrubbing,
+   fit checks, and WebM export all use the same result. */
+[data-blueprint="loud"] .hook h1,
+[data-blueprint="loud"] .friction h2,
+[data-blueprint="loud"] .change h2 {
+  transform: scale(calc(0.94 + var(--e, 0) * 0.06)) rotate(calc((1 - var(--e, 0)) * -2deg));
+  transform-origin: left center;
+}
+[data-blueprint="loud"] .field { transform: translate(calc(var(--t, 0) * -110px), calc(var(--t, 0) * 54px)) scale(calc(1 + var(--t, 0) * 0.18)); }
+[data-blueprint="loud"] .chip { transform: translateY(calc(var(--dy, 0px) * (1 - var(--p, 0)))) rotate(calc(var(--rot, 0deg) * var(--p, 0))); }
+
+[data-blueprint="orbit"] .hook h1,
+[data-blueprint="orbit"] .friction h2,
+[data-blueprint="orbit"] .change h2 {
+  transform: translate(calc((1 - var(--e, 0)) * -46px), calc((1 - var(--e, 0)) * 34px)) rotate(calc((1 - var(--e, 0)) * 3deg));
+  transform-origin: 50% 50%;
+}
+[data-blueprint="orbit"] .chips { transform: rotate(calc((var(--p, 0) - 0.5) * 8deg)); }
+[data-blueprint="orbit"] .chip { transform: translate(calc(var(--dy, 0px) * var(--p, 0)), calc(var(--dy, 0px) * (1 - var(--p, 0)))) rotate(calc(var(--rot, 0deg) + (var(--p, 0) * 10deg))); }
+[data-blueprint="orbit"] .change .rail { transform: scaleX(var(--e, 0)) rotate(calc((1 - var(--e, 0)) * -2deg)); }
+
+[data-blueprint="cascade"] .hook h1,
+[data-blueprint="cascade"] .friction h2,
+[data-blueprint="cascade"] .change h2 {
+  transform: translateX(calc((1 - var(--e, 0)) * -120px));
+}
+[data-blueprint="cascade"] .chips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+[data-blueprint="cascade"] .chip { transform: translateY(calc((1 - var(--e, 0)) * 42px + var(--dy, 0px) * var(--p, 0))); }
+[data-blueprint="cascade"] .change .steps { transform: translateX(calc((1 - var(--e, 0)) * 90px)); }
